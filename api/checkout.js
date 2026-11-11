@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
       return send(res, 200, {provider, url: s.url});
     }
     const data = Buffer.from(JSON.stringify({version: 3, public_key: env("LIQPAY_PUBLIC_KEY"), action: "pay", amount: Number((order.amount_minor / 100).toFixed(2)), currency, description: name,
-      order_id: order.id, result_url: `${site}/#/donate?paid=1`, server_url: `${site}/api/liqpay-callback`, language: "ru"})).toString("base64");
+      order_id: order.id, result_url: `${site}/#/donate?paid=1`, server_url: `${site}/api/liqpay-callback`, language: "ru", ...(env("LIQPAY_ALLOW_SANDBOX") === "1" ? {sandbox: 1} : {})})).toString("base64");   // sandbox: LiqPay test mode, nothing is charged
     return send(res, 200, {provider, action: "https://www.liqpay.ua/api/3/checkout", data, signature: sha1b64(env("LIQPAY_PRIVATE_KEY") + data + env("LIQPAY_PRIVATE_KEY"))});
   } catch (e) { return send(res, 500, {error: "server_error"}); }
 };

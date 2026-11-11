@@ -3329,6 +3329,7 @@ const CUR_BY_TZ = [[/^Europe\/(Kyiv|Kiev|Uzhgorod|Zaporozhye)$/, "UAH"], [/^Euro
   [/^Asia\/(Almaty|Aqtobe|Aqtau|Oral|Qostanay|Qyzylorda)$/, "KZT"], [/^Europe\/Warsaw$/, "PLN"], [/^Europe\//, "EUR"]];
 function guessCurrency(have) {
   const saved = Store.get("psl-currency", ""); if (have.includes(saved)) return saved;
+  if (PAY_PROVIDERS.length && !PAY_PROVIDERS.includes("stripe") && have.includes("UAH")) return "UAH";   // LiqPay only: the hryvnia is the main currency
   let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch {}
   const byZone = CUR_BY_TZ.find(([re]) => re.test(tz))?.[1], lang = String(navigator.language || "").toLowerCase();
   const guess = byZone ?? (lang.startsWith("uk") ? "UAH" : lang.endsWith("-ua") ? "UAH" : lang.endsWith("-pl") ? "PLN" : lang.endsWith("-kz") ? "KZT" : "USD");
@@ -3342,7 +3343,9 @@ async function renderDonate() {
   if (!me) return;
   try {
     const [packs, prices, orders] = await Promise.all([Online.packs(), Online.prices(), Online.orders()]); if (tok !== olTok) return;
-    const have = [...new Set(prices.map(p => p.currency))].sort((a, b) => ["USD", "EUR", "UAH", "RUB", "PLN", "KZT"].indexOf(a) - ["USD", "EUR", "UAH", "RUB", "PLN", "KZT"].indexOf(b));
+    const order = PAY_PROVIDERS.includes("stripe") ? ["USD", "EUR", "UAH", "RUB", "PLN", "KZT"] : ["UAH", "USD", "EUR", "RUB", "PLN", "KZT"];   // with LiqPay alone the hryvnia is first
+    let have = [...new Set(prices.map(p => p.currency))].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    if (PAY_PROVIDERS.length && have.some(c => providersFor(c).length)) have = have.filter(c => providersFor(c).length);   // no point offering a currency nobody can pay in
     DN.st = {packs, prices, orders, have, cur: guessCurrency(have), me};
     paintDonate(v, tok);
     if (new URLSearchParams(location.hash.split("?")[1] ?? "").get("paid")) waitForPayment(v, tok, me);
