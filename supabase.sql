@@ -1,11 +1,15 @@
--- PSL Rater: онлайн-батлы. Выполните один раз: Supabase -> SQL Editor -> New query -> вставить -> Run.
--- Можно запускать повторно: уже созданное не пересоздаётся.
--- Фото в базу не попадают. Хранятся ник, ссылка на аватар Google, пол, число PSL и очки.
+-- PSL Rater: онлайн-батлы 1 на 1. Выполните целиком: Supabase -> SQL Editor -> New query -> вставить -> Run.
+-- Можно запускать повторно и поверх прошлой версии: лишнее удаляется, нужное создаётся.
 --
--- Правила (меняются здесь же, потом нужно снова нажать Run):
---   ранг = очки / 500 (всего 8 рангов: Рекрут ... Титан), победа +100, поражение -50, ничья 0, ниже 0 очки не падают;
---   соперник берётся из своего ранга, если никого нет, то из соседнего (+-1). Рекрут никогда не встретит Титана;
---   сравнение по PSL с точностью до 0,1: у кого выше, тот победил. Соперник тот же пол, очки соперника не меняются.
+-- Как идёт бой:
+--   1) игрок нажимает «Найти соперника», его ставят в очередь; пара собирается из игроков ОДНОГО пола и ОДНОГО ранга
+--      (если ждать дольше 10 секунд, разрешён соседний ранг, но не дальше: Рекрут никогда не встретит Титана);
+--   2) у каждого своё окно: игрок ставит своё лицо и жмёт «Определить рейт»; соперник видит маленькую копию лица;
+--   3) когда оба определили рейт, побеждает тот, у кого PSL выше (хоть на 0,1); равный PSL это ничья;
+--   4) победа +100 очков, поражение -50 (ниже нуля не падает), ничья 0; 500 очков = 1 ранг, всего 8 рангов.
+--   Если соперник за 3 минуты не определил рейт или ушёл, побеждает тот, кто успел (неявка), второй получает поражение.
+-- Фото: маленькая копия лица (до 60 КБ) лежит только на время боя и стирается через 5 минут после его конца.
+-- Ограничение: PSL считается в браузере игрока, сервер ему верит.
 
 create table if not exists public.players (
   id uuid primary key references auth.users (id) on delete cascade,
@@ -16,11 +20,16 @@ create table if not exists public.players (
   losses integer not null default 0,
   draws integer not null default 0,
   sex text check (sex in ('m', 'f')),
-  psl numeric(3, 1) check (psl between 1 and 9),
-  psl_set_at timestamptz,
-  last_fight_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+-- остатки прошлой версии (бои с «претендентом» без соперника онлайн)
+drop function if exists public.fight();
+drop function if exists public.set_fighter(text, numeric);
+drop index if exists public.players_pool;
+alter table public.players drop column if exists psl;
+alter table public.players drop column if exists psl_set_at;
+alter table public.players drop column if exists last_fight_at;
 
 create table if not exists public.battles (
   id bigint generated always as identity primary key,
@@ -28,25 +37,159 @@ create table if not exists public.battles (
   player_id uuid not null references public.players (id) on delete cascade,
   opp_id uuid references public.players (id) on delete set null,
   opp_name text not null,
-  my_psl numeric(3, 1) not null,
-  opp_psl numeric(3, 1) not null,
+  my_psl numeric(3, 1),
+  opp_psl numeric(3, 1),
   result text not null check (result in ('win', 'loss', 'draw')),
   delta integer not null
+);
+alter table public.battles alter column my_psl drop not null;
+alter table public.battles alter column opp_psl drop not null;
+alter table public.battles add column if not exists note text;
+
+create table if not exists public.queue (
+  player_id uuid primary key references public.players (id) on delete cascade,
+  sex text not null check (sex in ('m', 'f')),
+  rank integer not null,
+  since timestamptz not null default now(),
+  seen timestamptz not null default now()
+);
+
+create table if not exists public.matches (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  finished_at timestamptz,
+  status text not null default 'live' check (status in ('live', 'done', 'void')),
+  result text check (result in ('a', 'b', 'draw', 'void')),
+  note text,
+  a uuid references public.players (id) on delete set null,
+  b uuid references public.players (id) on delete set null,
+  a_name text not null, b_name text not null,
+  a_pic text, b_pic text,
+  a_rank integer not null, b_rank integer not null,
+  a_photo text check (a_photo is null or char_length(a_photo) <= 60000),
+  b_photo text check (b_photo is null or char_length(b_photo) <= 60000),
+  a_psl numeric(3, 1), b_psl numeric(3, 1),
+  a_delta integer, b_delta integer
+);
+create index if not exists matches_a on public.matches (a) where status = 'live';
+create index if not exists matches_b on public.matches (b) where status = 'live';
+
+create table if not exists public.reports (   -- жалобы на фото: смотрите их в Table Editor
+  id bigint generated always as identity primary key,
+  at timestamptz not null default now(),
+  reporter uuid references public.players (id) on delete set null,
+  reported uuid references public.players (id) on delete set null,
+  match_id uuid,
+  photo text
 );
 
 create index if not exists battles_player_at on public.battles (player_id, at desc);
 create index if not exists players_points on public.players (points desc);
-create index if not exists players_pool on public.players (sex, points) where psl is not null;
 
--- права: читать можно, писать напрямую нельзя (только через функции ниже)
+-- права: ладдер и свою историю читать можно, всё остальное только через функции ниже
 alter table public.players enable row level security;
 alter table public.battles enable row level security;
+alter table public.queue enable row level security;
+alter table public.matches enable row level security;
+alter table public.reports enable row level security;
 drop policy if exists players_read on public.players;
 create policy players_read on public.players for select to authenticated using (true);
 drop policy if exists battles_read on public.battles;
 create policy battles_read on public.battles for select to authenticated using (player_id = auth.uid());
-revoke all on public.players, public.battles from anon, authenticated;
+revoke all on public.players, public.battles, public.queue, public.matches, public.reports from anon, authenticated;
 grant select on public.players, public.battles to authenticated;
+
+-- ---------- внутренние помощники (клиентам недоступны) ----------
+
+-- итог боя: очки, счётчики, история
+create or replace function public._finish_match(p_id uuid, p_result text, p_note text default null)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  m matches;
+  pa players; pb players;
+  da int := 0; db int := 0;
+begin
+  select * into m from matches where id = p_id for update;
+  if not found or m.status <> 'live' then return; end if;
+  if p_result = 'void' then
+    update matches set status = 'void', result = 'void', finished_at = now(), note = p_note where id = p_id;
+    return;
+  end if;
+  select * into pa from players where id = m.a for update;
+  select * into pb from players where id = m.b for update;
+  if p_result = 'a' then da := 100; db := -least(50, coalesce(pb.points, 0));
+  elsif p_result = 'b' then db := 100; da := -least(50, coalesce(pa.points, 0)); end if;
+  if pa.id is not null then
+    update players set points = points + da, wins = wins + (p_result = 'a')::int, losses = losses + (p_result = 'b')::int, draws = draws + (p_result = 'draw')::int where id = pa.id;
+    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note)
+    values (pa.id, m.b, m.b_name, m.a_psl, m.b_psl, case p_result when 'a' then 'win' when 'b' then 'loss' else 'draw' end, da, p_note);
+  end if;
+  if pb.id is not null then
+    update players set points = points + db, wins = wins + (p_result = 'b')::int, losses = losses + (p_result = 'a')::int, draws = draws + (p_result = 'draw')::int where id = pb.id;
+    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note)
+    values (pb.id, m.a, m.a_name, m.b_psl, m.a_psl, case p_result when 'b' then 'win' when 'a' then 'loss' else 'draw' end, db, p_note);
+  end if;
+  update matches set status = 'done', result = p_result, finished_at = now(), a_delta = da, b_delta = db, note = p_note where id = p_id;
+end $$;
+
+-- решает бой, если пора: оба определили рейт, либо вышло время (3 минуты)
+create or replace function public._settle_match(p_id uuid)
+returns void language plpgsql security definer set search_path = public as $$
+declare m matches;
+begin
+  select * into m from matches where id = p_id for update;
+  if not found or m.status <> 'live' then return; end if;
+  if m.a_psl is not null and m.b_psl is not null then
+    perform _finish_match(p_id, case when m.a_psl > m.b_psl then 'a' when m.a_psl < m.b_psl then 'b' else 'draw' end);
+  elsif m.created_at < now() - interval '3 minutes' then
+    if m.a_psl is not null then perform _finish_match(p_id, 'a', 'walkover');
+    elsif m.b_psl is not null then perform _finish_match(p_id, 'b', 'walkover');
+    else perform _finish_match(p_id, 'void', 'timeout'); end if;
+  end if;
+end $$;
+
+create or replace function public._cleanup()
+returns void language plpgsql security definer set search_path = public as $$
+declare r record;
+begin
+  delete from queue where seen < now() - interval '30 seconds';
+  for r in select id from matches where status = 'live' and created_at < now() - interval '3 minutes' loop
+    perform _settle_match(r.id);
+  end loop;
+  update matches set a_photo = null, b_photo = null
+  where status <> 'live' and finished_at < now() - interval '5 minutes' and (a_photo is not null or b_photo is not null);
+  delete from matches where status <> 'live' and finished_at < now() - interval '1 hour';
+  delete from reports where at < now() - interval '30 days';
+end $$;
+
+-- что видит игрок: соперника и его PSL видно только когда бой закончен
+create or replace function public._view(p_id uuid, p_uid uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  m matches; me_a boolean; res text; pts int;
+begin
+  select * into m from matches where id = p_id;
+  if not found then return null; end if;
+  me_a := m.a = p_uid;
+  select points into pts from players where id = p_uid;
+  res := case when m.status = 'live' then null when m.result = 'void' then 'void' when m.result = 'draw' then 'draw'
+              when (m.result = 'a') = me_a then 'win' else 'loss' end;
+  return jsonb_build_object(
+    'id', m.id, 'status', m.status, 'result', res, 'note', m.note,
+    'left_s', greatest(0, 180 - extract(epoch from now() - m.created_at))::int,
+    'me', jsonb_build_object('name', case when me_a then m.a_name else m.b_name end, 'picture', case when me_a then m.a_pic else m.b_pic end,
+          'rank', case when me_a then m.a_rank else m.b_rank end, 'photo', case when me_a then m.a_photo else m.b_photo end,
+          'rated', (case when me_a then m.a_psl else m.b_psl end) is not null),
+    'opp', jsonb_build_object('name', case when me_a then m.b_name else m.a_name end, 'picture', case when me_a then m.b_pic else m.a_pic end,
+          'rank', case when me_a then m.b_rank else m.a_rank end, 'photo', case when me_a then m.b_photo else m.a_photo end,
+          'rated', (case when me_a then m.b_psl else m.a_psl end) is not null),
+    'my_psl', case when m.status = 'done' then case when me_a then m.a_psl else m.b_psl end end,
+    'opp_psl', case when m.status = 'done' then case when me_a then m.b_psl else m.a_psl end end,
+    'delta', case when m.status = 'done' then case when me_a then m.a_delta else m.b_delta end end,
+    'points', pts, 'rank_after', least(coalesce(pts, 0) / 500, 7));
+end $$;
+
+-- ---------- функции для сайта ----------
 
 -- создать профиль (ник) или сменить ник (аватар берётся из аккаунта Google, а не от пользователя)
 create or replace function public.join_ladder(p_name text default null)
@@ -70,70 +213,141 @@ begin
   end if;
 end $$;
 
--- выставить претендента: пол и PSL последней оценки (раз в 10 секунд)
-create or replace function public.set_fighter(p_sex text, p_psl numeric)
-returns void language plpgsql security definer set search_path = public as $$
+-- поиск соперника; вызывать каждые пару секунд, пока идёт поиск (это и есть «я ещё здесь»)
+create or replace function public.queue_join(p_sex text)
+returns jsonb language plpgsql security definer set search_path = public as $$
 declare
   v_uid uuid := auth.uid();
-  v_psl numeric(3, 1);
-  v_at timestamptz;
+  v_me players;
+  v_rank int;
+  v_m matches;
+  v_since timestamptz;
+  v_q queue;
+  v_id uuid;
 begin
   if v_uid is null then raise exception 'not_signed_in'; end if;
   if p_sex is null or p_sex not in ('m', 'f') then raise exception 'bad_sex'; end if;
-  if p_psl is null or p_psl < 1 or p_psl > 9 then raise exception 'bad_psl'; end if;
-  v_psl := round(p_psl, 1);
-  select psl_set_at into v_at from players where id = v_uid for update;
+  select * into v_me from players where id = v_uid;
   if not found then raise exception 'not_joined'; end if;
-  if v_at is not null and v_at > now() - interval '10 seconds' then raise exception 'too_fast'; end if;
-  update players set sex = p_sex, psl = v_psl, psl_set_at = now() where id = v_uid;
-end $$;
-
--- бой: подбирает соперника по рангу, сравнивает PSL, начисляет очки
-create or replace function public.fight()
-returns jsonb language plpgsql security definer set search_path = public as $$
-declare
-  v_me players;
-  v_opp players;
-  v_rank int;
-  v_res text;
-  v_old int;
-  v_new int;
-begin
-  if auth.uid() is null then raise exception 'not_signed_in'; end if;
-  select * into v_me from players where id = auth.uid() for update;
-  if not found then raise exception 'not_joined'; end if;
-  if v_me.psl is null then raise exception 'no_fighter'; end if;
-  if v_me.last_fight_at is not null and v_me.last_fight_at > now() - interval '3 seconds' then raise exception 'too_fast'; end if;
+  perform pg_advisory_xact_lock(hashtext('psl-queue'));
+  perform _cleanup();
+  select * into v_m from matches where status = 'live' and (a = v_uid or b = v_uid) limit 1;
+  if found then return jsonb_build_object('state', 'match', 'match', _view(v_m.id, v_uid)); end if;
 
   v_rank := least(v_me.points / 500, 7);
-  select o.* into v_opp from players o
-  where o.id <> v_me.id and o.sex = v_me.sex and o.psl is not null
-    and abs(least(o.points / 500, 7) - v_rank) <= 1
-  order by abs(least(o.points / 500, 7) - v_rank),
-           exists (select 1 from battles b where b.player_id = v_me.id and b.opp_id = o.id and b.at > now() - interval '1 hour'),
-           random()
+  update players set sex = p_sex where id = v_uid;
+  insert into queue (player_id, sex, rank) values (v_uid, p_sex, v_rank)
+  on conflict (player_id) do update set seen = now(), rank = excluded.rank,
+    since = case when queue.sex = excluded.sex then queue.since else now() end, sex = excluded.sex;
+  select since into v_since from queue where player_id = v_uid;
+
+  select q.* into v_q from queue q
+  where q.player_id <> v_uid and q.sex = p_sex and q.seen > now() - interval '15 seconds'
+    and (q.rank = v_rank or (abs(q.rank - v_rank) = 1 and (q.since < now() - interval '10 seconds' or v_since < now() - interval '10 seconds')))
+  order by abs(q.rank - v_rank), q.since
   limit 1;
-  if not found then raise exception 'no_opponent'; end if;
+  if not found then
+    return jsonb_build_object('state', 'searching', 'waited', extract(epoch from now() - v_since)::int);
+  end if;
 
-  v_old := v_me.points;
-  if v_me.psl > v_opp.psl then v_res := 'win'; v_new := v_old + 100;
-  elsif v_me.psl < v_opp.psl then v_res := 'loss'; v_new := greatest(0, v_old - 50);
-  else v_res := 'draw'; v_new := v_old; end if;
-
-  update players set points = v_new, last_fight_at = now(),
-    wins = wins + (v_res = 'win')::int, losses = losses + (v_res = 'loss')::int, draws = draws + (v_res = 'draw')::int
-  where id = v_me.id;
-  insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta)
-  values (v_me.id, v_opp.id, v_opp.name, v_me.psl, v_opp.psl, v_res, v_new - v_old);
-
-  return jsonb_build_object(
-    'result', v_res, 'delta', v_new - v_old, 'points', v_new,
-    'rank_before', v_rank, 'rank_after', least(v_new / 500, 7),
-    'me', jsonb_build_object('psl', v_me.psl),
-    'opp', jsonb_build_object('name', v_opp.name, 'picture', v_opp.picture, 'psl', v_opp.psl, 'points', v_opp.points));
+  insert into matches (a, b, a_name, b_name, a_pic, b_pic, a_rank, b_rank)
+  select v_q.player_id, v_uid, pa.name, v_me.name, pa.picture, v_me.picture, v_q.rank, v_rank
+  from players pa where pa.id = v_q.player_id
+  returning id into v_id;
+  delete from queue where player_id in (v_uid, v_q.player_id);
+  return jsonb_build_object('state', 'match', 'match', _view(v_id, v_uid));
 end $$;
 
--- удалить свой профиль и историю боёв
+create or replace function public.queue_leave()
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is null then raise exception 'not_signed_in'; end if;
+  delete from queue where player_id = auth.uid();
+end $$;
+
+-- текущее состояние: идёт ли бой (для опроса и для возврата на страницу)
+create or replace function public.match_state()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_m matches;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  perform pg_advisory_xact_lock(hashtext('psl-queue'));
+  perform _cleanup();
+  select * into v_m from matches where (a = v_uid or b = v_uid) order by created_at desc limit 1;
+  if found and (v_m.status = 'live' or v_m.finished_at > now() - interval '2 minutes') then
+    return jsonb_build_object('state', 'match', 'match', _view(v_m.id, v_uid));
+  end if;
+  if exists (select 1 from queue where player_id = v_uid) then return jsonb_build_object('state', 'searching'); end if;
+  return jsonb_build_object('state', 'idle');
+end $$;
+
+-- поставить своё лицо (маленькая копия, JPEG)
+create or replace function public.match_photo(p_match uuid, p_photo text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); m matches;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_photo is null or char_length(p_photo) > 60000 or p_photo !~ '^data:image/jpeg;base64,[A-Za-z0-9+/=]+$' then raise exception 'bad_photo'; end if;
+  select * into m from matches where id = p_match and (a = v_uid or b = v_uid) for update;
+  if not found then raise exception 'no_match'; end if;
+  perform _settle_match(p_match);
+  select * into m from matches where id = p_match;
+  if m.status <> 'live' then return _view(p_match, v_uid); end if;
+  if (m.a = v_uid and m.a_psl is not null) or (m.b = v_uid and m.b_psl is not null) then raise exception 'already_rated'; end if;
+  if m.a = v_uid then update matches set a_photo = p_photo where id = p_match; else update matches set b_photo = p_photo where id = p_match; end if;
+  return _view(p_match, v_uid);
+end $$;
+
+-- определить рейт: присылает PSL; когда оба прислали, бой решается
+create or replace function public.match_rate(p_match uuid, p_psl numeric)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); m matches; v_psl numeric(3, 1);
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_psl is null or p_psl < 1 or p_psl > 9 then raise exception 'bad_psl'; end if;
+  v_psl := round(p_psl, 1);
+  select * into m from matches where id = p_match and (a = v_uid or b = v_uid) for update;
+  if not found then raise exception 'no_match'; end if;
+  perform _settle_match(p_match);
+  select * into m from matches where id = p_match;
+  if m.status <> 'live' then return _view(p_match, v_uid); end if;
+  if (m.a = v_uid and m.a_photo is null) or (m.b = v_uid and m.b_photo is null) then raise exception 'no_photo'; end if;
+  if (m.a = v_uid and m.a_psl is not null) or (m.b = v_uid and m.b_psl is not null) then raise exception 'already_rated'; end if;
+  if m.a = v_uid then update matches set a_psl = v_psl where id = p_match; else update matches set b_psl = v_psl where id = p_match; end if;
+  perform _settle_match(p_match);
+  return _view(p_match, v_uid);
+end $$;
+
+-- выйти из боя: если соперник уже поставил лицо, это поражение (неявка), иначе бой отменяется без последствий
+create or replace function public.match_leave(p_match uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); m matches;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  select * into m from matches where id = p_match and (a = v_uid or b = v_uid) for update;
+  if not found then raise exception 'no_match'; end if;
+  if m.status = 'live' then
+    if m.a = v_uid then perform _finish_match(p_match, case when m.b_photo is not null then 'b' else 'void' end, case when m.b_photo is not null then 'walkover' else 'left' end);
+    else perform _finish_match(p_match, case when m.a_photo is not null then 'a' else 'void' end, case when m.a_photo is not null then 'walkover' else 'left' end); end if;
+  end if;
+  return _view(p_match, v_uid);
+end $$;
+
+-- пожаловаться на фото соперника (до 10 жалоб в час)
+create or replace function public.report_opponent(p_match uuid)
+returns void language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); m matches; v_opp uuid; v_photo text;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  select * into m from matches where id = p_match and (a = v_uid or b = v_uid);
+  if not found then raise exception 'no_match'; end if;
+  if (select count(*) from reports where reporter = v_uid and at > now() - interval '1 hour') >= 10 then raise exception 'too_fast'; end if;
+  v_opp := case when m.a = v_uid then m.b else m.a end;
+  v_photo := case when m.a = v_uid then m.b_photo else m.a_photo end;
+  insert into reports (reporter, reported, match_id, photo) values (v_uid, v_opp, p_match, v_photo);
+end $$;
+
+-- удалить свой профиль, очки и историю боёв
 create or replace function public.leave_ladder()
 returns void language plpgsql security definer set search_path = public as $$
 begin
@@ -141,5 +355,8 @@ begin
   delete from players where id = auth.uid();
 end $$;
 
-revoke all on function public.join_ladder(text), public.set_fighter(text, numeric), public.fight(), public.leave_ladder() from public, anon;
-grant execute on function public.join_ladder(text), public.set_fighter(text, numeric), public.fight(), public.leave_ladder() to authenticated;
+revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid) from public, anon, authenticated;
+revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder() from public, anon;
+grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder() to authenticated;
