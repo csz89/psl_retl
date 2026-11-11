@@ -1835,18 +1835,19 @@ function verdict(a, b) {
 
 // ---------- model loading (cached promises so two parallel uploads create each model once) ----------
 let lmkP, fsP;
-const getFileset = () => fsP ??= FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
-const getLandmarker = () => lmkP ??= getFileset().then(fs => FaceLandmarker.createFromOptions(fs, {
+const retryable = (get, reset) => { const p = get(); p.catch(reset); return p; };   // a failed download must not stay cached: the next call tries again
+const getFileset = () => fsP ??= retryable(() => FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"), () => { fsP = null; });
+const getLandmarker = () => lmkP ??= retryable(() => getFileset().then(fs => FaceLandmarker.createFromOptions(fs, {
   baseOptions: {modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"},
   runningMode: "IMAGE", numFaces: 1, outputFaceBlendshapes: true,
-}));
+})), () => { lmkP = null; });
 const EMB_URL = {
   S: "https://storage.googleapis.com/mediapipe-models/image_embedder/mobilenet_v3_small/float32/1/mobilenet_v3_small.tflite",
   L: "https://storage.googleapis.com/mediapipe-models/image_embedder/mobilenet_v3_large/float32/1/mobilenet_v3_large.tflite",
 };
 const embP = {};
-const getEmbedder = k => embP[k] ??= getFileset().then(fs => ImageEmbedder.createFromOptions(fs,
-  {baseOptions: {modelAssetPath: EMB_URL[k]}, runningMode: "IMAGE", l2Normalize: true}));
+const getEmbedder = k => embP[k] ??= retryable(() => getFileset().then(fs => ImageEmbedder.createFromOptions(fs,
+  {baseOptions: {modelAssetPath: EMB_URL[k]}, runningMode: "IMAGE", l2Normalize: true})), () => { delete embP[k]; });
 
 // ---------- features: normalised landmark shape + embeddings of the face crop (same code builds the training data) ----------
 // shape vector: landmarks with yaw and roll removed (see headFrame), centred, unit RMS size; z kept so face depth counts
@@ -2760,6 +2761,13 @@ const Cam = {
   },
 };
 addEventListener("pagehide", () => Cam.stop());
+// the face models are tens of megabytes: they start loading when a search starts, so a phone on mobile data has them by the time of the shot
+const Models = {p: null, ready: false};
+function preloadModels() {
+  return Models.p ??= Promise.all([getLandmarker(), getEmbedder("S"), getEmbedder("L")]).then(() => { Models.ready = true; },
+    () => { Models.p = null; throw new OnlineError("Не удалось загрузить модель анализа лица. Проверьте интернет и нажмите «Переснять»."); });
+}
+const withTimeout = (p, ms, msg) => new Promise((ok, fail) => { const t = setTimeout(() => fail(new OnlineError(msg)), ms); p.then(v => { clearTimeout(t); ok(v); }, e => { clearTimeout(t); fail(e); }); });
 
 // ---------- arena: search -> two windows -> rating -> mogged ----------
 const Arena = {phase: "idle", tok: 0, view: null, mine: null, shown: null, busy: false, t0: 0, sex: Store.get("psl-online-sex", "m")};
@@ -2779,7 +2787,7 @@ function arenaIdle(note = "") {
 }
 async function arenaSearch() {
   const box = $("o-arena"), tok = ++Arena.tok, otok = olTok, t0 = Date.now();
-  Arena.phase = "searching";
+  Arena.phase = "searching"; preloadModels().catch(() => {});
   box.innerHTML = `<h2>Арена</h2><div class="o-radar" aria-hidden="true"><i></i><i></i><i></i>${FACE_ICON}</div><p class="why o-search" id="o-wait">Ищем соперника вашего ранга…</p><button class="btn ghost" id="o-cancel" type="button">Отмена</button>`;
   $("o-cancel").addEventListener("click", () => { Arena.tok++; Online.queueLeave().catch(() => {}); arenaIdle(); });
   while (arenaOk(tok, otok)) {
@@ -2808,24 +2816,28 @@ const setSt = (win, t) => { win.querySelector(".o-st").textContent = t; };
 function arenaBattle(view) {
   const box = $("o-arena"), tok = ++Arena.tok, otok = olTok;
   Arena.phase = "battle"; Arena.view = view; Arena.shown = null; Arena.mine = null; Arena.busy = false; Arena.t0 = Date.now();
+  if (!Models.ready) preloadModels().then(() => { if (arenaOk(tok, otok)) paintBattle(); }, () => {});
   box.innerHTML = `<div class="o-bhead"><h2>Бой</h2><span class="o-timer" id="o-timer"></span><button class="linkbtn" id="o-quit" type="button">Выйти из боя</button></div>
     <div class="o-battle">${winHTML("me")}<span class="o-x">VS</span>${winHTML("opp")}</div>
     <p class="err" id="o-err" role="alert"></p><div class="o-end" id="o-end" hidden></div>`;
   const me = box.querySelector(".o-win.me"), vid = me.querySelector(".o-cam");
   const say = t => { $("o-err").textContent = t; };
   let counting = false;
-  const camOn = async () => { say(""); try { await Cam.start(vid); } catch (ex) { say(onlineMsg(ex)); } if (arenaOk(tok, otok)) paintBattle(); };
+  const camOn = async (keepMsg = false) => { if (!keepMsg) say(""); try { await Cam.start(vid); } catch (ex) { say(onlineMsg(ex)); } if (arenaOk(tok, otok)) paintBattle(); };
   async function placeFace(f) {
     const v = Arena.view; if (!arenaOk(tok, otok) || v.status !== "live" || v.me.rated || Arena.busy) return;
-    Arena.busy = true; say(""); setSt(me, "Анализирую лицо…"); $("o-rate").disabled = true;
+    Arena.busy = true; say(""); $("o-rate").disabled = true;
+    const t0 = Date.now(), tick = setInterval(() => { if (arenaOk(tok, otok)) setSt(me, `${Models.ready ? "Анализирую лицо" : "Загружаю модель анализа лица (в первый раз дольше)"}… ${Math.round((Date.now() - t0) / 1000)} с`); }, 400);
+    setSt(me, Models.ready ? "Анализирую лицо…" : "Загружаю модель анализа лица…");
     try {
-      const r = await analyzeFile(f, document.createElement("canvas")), thumb = await faceThumb(f, r.lm), sex = Arena.sex;
+      await withTimeout(preloadModels(), 150000, "Модель анализа не загрузилась за 2,5 минуты. Проверьте интернет и нажмите «Переснять».");
+      const r = await withTimeout(analyzeFile(f, document.createElement("canvas")), 90000, "Анализ занял слишком много времени. Нажмите «Переснять» и попробуйте ещё раз."), thumb = await faceThumb(f, r.lm), sex = Arena.sex;
       if (!arenaOk(tok, otok)) return;
       Arena.mine = {feat: r.feat, sex, thumb};
       const w = shotWarnings(r, sex); if (w) say(w);
       Arena.view = await Online.matchPhoto(v.id, thumb);
-    } catch (ex) { Arena.mine = null; say(onlineMsg(ex)); if (arenaOk(tok, otok)) { Arena.busy = false; return camOn(); } }   // no face found: the camera comes back for another try
-    finally { Arena.busy = false; }
+    } catch (ex) { Arena.mine = null; say(onlineMsg(ex)); if (arenaOk(tok, otok)) { Arena.busy = false; return camOn(true); } }   // no face found: the camera comes back for another try
+    finally { Arena.busy = false; clearInterval(tick); }
     if (arenaOk(tok, otok)) paintBattle();
   }
   onlineFileHook = () => { if (!arenaOk(tok, otok) || Arena.view?.status !== "live") return false; say("В онлайн-бое лицо ставится только с камеры: файлы и вставка не принимаются."); return true; };
@@ -2901,7 +2913,7 @@ function paintBattle() {
   snap.textContent = Cam.live ? "Сделать снимок" : v.me.photo || Arena.mine ? "Переснять" : "Включить камеру";
   if (!live || v.me.rated) Cam.stop();
   if (live) {
-    if (!Arena.busy) setSt(me, v.me.rated ? "Рейт определён. Ждём соперника…" : Cam.live ? "Смотри в камеру, лицо в овале, нейтральное выражение. Жми «Сделать снимок»." : !v.me.photo ? "Включи камеру и сделай снимок, чтобы определить рейт." : Arena.mine ? "Снимок готов. Жми «Определить рейт» или переснимись." : "Снимок уже отправлен. После перезагрузки сделай новый.");
+    if (!Arena.busy) setSt(me, v.me.rated ? "Рейт определён. Ждём соперника…" : Cam.live ? "Смотри в камеру, лицо в овале, нейтральное выражение. Жми «Сделать снимок»." + (Models.ready ? "" : " Модель анализа ещё загружается, это нормально.") : !v.me.photo ? "Включи камеру и сделай снимок, чтобы определить рейт." : Arena.mine ? "Снимок готов. Жми «Определить рейт» или переснимись." : "Снимок уже отправлен. После перезагрузки сделай новый.");
     setSt(opp, v.opp.rated ? (v.me.rated ? "Рейт определён" : "Рейт уже определён, твой ход") : v.opp.photo ? "Лицо поставлено, ждём рейт…" : "Соперник ставит лицо…");
   } else finishBattle();
 }
