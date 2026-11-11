@@ -926,15 +926,144 @@
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
   .o-win.locked .o-ph svg{animation:none}
   .o-result{animation:popIn .5s cubic-bezier(.2,1.3,.4,1) backwards}
+
+  /* ================= Рета and the shop ================= */
+  .reta-ico{display:inline-block;width:26px;height:26px;vertical-align:-7px;flex:none;overflow:visible}
+  .reta-ico.xs2{width:21px;height:21px;vertical-align:-5px}
+  .reta-ico.big{width:128px;height:128px;display:block}
+  .reta-glint{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:glint 2.8s ease-in-out infinite}
+  @keyframes glint{0%,55%,100%{transform:scale(0) rotate(0);opacity:0}72%{transform:scale(1.15) rotate(45deg);opacity:1}}
+  .reta-ico.live{animation:rkBob 4s ease-in-out infinite}
+  .reta{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--strong);font-weight:800;font-size:15px;text-decoration:none;font-variant-numeric:tabular-nums;transition:border-color .2s,transform .2s}
+  .reta[hidden]{display:none}
+  .reta:hover{border-color:#2dd4bf;transform:translateY(-1px)}
+  .reta:focus-visible{outline:2px solid var(--strong);outline-offset:2px}
+  .o-reta{display:inline-flex;align-items:center;gap:5px;margin-top:8px;color:var(--soft);font-size:13px;text-decoration:none;justify-content:flex-end}
+  .o-reta b{color:var(--strong);font-size:15px}
+  .o-reta:hover{color:var(--strong)}
+  .reta-gain{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:#2dd4bf;animation:retaFloat 1.2s .3s cubic-bezier(.2,1.4,.4,1) backwards}
+  @keyframes retaFloat{from{opacity:0;transform:translateY(16px) scale(.6)}to{opacity:1;transform:none}}
+
+  .shop{max-width:1100px;margin:0 auto;display:grid;gap:18px;padding-bottom:30px}
+  .shop>*{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+  .shop-head{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+  .sh-txt h1{margin:0 0 6px;font-size:clamp(26px,4vw,36px);color:var(--strong);letter-spacing:-.02em}
+  .sh-txt .why{margin:0;max-width:62ch}
+  .sh-bal{display:grid;justify-items:end;gap:2px}
+  .sh-bal b{font-size:clamp(34px,5vw,52px);font-weight:800;line-height:1;color:var(--strong);font-variant-numeric:tabular-nums}
+  .sh-bal span{color:var(--dim);font-size:13px;margin-bottom:8px}
+  .sh-sec h2{margin:0 0 4px;font-size:22px;color:var(--strong)}
+  .sh-sec .why{margin:0 0 12px}
+  .sh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .si{position:relative;display:grid;gap:8px;align-content:start;padding:14px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,var(--card1),var(--card2));overflow:hidden}
+  .si:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent) 50%,var(--line));box-shadow:0 18px 40px -22px color-mix(in srgb,var(--accent) 70%,transparent)}
+  .si.worn{border-color:#2dd4bf}
+  .si-pv{position:relative;min-height:150px;border-radius:14px;background:var(--surface2);display:grid;place-items:center;padding:10px;overflow:hidden}
+  .si h3{margin:2px 0 0;font-size:16px;color:var(--strong);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .si p{margin:0;color:var(--soft);font-size:13px;line-height:1.45;min-height:2.9em}
+  .si footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .si .price{display:inline-flex;align-items:center;gap:5px;font-weight:800;color:var(--strong);font-variant-numeric:tabular-nums}
+  .si .btn{padding:9px 16px;font-size:14px;border-radius:12px}
+  .si .need{color:var(--dim);font-size:12px}
+  .si-tag{font-style:normal;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+  .si-tag.on{color:#2dd4bf;border-color:#2dd4bf}
+  .si-play{position:absolute;right:8px;bottom:8px;border:0;border-radius:999px;padding:5px 11px;font:inherit;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--surface) 80%,#000);color:var(--soft);cursor:pointer}
+  .si-play:hover{color:var(--strong)}
+  .pv-bat{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .o-win.pv{padding:0;gap:0;border:0;background:none;box-shadow:none;border-radius:12px;animation:none}
+  .o-win.pv .o-face{max-width:none;margin:0;border-radius:12px;border-width:0}
+  .o-win.pv.lost,.o-win.pv.won{animation:none;box-shadow:none}
+  .pv-img{background:radial-gradient(circle at 50% 38%,#f0c8a4 0 19%,transparent 20.5%),radial-gradient(ellipse 46% 40% at 50% 104%,#4f7cff 0 100%,transparent 101%),linear-gradient(180deg,#323a5c,#1b1f33)}
+  .pv-bat .o-stamp{font-size:12px;padding:2px 6px;border-width:3px}
+  .pvav{display:grid;width:76px;height:76px;font-size:30px;flex:none}
+  .pv-nick{font-size:22px;font-weight:800;color:var(--strong);text-align:center}
+  .pv-banner{width:100%;height:110px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:var(--surface)}
+  .shop-head .sh-ico{filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+  @media(max-width:700px){.shop-head{grid-template-columns:1fr;justify-items:center;text-align:center}.sh-bal{justify-items:center}}
+
+  /* ---------- cosmetics: frames, nick styles, titles, banners ---------- */
+  .av[class*="frame-"]{position:relative;overflow:visible}
+  .av[class*="frame-"]::before{content:"";position:absolute;inset:-4px;border-radius:50%;pointer-events:none;z-index:1;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px))}
+  .av.frame-gold::before{background:conic-gradient(#fff4c7,#fbbf24,#a16207,#fbbf24,#fff4c7);animation:rkSpin 6s linear infinite}
+  .av.frame-neon::before{background:conic-gradient(#22d3ee,#a78bfa,#f472b6,#22d3ee);animation:rkSpin 3s linear infinite;filter:drop-shadow(0 0 4px #a78bfa)}
+  .av.frame-fire::before{background:conic-gradient(#fde047,#f97316,#dc2626,#f97316,#fde047);animation:rkSpin 2s linear infinite;filter:drop-shadow(0 0 5px #f97316)}
+  .av.frame-ice::before{background:conic-gradient(#fff,#7dd3fc,#38bdf8,#e0f2fe,#fff);animation:rkSpin 5s linear infinite;filter:drop-shadow(0 0 4px #7dd3fc)}
+  .nick.nick-gold{background:linear-gradient(90deg,#fff4c7,#fbbf24,#a16207,#fbbf24,#fff4c7);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradDrift 3.2s linear infinite alternate}
+  .nick.nick-aurora{background:linear-gradient(90deg,#34d399,#22d3ee,#a78bfa,#f472b6,#34d399);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradDrift 4.5s linear infinite alternate}
+  .nick.nick-glow{color:#f3e8ff;text-shadow:0 0 6px #a855f7,0 0 14px #a855f7;animation:nickGlow 1.8s ease-in-out infinite alternate}
+  [data-tone=light] .nick.nick-glow{color:#6b21a8;text-shadow:0 0 6px #d8b4fe}
+  @keyframes nickGlow{from{text-shadow:0 0 4px #a855f7,0 0 8px #a855f7}to{text-shadow:0 0 8px #d8b4fe,0 0 22px #a855f7}}
+  .ttl{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle;line-height:1.6;white-space:nowrap}
+  .o-name{display:flex;align-items:center;gap:12px;min-width:0}
+  .o-name .av{display:grid;width:38px;height:38px;font-size:16px;flex:none}
+  .o-name .av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+  .o-who h1{min-width:0}
+  .o-card[class*="banner-"],.pv-banner[class*="banner-"]{position:relative;overflow:hidden;border-color:transparent}
+  .banner-aurora{background:linear-gradient(120deg,#062f2c,#0a3b66,#34175f,#0a4a4a,#062f2c)!important;background-size:320% 320%!important;animation:bannerMove 11s ease-in-out infinite}
+  .banner-sunset{background:linear-gradient(120deg,#3a0a2c,#a02c2c,#ea7a2a,#f8bd5a,#a02c2c)!important;background-size:320% 320%!important;animation:bannerMove 13s ease-in-out infinite}
+  .banner-matrix{background:#021a0d!important}
+  .banner-matrix::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 0,rgba(74,222,128,.55) 45%,rgba(187,247,208,.9) 50%,transparent 56%);background-size:100% 220px;-webkit-mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);animation:matrixRain 2.4s linear infinite}
+  @keyframes bannerMove{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+  @keyframes matrixRain{to{background-position:0 220px}}
+  .o-card[class*="banner-"] .o-pts b,.o-card[class*="banner-"] .o-who h1,.o-card[class*="banner-"] .o-rec b,.o-card[class*="banner-"] .o-reta b,.pv-banner span{color:#fff}
+  .o-card[class*="banner-"] .why,.o-card[class*="banner-"] .o-rec,.o-card[class*="banner-"] .o-pts span,.o-card[class*="banner-"] .o-reta{color:#e8e8f4}
+  .o-card[class*="banner-"]>*{position:relative}
+
+  /* ---------- win animations (mogg), played on the loser's face ---------- */
+  .fx-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;animation:fxFlash .55s .05s ease-out}
+  .fx-flash.late{animation-delay:.62s}
+  @keyframes fxFlash{0%{opacity:.95}100%{opacity:0}}
+  .fx-bolt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .fx-bolt polyline{fill:none;stroke:#fde047;stroke-width:3.2;stroke-linejoin:miter;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 5px #facc15) drop-shadow(0 0 12px #f59e0b);opacity:0;animation:boltStrike 1.1s steps(1,end) .05s 2}
+  .fx-bolt .b2{animation-delay:.2s}.fx-bolt .b3{animation-delay:.35s}
+  @keyframes boltStrike{0%{opacity:1}12%{opacity:0}24%{opacity:1}38%,100%{opacity:0}}
+  [data-fx=mogg_bolt] .o-stamp{color:#fde047;border-color:#fde047;text-shadow:0 0 14px #f59e0b}
+  [data-fx=mogg_glitch] .o-photo{animation:glitchImg .9s .1s steps(1,end) 3}
+  @keyframes glitchImg{0%{transform:none}8%{transform:translate(-7px,2px);filter:grayscale(1) hue-rotate(120deg) contrast(1.6)}16%{clip-path:inset(12% 0 58% 0);transform:translate(9px,0)}24%{clip-path:none;transform:translate(-3px,-2px) skewX(6deg)}34%{clip-path:inset(58% 0 10% 0);transform:translate(8px,1px)}44%{clip-path:none;transform:none}60%{transform:translate(4px,0)}70%,100%{transform:none}}
+  .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 2px,transparent 2px 4px);animation:scanMove .6s linear infinite;pointer-events:none}
+  @keyframes scanMove{to{background-position:0 8px}}
+  .fx-rgb{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(90deg,rgba(255,0,90,.28),transparent 32%,transparent 68%,rgba(0,220,255,.28));animation:rgbShift .3s steps(2,end) 9}
+  @keyframes rgbShift{50%{transform:translateX(6px)}}
+  [data-fx=mogg_glitch] .o-stamp{text-shadow:3px 0 #ff2d55,-3px 0 #22d3ee}
+  .fx-fire{position:absolute;inset:auto 0 0 0;height:78%;overflow:hidden;pointer-events:none;background:linear-gradient(0deg,rgba(249,115,22,.6),transparent 75%);animation:fade .5s ease backwards}
+  .fx-fire i{position:absolute;bottom:-26%;width:34%;height:92%;border-radius:50% 50% 42% 42%/72% 72% 28% 28%;background:radial-gradient(ellipse at 50% 88%,#fff7ad 0 12%,#fbbf24 30%,#f97316 52%,#dc2626 72%,transparent 74%);filter:blur(5px);mix-blend-mode:screen;animation:flame .8s ease-in-out infinite alternate}
+  .fx-fire i:nth-of-type(1){left:-8%}.fx-fire i:nth-of-type(2){left:12%;animation-delay:.15s}.fx-fire i:nth-of-type(3){left:30%;animation-delay:.3s}.fx-fire i:nth-of-type(4){left:48%;animation-delay:.1s}.fx-fire i:nth-of-type(5){left:64%;animation-delay:.25s}.fx-fire i:nth-of-type(6){left:80%;animation-delay:.4s}
+  @keyframes flame{from{transform:scale(.9,.8) translateY(6%)}to{transform:scale(1.1,1.15) translateY(-4%)}}
+  .fx-fire b{position:absolute;bottom:0;width:5px;height:5px;border-radius:50%;background:#fde047;box-shadow:0 0 6px #f97316;opacity:0;animation:ember 1.8s linear infinite}
+  .fx-fire b:nth-of-type(1){left:10%}.fx-fire b:nth-of-type(2){left:26%;animation-delay:.4s}.fx-fire b:nth-of-type(3){left:44%;animation-delay:.9s}.fx-fire b:nth-of-type(4){left:58%;animation-delay:.2s}.fx-fire b:nth-of-type(5){left:74%;animation-delay:1.2s}.fx-fire b:nth-of-type(6){left:88%;animation-delay:.7s}
+  @keyframes ember{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translate(12px,-200px);opacity:0}}
+  [data-fx=mogg_fire] .o-stamp{color:#fb923c;border-color:#fb923c;text-shadow:0 0 14px #ef4444}
+  .fx-crack{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .fx-crack polyline{fill:none;stroke:#fff;stroke-width:1.8;vector-effect:non-scaling-stroke;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 2px rgba(0,0,0,.7));animation:crackDraw .5s ease-out forwards}
+  .fx-crack polyline:nth-child(2){animation-delay:.04s}.fx-crack polyline:nth-child(3){animation-delay:.08s}.fx-crack polyline:nth-child(4){animation-delay:.12s}.fx-crack polyline:nth-child(5){animation-delay:.16s}.fx-crack polyline:nth-child(n+6){animation-delay:.3s}
+  @keyframes crackDraw{to{stroke-dashoffset:0}}
+  [data-fx=mogg_crack] .o-face{animation:crackHit .45s ease-out}
+  @keyframes crackHit{0%{transform:scale(1)}30%{transform:scale(.94)}100%{transform:scale(1)}}
+  [data-fx=mogg_crack] .o-stamp{color:#e2e8f0;border-color:#e2e8f0}
+  .fx-crown{position:absolute;left:50%;top:1%;width:58%;z-index:2;transform:translate(-50%,-190%);filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));animation:crownDrop 1s .2s cubic-bezier(.3,1.5,.5,1) forwards}
+  @keyframes crownDrop{0%{transform:translate(-50%,-190%) rotate(-12deg)}100%{transform:translate(-50%,-6%) rotate(0)}}
+  .fx-spark{position:absolute;width:14px;height:14px;background:radial-gradient(circle,#fff,transparent 65%);opacity:0;animation:sparkle 1.2s 1s ease-in-out infinite}
+  .fx-spark.s1{left:18%;top:10%}.fx-spark.s2{right:16%;top:6%;animation-delay:1.3s}.fx-spark.s3{left:30%;top:30%;animation-delay:1.6s}.fx-spark.s4{right:28%;top:26%;animation-delay:1.9s}
+  @keyframes sparkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.7)}}
+  .fx-meteor{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 32%,#fff7c2,#fb923c 42%,#b91c1c 78%);box-shadow:0 0 28px 10px rgba(251,146,60,.85);transform:translate(-50%,-50%);animation:meteorHit .7s cubic-bezier(.55,0,.9,.5) both;pointer-events:none}
+  .fx-meteor::after{content:"";position:absolute;right:30%;top:-120%;width:80%;height:230%;background:linear-gradient(180deg,transparent,rgba(251,146,60,.9));transform-origin:50% 100%;transform:rotate(-28deg);border-radius:50%;filter:blur(4px)}
+  @keyframes meteorHit{0%{transform:translate(110%,-230%) scale(1.3);opacity:1}88%{transform:translate(-50%,-50%) scale(.7);opacity:1}100%{transform:translate(-50%,-50%) scale(.2);opacity:0}}
+  .fx-shock{position:absolute;left:50%;top:50%;width:20%;aspect-ratio:1;border:4px solid #fde68a;border-radius:50%;transform:translate(-50%,-50%) scale(0);opacity:0;animation:shock .7s .65s ease-out forwards;pointer-events:none}
+  @keyframes shock{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}100%{transform:translate(-50%,-50%) scale(7);opacity:0}}
+  .fx-quake{animation:quake .55s .65s ease-out}
+  @keyframes quake{0%,100%{transform:translate(0)}15%{transform:translate(-8px,5px)}30%{transform:translate(7px,-6px)}45%{transform:translate(-5px,4px)}60%{transform:translate(4px,-3px)}80%{transform:translate(-2px,1px)}}
+  [data-fx=mogg_meteor] .o-stamp{color:#fb923c;border-color:#fb923c;transition-delay:1.1s!important}
+  [data-motion=off] .fx-flash,[data-motion=off] .fx-scan{display:none}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
+    <a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a>
     <button type="button" class="gear" id="gear" aria-label="Настройки" aria-haspopup="dialog" title="Настройки">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0A1.7 1.7 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
     </button>
@@ -948,7 +1077,7 @@
       <div class="hp-copy">
         <p class="eyebrow">Оценка лица на основе реальных оценок людей</p>
         <h1>Узнай свой <em>PSL-рейт</em> по одному фото</h1>
-        <p class="lead">Модель обучена на 5 500 лицах, которые оценивали 60 человек. Она выравнивает фото, сравнивает лицо с идеальным и честно объясняет, из чего сложился рейт. В режимах оценки и сравнения фото остаётся в твоём браузере и никуда не отправляется.</p>
+        <p class="lead">Модель обучена на 5 500 лицах, которые оценивали 60 человек. Она выравнивает фото, сравнивает лицо с идеальным и честно объясняет, из чего сложился рейт. В режимах оценки и сравнения фото остаётся в твоём браузере и никуда не отправляется. Для работы нужен бесплатный аккаунт.</p>
         <div class="cta">
           <a class="btn primary" href="#/app">Оценить лицо</a>
           <a class="btn ghost" href="#/online">Онлайн-батлы</a>
@@ -1039,7 +1168,7 @@
         <details><summary>Что такое PSL?</summary><p>Неформальная шкала привлекательности лица от 0 до 8 из онлайн-сообществ. Здесь 4 это среднее лицо обучающей выборки, а каждый балл выше или ниже равен одному стандартному отклонению оценок. Науки за самой шкалой нет, это удобный язык для сравнения.</p></details>
         <details><summary>Почему мой рейт отличается от того, что я ожидал?</summary><p>Модель повторяет вкус 60 оценщиков по фото и ошибается в среднем на ±0,5 PSL. Сильно влияют ракурс, свет, улыбка и фон. Для повторной проверки снимите фото анфас на уровне глаз при мягком свете с нейтральным выражением.</p></details>
         <details><summary>Зачем нужна рулетка?</summary><p>Это только анимация перед результатом. Рейт известен до её запуска, а рулетка лишь подводит к нему. Её можно выключить в настройках (шестерёнка).</p></details>
-        <details><summary>Что даёт аккаунт?</summary><p>История ваших оценок, статистика (средний и лучший PSL, график динамики) и сохранение настроек темы. Всё это хранится только в этом браузере.</p></details>
+        <details><summary>Что даёт аккаунт?</summary><p>Он нужен для всего: без аккаунта оценка, сравнение, онлайн-бои и магазин не работают. История ваших оценок, статистика (средний и лучший PSL, график динамики) и сохранение настроек темы. Всё это хранится только в этом браузере.</p></details>
         <details><summary>Как удалить свои данные?</summary><p>В профиле есть кнопки «Очистить историю» и «Удалить аккаунт». Фото сайт не хранит вообще.</p></details>
         <details><summary>Можно ли использовать оценку серьёзно?</summary><p>Нет. Это развлекательный инструмент: модель обучена на ограниченной выборке и не знает о человеке ничего, кроме лица на фото.</p></details>
       </div>
@@ -1076,13 +1205,14 @@
   <section id="view-auth" class="view" hidden></section>
   <section id="view-profile" class="view" hidden></section>
   <section id="view-online" class="view online" hidden></section>
+  <section id="view-shop" class="view shop" hidden></section>
   <section id="view-privacy" class="view legal" hidden>
     <h1>Конфиденциальность</h1>
     <p class="sec-lead">Коротко и без юридических оговорок: что сайт делает с вашими данными.</p>
     <article class="card"><h2>Фото</h2><p>В режимах «Оценка» и «Сравнение» фото обрабатывается прямо в вашем браузере, не загружается на сервер и нигде не сохраняется. В историю профиля попадают только числа: дата, пол, PSL, тир. Единственное исключение: онлайн-бой (см. ниже).</p></article>
     <article class="card"><h2>Аккаунт</h2><p>Профиль хранится в памяти вашего браузера (localStorage), а не на сервере. Пароль хранится только в виде хеша (PBKDF2-SHA256 с индивидуальной солью). Очистка данных сайта в браузере удалит профиль и историю. Это можно сделать и в самом профиле: «Очистить историю» и «Удалить аккаунт».</p></article>
     <article class="card"><h2>Вход через Google</h2><p>Если вы входите через Google, браузер получает от Google ваше имя, адрес почты, фото профиля и идентификатор. Эти данные сохраняются только в локальном профиле в вашем браузере, сайт никому их не передаёт. Для входа браузер обращается к серверам Google (accounts.google.com).</p></article>
-    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, ваш рейт в бою, очки и история боёв, а также идентификатор и аватар вашего аккаунта Google. Ник, ранг и очки видят все игроки. В бою вы сами ставите своё лицо в окно: браузер вырезает из фото квадрат с лицом (около 256 пикселей), и эту маленькую копию видит ваш соперник. Исходное фото не отправляется. Копия хранится на сервере только пока идёт бой и стирается через 5 минут после его окончания. Если соперник пожалуется на фото, копия сохраняется для проверки до 30 дней. Перед первым боем нужно поставить галочку согласия. Удалить ник, очки и историю боёв можно кнопкой «Удалить мой профиль» на странице «Онлайн». Не отправляйте чужие фото и неприемлемые снимки: бой это игра между живыми людьми.</p></article>
+    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, ваш рейт в бою, очки и история боёв, а также идентификатор и аватар вашего аккаунта Google. Ник, ранг и очки видят все игроки. В бою вы сами ставите своё лицо в окно: браузер вырезает из фото квадрат с лицом (около 256 пикселей), и эту маленькую копию видит ваш соперник. Исходное фото не отправляется. Копия хранится на сервере только пока идёт бой и стирается через 5 минут после его окончания. Если соперник пожалуется на фото, копия сохраняется для проверки до 30 дней. Перед первым боем нужно поставить галочку согласия. На сервере также хранятся баланс Реты, ваши покупки и надетые предметы. Удалить ник, очки, Рету и историю боёв можно кнопкой «Удалить мой профиль» на странице «Онлайн». Не отправляйте чужие фото и неприемлемые снимки: бой это игра между живыми людьми.</p></article>
     <article class="card"><h2>Сторонние ресурсы</h2><p>При открытии сайт загружает с чужих серверов библиотеку и модели распознавания лица (cdn.jsdelivr.net, storage.googleapis.com) и шрифт Inter (fonts.googleapis.com). Эти сервисы, как любой сервер, видят ваш IP-адрес и обычные технические данные запроса, но не ваши фото.</p></article>
     <article class="card"><h2>Об оценке</h2><p>Оценка получена моделью, обученной на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков). Это развлекательный инструмент: он отражает вкус группы оценщиков и не является мерилом ценности человека.</p></article>
     <div id="privacy-contact"></div>
@@ -1090,7 +1220,7 @@
 </main>
 <footer class="site-foot">
   <span>PSL Rater: развлекательный инструмент. Оценка отражает вкус группы оценщиков и не является мерилом ценности человека.</span>
-  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/privacy">Конфиденциальность</a></nav>
+  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/privacy">Конфиденциальность</a></nav>
 </footer>
 <dialog id="settings" aria-labelledby="settings-title">
   <form method="dialog" class="set">
@@ -1995,6 +2125,7 @@ updateVerdict();
 function route(files) {
   files = [...files].filter(f => f.type.startsWith("image/") || /\.(png|jpe?g|jfif|webp|gif|bmp|avif|heic|heif|tiff?|ico|svg)$/i.test(f.name));
   if (!files.length) return false;
+  if (!Accounts.current()) { nextRoute = "app"; navigate("login"); return true; }   // no account, no photos: the sign-in page opens instead
   if (onlineFileHook && location.hash.replace(/^#\/?/, "").split("?")[0] === "online" && onlineFileHook(files[0])) return true;
   if (location.hash.replace(/^#\/?/, "").split("?")[0] !== "app") navigate("app");   // a file dropped on any page opens the tool
   if (mode === "rate") rate.load(files[0]);
@@ -2219,6 +2350,12 @@ function rkSprite() {   // gradients, clip and blur are defined once; the icons 
   el.setAttribute("aria-hidden", "true"); el.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
   el.innerHTML = `<svg width="0" height="0" focusable="false"><defs>${g}
     <linearGradient id="rkShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="retaBox" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#0f766e"/></linearGradient>
+    <linearGradient id="retaTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#99f6e4"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient>
+    <linearGradient id="retaSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0f766e"/><stop offset="1" stop-color="#134e4a"/></linearGradient>
+    <linearGradient id="retaGlass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#cffafe" stop-opacity=".25"/><stop offset="1" stop-color="#fff" stop-opacity=".4"/></linearGradient>
+    <linearGradient id="retaLiquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a5f3fc"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="retaCap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f1f5f9"/><stop offset=".5" stop-color="#cbd5e1"/><stop offset="1" stop-color="#64748b"/></linearGradient>
     <clipPath id="rkClip"><path d="${RK_SHIELD}"/></clipPath>
     <filter id="rkBlur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter></defs></svg>`;
   document.body.appendChild(el);
@@ -2255,6 +2392,27 @@ function rankIcon(i, cls = "") {
     <g clip-path="url(#rkClip)"><rect class="rk-shine" x="-70" y="-10" width="34" height="120" fill="url(#rkShine)"/></g>
     ${crownSVG}
   </g></svg>`;
+}
+
+// Рета, the local currency: a stylised pack with a vial (decorative: no real brand, no logo)
+function retaIcon(cls = "") {
+  rkSprite();
+  return `<svg class="reta-ico ${cls}" viewBox="0 0 64 64" role="img" aria-label="Рета" focusable="false">
+    <ellipse cx="30" cy="60" rx="26" ry="3" fill="#000" opacity=".25"/>
+    <path d="M41 24L50 17V51L41 58Z" fill="url(#retaSide)"/>
+    <path d="M5 24L14 17H50L41 24Z" fill="url(#retaTop)"/>
+    <rect x="5" y="24" width="36" height="34" rx="3" fill="url(#retaBox)"/>
+    <rect x="9" y="32" width="28" height="17" rx="2.5" fill="#fff"/>
+    <path d="M17 35.5l3.6 2.1v4.2L17 43.9l-3.6-2.1v-4.2Z" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round"/>
+    <rect x="24" y="36" width="11" height="2.4" rx="1.2" fill="#0f766e"/><rect x="24" y="40.4" width="8" height="2" rx="1" fill="#94a3b8"/><rect x="24" y="44" width="10" height="2" rx="1" fill="#94a3b8"/>
+    <rect x="5" y="52" width="36" height="6" rx="0" fill="#0f766e" opacity=".55"/>
+    <rect x="38" y="31" width="17" height="30" rx="5.5" fill="url(#retaGlass)" stroke="#fff" stroke-opacity=".75" stroke-width="1"/>
+    <rect x="40.2" y="43" width="12.6" height="16" rx="3.5" fill="url(#retaLiquid)"/>
+    <rect x="40" y="25" width="13" height="8" rx="2" fill="url(#retaCap)" stroke="#475569" stroke-width=".6"/><path d="M41 28h11M41 30.5h11" stroke="#475569" stroke-opacity=".4" stroke-width=".7"/>
+    <rect x="40.2" y="47" width="12.6" height="6.5" rx="1" fill="#fff" opacity=".92"/><rect x="42" y="49.2" width="6" height="1.6" rx=".8" fill="#0f766e"/>
+    <path d="M42.4 36v18" stroke="#fff" stroke-opacity=".7" stroke-width="1.6" stroke-linecap="round"/>
+    <path class="reta-glint" d="M52 6l1.7 4.3 4.3 1.7-4.3 1.7L52 18l-1.7-4.3L46 12l4.3-1.7Z" fill="#fff"/>
+  </svg>`;
 }
 // ---------- site animations: scroll reveal, card spotlight, nav ink, count-up, confetti, rank-up screen ----------
 // Everything here respects REDUCED (the OS setting and the "animations" switch in the settings); the CSS side switches off through [data-motion=off].
@@ -2335,18 +2493,19 @@ function fxInit() {
 // Each player puts their own face in their own window; the rating is computed in the browser, only the number and a small face thumbnail are sent.
 // shortcut: the PSL comes from the visitor's browser and the server has to trust it, so a determined cheater can post a fake number; a real fix needs the model to run on a server
 const RANKS = [["Рекрут", "#94a3b8"], ["Страж", "#4ade80"], ["Рыцарь", "#38bdf8"], ["Герой", "#a78bfa"], ["Легенда", "#fbbf24"], ["Властелин", "#fb7185"], ["Божество", "#fb923c"], ["Титан", "#f43f5e"]];
-const RANK_PTS = 500, WIN_PTS = 100, LOSS_PTS = 50, SEARCH_MAX_SEC = 120;   // keep in sync with supabase.sql
+const RANK_PTS = 500, WIN_PTS = 100, LOSS_PTS = 50, RETA_PER_WIN = 100, SEARCH_MAX_SEC = 120;   // keep in sync with supabase.sql
 const rankOf = pts => Math.min(RANKS.length - 1, Math.floor(pts / RANK_PTS));
 const SB_URL = String(window.PSL_CONFIG?.supabaseUrl ?? "").trim().replace(/\/+$/, ""), SB_KEY = String(window.PSL_CONFIG?.supabaseAnonKey ?? "").trim();
 class OnlineError extends Error {}
 const ONLINE_ERRORS = {   // codes raised by supabase.sql
   not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала поставьте ник.", too_fast: "Слишком часто. Подождите немного.",
   bad_name: "Ник: от 2 до 30 символов.", bad_psl: "Некорректный рейт.", bad_sex: "Выберите пол.", bad_photo: "Не удалось отправить фото. Попробуйте другое.",
+  not_owned: "Сначала купите этот предмет.", owned: "Это уже куплено.", poor: "Не хватает Реты.", no_item: "Такого предмета нет.", bad_slot: "Неизвестная ячейка.",
   no_photo: "Сначала поставьте своё лицо.", already_rated: "Рейт уже определён.", no_match: "Бой не найден: возможно, он уже закончился.",
 };
 const Online = {
   enabled: /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SB_URL) && SB_KEY.length > 20,
-  _sb: null,
+  _sb: null, eq: {},   // eq: what the signed-in player wears (cosmetics)
   async sb() {
     if (Online._sb) return Online._sb;
     if (!globalThis.supabase?.createClient) await new Promise((ok, fail) => {
@@ -2374,9 +2533,14 @@ const Online = {
     if (!Online.enabled) return;
     try { for (const k of Object.keys(localStorage)) if (/^sb-.*-auth-token/.test(k)) localStorage.removeItem(k); } catch {}
     try { if (Online._sb) await Online._sb.auth.signOut({scope: "local"}); } catch {}
-    Online._sb = null;
+    Online._sb = null; Online.eq = {}; retaSet(null);
   },
-  async me() { const u = await Online.user(); return u ? Online.call(sb => sb.from("players").select("*").eq("id", u.id).maybeSingle()) : null; },
+  async me() {   // my own profile, with the Reta balance and what I wear
+    if (!(await Online.user())) return null;
+    const p = await Online.call(sb => sb.rpc("my_profile"));
+    if (p) { Online.eq = eqOf(p.equipped); retaSet(p.reta); updateAccountUI(); }
+    return p;
+  },
   join: name => Online.call(sb => sb.rpc("join_ladder", {p_name: name})),
   queue: sex => Online.call(sb => sb.rpc("queue_join", {p_sex: sex})),
   queueLeave: () => Online.call(sb => sb.rpc("queue_leave")),
@@ -2385,9 +2549,13 @@ const Online = {
   matchRate: (id, psl) => Online.call(sb => sb.rpc("match_rate", {p_match: id, p_psl: psl})),
   matchLeave: id => Online.call(sb => sb.rpc("match_leave", {p_match: id})),
   report: id => Online.call(sb => sb.rpc("report_opponent", {p_match: id})),
-  ladder: () => Online.call(sb => sb.from("players").select("id,name,picture,points,wins,losses,draws").or("wins.gt.0,losses.gt.0,draws.gt.0").order("points", {ascending: false}).order("wins", {ascending: false}).limit(20)),
+  ladder: () => Online.call(sb => sb.from("players").select("id,name,picture,points,wins,losses,draws,equipped").or("wins.gt.0,losses.gt.0,draws.gt.0").order("points", {ascending: false}).order("wins", {ascending: false}).limit(20)),
   history: () => Online.call(sb => sb.from("battles").select("*").order("at", {ascending: false}).limit(10)),
   leave: () => Online.call(sb => sb.rpc("leave_ladder")),
+  shopItems: () => Online.call(sb => sb.from("shop_items").select("id,kind,name,price").order("sort", {ascending: true})),
+  purchases: () => Online.call(sb => sb.from("purchases").select("item_id")),
+  buy: id => Online.call(sb => sb.rpc("buy_item", {p_item: id})),
+  equip: (slot, id) => Online.call(sb => sb.rpc("equip_item", {p_slot: slot, p_item: id})),
 };
 const onlineMsg = ex => ex instanceof OnlineError || ex instanceof AuthError || ex instanceof UserError ? ex.message : "Не удалось выполнить действие. Проверьте интернет и попробуйте ещё раз.";
 
@@ -2418,49 +2586,58 @@ const shotWarnings = (r, sex) => {   // the same hints as in the rating mode
 // ---------- online screen ----------
 let olTok = 0;
 function onlineLeft() {   // the router calls this when another page opens
-  olTok++; onlineFileHook = null;
+  olTok++; onlineFileHook = null; document.querySelectorAll(".si[data-kind=mogg]").forEach(pvReset);
   if (Arena.phase === "searching") { Arena.phase = "idle"; Online.queueLeave().catch(() => {}); }
 }
-async function renderOnline() {
-  const v = $("view-online"), tok = ++olTok, stale = () => tok !== olTok;
-  Arena.phase = "idle"; Arena.tok++; onlineFileHook = null;
+let olAgain = null;   // what to draw again after connecting / creating the profile
+async function onlineEnter(v, tok) {   // shared by the online page and the shop: gives my profile when everything is ready, otherwise shows what is missing
+  const stale = () => tok !== olTok;
   if (!Online.enabled) {
-    v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-батлы</h1><p class="why">Онлайн-режим на этом сайте ещё не подключён. Он появится, как только владелец сайта настроит сервер.${isDevHost() ? " (Владельцу: инструкция в README, раздел «Онлайн-батлы».)" : ""}</p><a class="btn ghost" href="#/app">Оценить лицо</a></div>`;
-    return;
+    v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-режим</h1><p class="why">Онлайн-бои и магазин на этом сайте ещё не подключены. Они появятся, как только владелец сайта настроит сервер.${isDevHost() ? " (Владельцу: инструкция в README, раздел «Онлайн-батлы».)" : ""}</p><a class="btn ghost" href="#/app">Оценить лицо</a></div>`;
+    return null;
   }
-  v.innerHTML = `<div class="auth card"><p class="why">Загружаю онлайн-режим…</p></div>`;
+  v.innerHTML = `<div class="auth card"><p class="why">Загружаю…</p></div>`;
   try {
     const user = await Online.user();
-    if (stale()) return;
-    if (!user) return renderOnlineConnect(v);
+    if (stale()) return null;
+    if (!user) { renderOnlineConnect(v); return null; }
     const me = await Online.me();
-    if (stale()) return;
-    if (!me) return renderOnlineJoin(v);
+    if (stale()) return null;
+    if (!me) { renderOnlineJoin(v); return null; }
+    return me;
+  } catch (ex) { if (!stale()) onlineFail(v, ex); return null; }
+}
+function onlineFail(v, ex) {
+  v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-режим</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`;
+  $("o-retry").addEventListener("click", () => olAgain());
+}
+async function renderOnline() {
+  const v = $("view-online"), tok = ++olTok;
+  olAgain = renderOnline; Arena.phase = "idle"; Arena.tok++; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  try {
     const [top, hist, st] = await Promise.all([Online.ladder(), Online.history(), Online.matchState()]);
-    if (stale()) return;
+    if (tok !== olTok) return;
     renderOnlineMain(v, me, top, hist, st);
-  } catch (ex) {
-    if (stale()) return;
-    v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-батлы</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`;
-    $("o-retry").addEventListener("click", renderOnline);
-  }
+  } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
 }
 function renderOnlineConnect(v) {
   v.innerHTML = `<div class="auth card">
-    <h1 class="auth-title">Онлайн-батлы</h1>
-    <p class="why">Бои идут между зарегистрированными игроками и дают очки в рейтинге лиц. Чтобы никто не играл под чужим именем, онлайн-режим подтверждает аккаунт через Google.</p>
+    <h1 class="auth-title">Онлайн-бои и магазин</h1>
+    <p class="why">Бои идут между зарегистрированными игроками и дают очки в рейтинге лиц и Рету для магазина. Чтобы никто не играл под чужим именем, онлайн-режим подтверждает аккаунт через Google.</p>
     <div class="gbox"></div>
     <p class="err" role="alert"></p>
     <p class="fine">В бою соперник увидит маленькую копию вашего лица. Подробности на странице «Конфиденциальность».</p></div>`;
   setupGoogle(false, v.querySelector(".gbox"), onGoogleOnline);
 }
 async function onGoogleOnline(resp) {
-  const err = $("view-online").querySelector(".err");
+  const err = document.querySelector(".view:not([hidden]) .err");
   try {
     const claims = decodeJwt(resp.credential), problem = googleClaimsProblem(claims, googleClientId());
     if (problem) throw new AuthError(problem);
     await Online.signInGoogle(resp.credential);
-    renderOnline();
+    olAgain();
   } catch (ex) { if (err) err.textContent = onlineMsg(ex); }
 }
 window.__googleOnline = onGoogleOnline;   // test hook
@@ -2479,15 +2656,15 @@ function renderOnlineJoin(v) {
     const f = e.target, err = f.querySelector(".err"), nick = f.elements.nick.value.trim();
     err.textContent = "";
     if (nick.length < 2) { err.textContent = ONLINE_ERRORS.bad_name; return; }
-    try { await Online.join(nick); renderOnline(); } catch (ex) { err.textContent = onlineMsg(ex); }
+    try { await Online.join(nick); olAgain(); } catch (ex) { err.textContent = onlineMsg(ex); }
   });
 }
 function olHead(me, fromPts = me.points) {   // fromPts: where the number and the bar start, so they can run up to the new value
   const rk = rankOf(me.points), last = rk === RANKS.length - 1, into = last ? 1 : (me.points % RANK_PTS) / RANK_PTS,
     r0 = rankOf(fromPts), from = r0 === rk ? (last ? 1 : (fromPts % RANK_PTS) / RANK_PTS) : r0 < rk ? 0 : 1, need = (rk + 1) * RANK_PTS - me.points, wins = Math.ceil(need / WIN_PTS);
   return `<div class="o-hero">${emblem(rk, "emb live")}
-      <div class="o-who"><h1>${esc(me.name)}</h1><p class="o-rank" style="--c:${RANKS[rk][1]}">${RANKS[rk][0]}</p></div>
-      <div class="o-pts"><b data-from="${fromPts}" data-to="${me.points}">${fromPts}</b><span>очков</span></div></div>
+      <div class="o-who"><div class="o-name"><span class="av ${avCls(me.equipped)}" aria-hidden="true">${avatarHTML({name: me.name, picture: me.picture})}</span><h1>${nickHTML(me.name, me.equipped)}</h1></div><p class="o-rank" style="--c:${RANKS[rk][1]}">${RANKS[rk][0]}</p></div>
+      <div class="o-pts"><b data-from="${fromPts}" data-to="${me.points}">${fromPts}</b><span>очков</span><a class="o-reta" href="#/shop" title="Магазин">${retaIcon("xs2")}<b>${me.reta ?? 0}</b> Реты</a></div></div>
     <div class="o-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${RANK_PTS}" aria-valuenow="${last ? RANK_PTS : me.points % RANK_PTS}" aria-label="Прогресс до следующего ранга"><i data-to="${Math.round(into * 100)}" style="width:${Math.round(from * 100)}%;--c:${RANKS[rk][1]}"></i></div>
     <p class="why">${last ? "Высший ранг. Держитесь в топе." : `До ранга «${RANKS[rk + 1][0]}»: ${need} очков (${wins} ${plural(wins, ["победа", "победы", "побед"])}).`}</p>
     <div class="o-rec"><span><b>${me.wins}</b> ${plural(me.wins, ["победа", "победы", "побед"])}</span><span><b>${me.losses}</b> ${plural(me.losses, ["поражение", "поражения", "поражений"])}</span><span><b>${me.draws}</b> ${plural(me.draws, ["ничья", "ничьи", "ничьих"])}</span></div>`;
@@ -2501,7 +2678,7 @@ function olRanks(rk) {   // reached ranks are lit, the others wait in the dark
   return `<ul class="o-ranks">${RANKS.map((r, i) => `<li class="${i < rk ? "done" : i === rk ? "now" : "todo"}" style="--i:${i};--c:${r[1]}">${emblem(i)}<b>${r[0]}</b><span>${i === rk ? "ваш ранг" : i === 0 ? "с нуля" : "от " + i * RANK_PTS}</span></li>`).join("")}</ul>`;
 }
 function olLadder(top, me) {
-  return top.length ? `<ol class="o-list">${top.map((p, i) => `<li class="${p.id === me.id ? "me" : ""}" style="--i:${i}"><span class="pl">${i + 1}</span><span class="av sm" aria-hidden="true">${avatarHTML(p)}</span><b>${esc(p.name)}</b>${rankChip(rankOf(p.points))}<span class="pts">${p.points}</span></li>`).join("")}</ol>`
+  return top.length ? `<ol class="o-list">${top.map((p, i) => `<li class="${p.id === me.id ? "me" : ""}" style="--i:${i}"><span class="pl">${i + 1}</span><span class="av sm ${avCls(p.equipped)}" aria-hidden="true">${avatarHTML(p)}</span><b>${nickHTML(p.name, p.equipped)}</b>${rankChip(rankOf(p.points))}<span class="pts">${p.points}</span></li>`).join("")}</ol>`
     : `<p class="why">Пока никто не провёл ни одного боя. Станьте первым.</p>`;
 }
 function olHist(hist) {
@@ -2517,7 +2694,7 @@ async function olRefresh(fromPts) {   // after a battle: points, ladder and hist
 }
 function renderOnlineMain(v, me, top, hist, st) {
   v.innerHTML = `
-    <div class="card o-card" id="o-head">${olHead(me)}</div>
+    <div class="card o-card ${cosCls(me.equipped, "banner")}" id="o-head">${olHead(me)}</div>
     <div class="card o-arena" id="o-arena"></div>
     <div class="o-cols">
       <div class="card"><h2>Рейтинг лиц</h2><div id="o-ladder">${olLadder(top, me)}</div></div>
@@ -2645,8 +2822,8 @@ function arenaBattle(view) {
   })();
 }
 function fillWin(win, side, photoSrc, emptyTitle, emptySub) {
-  win.querySelector(".av").innerHTML = avatarHTML({name: side.name, picture: side.picture});
-  win.querySelector(".nm").textContent = side.name; win.querySelector(".rk").innerHTML = rankChip(side.rank);
+  const av = win.querySelector(".av"); av.className = "av " + avCls(side.eq); av.innerHTML = avatarHTML({name: side.name, picture: side.picture});
+  win.querySelector(".nm").innerHTML = nickHTML(side.name, side.eq); win.querySelector(".rk").innerHTML = rankChip(side.rank);
   const img = win.querySelector(".o-photo"), ph = win.querySelector(".o-ph");
   if (photoSrc) { if (img.getAttribute("src") !== photoSrc) img.src = photoSrc; img.hidden = false; ph.hidden = true; win.classList.add("has-face"); }
   else { img.hidden = true; ph.hidden = false; ph.querySelector("b").textContent = emptyTitle; ph.querySelector("small").textContent = emptySub; win.classList.remove("has-face"); }
@@ -2677,13 +2854,15 @@ async function finishBattle() {
     if (res === "win" || res === "loss") {
       const [won, lost] = res === "win" ? [me, opp] : [opp, me];
       won.classList.add("won"); lost.classList.add("lost");   // the loser's face turns black and white and gets the MOGGED stamp
+      playMogg(v.fx, won, lost);   // the winner's purchased animation (nothing if they have none)
       if (res === "win") { const r = won.querySelector(".o-face").getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height / 2); }
     }
   }
   const delta = v.delta ?? 0, rk0 = rankOf(Math.max(0, v.points - delta)), up = v.rank_after > rk0, down = v.rank_after < rk0;
   end.hidden = false; end.className = "o-end o-result " + (res ?? "");
   end.innerHTML = res === "void" ? `<b>Бой отменён</b><span>Очки не изменились.</span>`
-    : `<b>${{win: "Победа", loss: "Поражение", draw: "Ничья"}[res]}${walk ? " (неявка)" : ""}</b><span>${delta === 0 ? "очки не изменились" : `${delta > 0 ? "+" : "−"}${Math.abs(delta)} очков`} · теперь ${v.points}</span>${up ? `<em>Новый ранг: ${RANKS[v.rank_after][0]}!</em>` : down ? `<em>Ранг понижен: ${RANKS[v.rank_after][0]}</em>` : ""}`;
+    : `<b>${{win: "Победа", loss: "Поражение", draw: "Ничья"}[res]}${walk ? " (неявка)" : ""}</b><span>${delta === 0 ? "очки не изменились" : `${delta > 0 ? "+" : "−"}${Math.abs(delta)} очков`} · теперь ${v.points}</span>${v.reta_delta > 0 ? `<span class="reta-gain">${retaIcon("xs2 live")}+${v.reta_delta} Реты</span>` : ""}${up ? `<em>Новый ранг: ${RANKS[v.rank_after][0]}!</em>` : down ? `<em>Ранг понижен: ${RANKS[v.rank_after][0]}</em>` : ""}`;
+  if (v.reta != null) retaSet(v.reta);
   end.insertAdjacentHTML("beforeend", `<div class="o-acts"><button class="btn primary" id="o-again" type="button">Ещё бой</button>${v.opp.photo ? `<button class="linkbtn" id="o-report" type="button">Пожаловаться на фото соперника</button>` : ""}</div>`);
   $("o-again").addEventListener("click", () => arenaIdle());
   $("o-report")?.addEventListener("click", async e => { try { await Online.report(v.id); e.target.textContent = "Жалоба отправлена"; e.target.disabled = true; } catch (ex) { $("o-err").textContent = onlineMsg(ex); } });
@@ -2691,6 +2870,157 @@ async function finishBattle() {
     if (up) setTimeout(() => { if (otok === olTok) fxRankUp(v.rank_after); }, 1300);
     else if (down) $("o-head")?.querySelector(".rk-ico")?.classList.add("hurt");
   }).catch(() => {});
+}
+// ---------- shop: Рета (the local currency, 100 per won online battle) buys win animations and profile cosmetics ----------
+// Prices, the balance, purchases and what is worn live on the server (supabase.sql); this file only knows how every item looks.
+const SHOP_KINDS = [
+  ["mogg", "Анимации могга", "Играют на экране боя, когда ты побеждаешь. Видны обоим игрокам."],
+  ["frame", "Рамки аватара", "Окружают аватар в рейтинге и в бою."],
+  ["title", "Звания", "Подпись рядом с ником."],
+  ["nick", "Стили ника", "Цвет и эффект ника."],
+  ["banner", "Фоны профиля", "Фон твоей карточки на странице «Онлайн»."],
+];
+const SHOP = {
+  mogg_bolt: {kind: "mogg", name: "Молния", desc: "Разряды бьют по лицу соперника."},
+  mogg_glitch: {kind: "mogg", name: "Глитч", desc: "Лицо соперника рассыпается помехами."},
+  mogg_fire: {kind: "mogg", name: "Пламя", desc: "Лицо соперника охватывает огонь."},
+  mogg_crack: {kind: "mogg", name: "Трещины", desc: "Фото соперника трескается, как стекло."},
+  mogg_crown: {kind: "mogg", name: "Корона", desc: "Тебе на голову опускается корона, сыплется золото."},
+  mogg_meteor: {kind: "mogg", name: "Метеорит", desc: "Метеорит врезается в соперника, экран дрожит."},
+  frame_gold: {kind: "frame", name: "Золотая рамка", desc: "Блестящее золотое кольцо."},
+  frame_neon: {kind: "frame", name: "Неон", desc: "Переливающееся неоновое кольцо."},
+  frame_fire: {kind: "frame", name: "Огонь", desc: "Пылающее кольцо."},
+  frame_ice: {kind: "frame", name: "Лёд", desc: "Холодное мерцающее кольцо."},
+  title_moger: {kind: "title", name: "Могер", desc: "Звание для тех, кто мог."},
+  title_reta: {kind: "title", name: "Ретаголик", desc: "Для тех, кто собирает Рету."},
+  title_king: {kind: "title", name: "Король лица", desc: "Корона на ровном месте."},
+  title_eye: {kind: "title", name: "Хищный взгляд", desc: "Звание с характером."},
+  nick_gold: {kind: "nick", name: "Золотой ник", desc: "Ник из жидкого золота."},
+  nick_aurora: {kind: "nick", name: "Северное сияние", desc: "Ник переливается цветами сияния."},
+  nick_glow: {kind: "nick", name: "Неоновое свечение", desc: "Ник светится и пульсирует."},
+  banner_aurora: {kind: "banner", name: "Аврора", desc: "Живое северное сияние на фоне."},
+  banner_matrix: {kind: "banner", name: "Матрица", desc: "Падающие зелёные символы."},
+  banner_sunset: {kind: "banner", name: "Закат", desc: "Тёплый переливающийся закат."},
+};
+const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
+const eqOf = e => e && typeof e === "object" && !Array.isArray(e) ? e : {};
+const cosId = (e, kind) => { const id = shopId(eqOf(e)[kind]); return id && SHOP[id].kind === kind ? id : ""; };
+const cosCls = (e, kind) => cosId(e, kind).replace("_", "-");
+const avCls = e => cosCls(e, "frame");
+const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(name)}</span>${cosId(e, "title") ? `<small class="ttl">${esc(SHOP[cosId(e, "title")].name)}</small>` : ""}`;
+
+// ---------- the balance in the header ----------
+function retaSet(n) {
+  const pill = $("reta-pill"); if (!pill) return;
+  if (n == null) { pill.hidden = true; return; }
+  if (!pill.firstElementChild) pill.innerHTML = retaIcon("xs2") + "<b>0</b>";
+  const b = pill.querySelector("b"), from = +b.dataset.v || 0; b.dataset.v = n;
+  const first = pill.hidden; pill.hidden = false;
+  fxCount(b, first ? 0 : from, n, 800);
+}
+async function shopBoot() {   // after sign-in or a page load: show the balance if the online profile is already connected
+  if (!Online.enabled || !Accounts.current()) return;
+  try { if (await Online.user()) await Online.me(); } catch {}
+}
+
+// ---------- mogg animations: played on the loser's face (the crown on the winner's); the winner's choice is shown to both players ----------
+const FX_BOLT = `<svg class="fx-bolt" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="b1" points="70,0 52,30 66,32 38,66 54,68 30,100"/><polyline class="b2" points="22,0 34,26 24,28 44,58 32,60 48,100"/><polyline class="b3" points="92,8 76,40 86,42 68,76"/></svg><i class="fx-flash"></i>`;
+const FX_CRACK = `<svg class="fx-crack" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="50,48 38,34 30,12 22,0"/><polyline points="50,48 64,30 74,14 80,0"/><polyline points="50,48 58,60 70,70 84,100"/><polyline points="50,48 40,62 28,76 12,100"/><polyline points="50,48 30,50 14,44 0,52"/><polyline points="50,48 72,52 88,46 100,50"/><polyline points="38,34 46,22"/><polyline points="58,60 52,78"/><polyline points="30,50 26,64"/></svg><i class="fx-flash"></i>`;
+const FX_FIRE = `<div class="fx-fire" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><b></b><b></b><b></b><b></b><b></b><b></b></div>`;
+const FX_CROWN = `<svg class="fx-crown" viewBox="0 0 64 44" aria-hidden="true"><path d="M5 38L8 9L22 22L32 4L42 22L56 9L59 38Z" fill="url(#rkM4)" stroke="#a16207" stroke-width="1.6" stroke-linejoin="round"/><circle cx="32" cy="14" r="3.4" fill="url(#rkG5)" stroke="#fff" stroke-width=".8"/><circle cx="9" cy="10" r="2.2" fill="#fde68a"/><circle cx="55" cy="10" r="2.2" fill="#fde68a"/><path d="M8 38H56" stroke="#a16207" stroke-width="2.4"/></svg><i class="fx-spark s1"></i><i class="fx-spark s2"></i><i class="fx-spark s3"></i><i class="fx-spark s4"></i>`;
+const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx-flash late"></i>`;
+function playMogg(id, won, lost) {   // returns a function that undoes it (the shop previews loop)
+  id = shopId(id);
+  const lf = lost.querySelector(".o-face"), wf = won.querySelector(".o-face");
+  if (!id || SHOP[id].kind !== "mogg" || !lf || !wf) return () => {};
+  lost.dataset.fx = id;
+  const root = lost.closest(".o-battle, .pv-bat"), added = [];
+  const put = (host, html) => { const t = document.createElement("template"); t.innerHTML = html; added.push(...t.content.children); host.append(t.content); };
+  if (!REDUCED) {
+    if (id === "mogg_bolt") put(lf, FX_BOLT);
+    if (id === "mogg_crack") put(lf, FX_CRACK);
+    if (id === "mogg_fire") put(lf, FX_FIRE);
+    if (id === "mogg_glitch") put(lf, `<i class="fx-scan"></i><i class="fx-rgb"></i>`);
+    if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
+    if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
+  }
+  return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
+}
+
+// ---------- the shop page ----------
+const SH = {tok: 0, items: [], owned: new Set(), eq: {}, reta: 0, hover: null};
+function pvReset(card) {
+  if (!card) return;
+  clearTimeout(card._t); card._stop?.(); card._stop = null;
+  card.querySelectorAll(".o-win.pv").forEach(w => w.classList.remove("won", "lost"));
+}
+function pvPlay(card) {
+  pvReset(card);
+  const [a, b] = card.querySelectorAll(".o-win.pv"); if (!a || !b) return;
+  requestAnimationFrame(() => { a.classList.add("won"); b.classList.add("lost"); card._stop = playMogg(card.dataset.id, a, b); card._t = setTimeout(() => pvReset(card), 3800); });
+}
+const shopPreview = (id, d) => {
+  if (d.kind === "mogg") return `<div class="pv-bat"><div class="o-win pv a"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div><div class="o-win pv b"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div></div><button class="si-play" type="button">▶ Смотреть</button>`;
+  const cls = id.replace("_", "-"), me = Accounts.current()?.name ?? "Игрок";
+  if (d.kind === "frame") return `<span class="av pvav ${cls}" aria-hidden="true">${esc([...me][0].toUpperCase())}</span>`;
+  if (d.kind === "title") return `<div class="pv-nick">${nickHTML(me, {title: id})}</div>`;
+  if (d.kind === "nick") return `<div class="pv-nick">${nickHTML(me, {nick: id})}</div>`;
+  return `<div class="pv-banner ${cls}"><span>${esc(me)}</span></div>`;
+};
+function shopCard(it) {
+  const d = SHOP[it.id], owned = SH.owned.has(it.id), worn = cosId(SH.eq, it.kind) === it.id, can = SH.reta >= it.price;
+  const act = worn ? `<button class="btn ghost" data-act="off" type="button">Снять</button>` : owned ? `<button class="btn primary" data-act="on" type="button">Надеть</button>` : `<button class="btn primary" data-act="buy" type="button" ${can ? "" : "disabled"}>Купить</button>`;
+  return `<article class="si ${owned ? "owned" : ""} ${worn ? "worn" : ""}" data-id="${it.id}" data-kind="${it.kind}">
+    <div class="si-pv">${shopPreview(it.id, d)}</div>
+    <h3>${esc(d.name)}${worn ? `<em class="si-tag on">надето</em>` : owned ? `<em class="si-tag">куплено</em>` : ""}</h3>
+    <p>${esc(d.desc)}</p>
+    <footer><span class="price">${retaIcon("xs2")}<b>${it.price}</b></span>${act}</footer>
+    ${!owned && !can ? `<small class="need">Не хватает ${it.price - SH.reta} Реты</small>` : ""}</article>`;
+}
+function shopPaint() {
+  const v = $("view-shop");
+  const groups = SHOP_KINDS.map(([kind, title, lead]) => {
+    const its = SH.items.filter(i => i.kind === kind);
+    return its.length ? `<section class="sh-sec"><h2>${title}</h2><p class="why">${lead}</p><div class="sh-grid">${its.map(shopCard).join("")}</div></section>` : "";
+  }).join("");
+  v.innerHTML = `<div class="card shop-head"><div class="sh-ico">${retaIcon("big live")}</div>
+      <div class="sh-txt"><h1>Магазин</h1><p class="why">Рета — местные очки, они выглядят как упаковка Реты. За каждую победу в онлайн-бое дают ${RETA_PER_WIN} Реты. Здесь их можно потратить на анимации победы и косметику профиля.</p></div>
+      <div class="sh-bal"><b>${SH.reta}</b><span>Реты</span><a class="btn ghost" href="#/online">В бой</a></div></div>
+    <p class="err" id="sh-err" role="alert"></p>${groups || `<p class="why">Каталог пока пуст.</p>`}`;
+  fxMark(v, ".sh-sec, .si");
+  v.querySelectorAll(".si[data-kind=mogg]").forEach(card => {
+    card.addEventListener("mouseenter", () => pvPlay(card)); card.addEventListener("mouseleave", () => pvReset(card));
+    card.querySelector(".si-play")?.addEventListener("click", () => pvPlay(card));
+  });
+  v.querySelectorAll(".si button[data-act]").forEach(b => b.addEventListener("click", () => shopAct(b)));
+}
+async function shopAct(btn) {
+  const card = btn.closest(".si"), id = card.dataset.id, kind = card.dataset.kind, act = btn.dataset.act, it = SH.items.find(x => x.id === id), tok = SH.tok;
+  const say = t => { const e = $("sh-err"); if (e) e.textContent = t; };
+  btn.disabled = true; say("");
+  try {
+    if (act === "buy") {
+      if (!(await ask(`Купить «${SHOP[id].name}» за ${it.price} Реты?`, "Купить"))) { btn.disabled = false; return; }
+      const r = await Online.buy(id);
+      SH.reta = r.reta; SH.owned.add(id); retaSet(r.reta);
+      if (!cosId(SH.eq, kind)) { SH.eq = await Online.equip(kind, id); Online.eq = SH.eq; updateAccountUI(); }   // the first item of a kind is worn right away
+      if (tok === SH.tok) { shopPaint(); const q = $("view-shop").querySelector(`.si[data-id="${id}"]`)?.getBoundingClientRect(); if (q) fxConfetti(q.left + q.width / 2, q.top + 40, {count: 36, spread: 280}); }
+      return;
+    }
+    SH.eq = await Online.equip(kind, act === "on" ? id : null); Online.eq = SH.eq; updateAccountUI();
+    if (tok === SH.tok) shopPaint();
+  } catch (ex) { if (tok === SH.tok) { say(onlineMsg(ex)); btn.disabled = false; } }
+}
+async function renderShop() {
+  const v = $("view-shop"), tok = ++olTok; SH.tok++; olAgain = renderShop; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  try {
+    const [items, mine] = await Promise.all([Online.shopItems(), Online.purchases()]);
+    if (tok !== olTok) return;
+    SH.items = items.filter(i => shopId(i.id) && SHOP[i.id].kind === i.kind); SH.owned = new Set(mine.map(p => p.item_id)); SH.eq = eqOf(me.equipped); SH.reta = me.reta ?? 0;
+    shopPaint();
+  } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
 }
 // ---------- site: home page, account screens, router ----------
 const TIER_SHARES = {"m": [9.5, 47.6, 17.1, 10.1, 7.1, 7.2, 1.3, 0.0], "m_median": 3.85, "f": [12.6, 38.9, 17.0, 16.3, 9.1, 6.0, 0.1, 0.0], "f_median": 3.96};   // % of the held-out training faces per tier, by sex (same order as TIERS)
@@ -2741,7 +3071,7 @@ function renderHome() {
 let nextRoute = "app";
 function afterAuth(user) {
   if (user.prefs) { settings = {...DEFAULTS, ...user.prefs}; applySettings(); } else Accounts.setPrefs(user.id, settings);   // a new account keeps the current look, an old one restores its own
-  updateAccountUI(); navigate(nextRoute, true); nextRoute = "app";
+  updateAccountUI(); shopBoot(); navigate(nextRoute, true); nextRoute = "app";
 }
 const eye = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>`;
 const LOCAL_NOTE = `<p class="local-note"><b>Аккаунт локальный.</b> Он хранится только в этом браузере: пароль в виде хеша (при входе через Google пароля нет), история только цифрами, без фото. На другом устройстве или после очистки данных браузера его не будет, а сбросить пароль нельзя (почта не используется).</p>`;
@@ -2750,7 +3080,7 @@ function renderAuth(kind) {
   const reg = kind === "register";
   $("view-auth").innerHTML = `<div class="auth card">
     <h1 class="auth-title">${reg ? "Создать аккаунт" : "Вход"}</h1>
-    <p class="why">${reg ? "Нужен, чтобы хранить историю оценок и настройки темы." : "Войдите, чтобы увидеть историю оценок и настройки."}</p>
+    <p class="why">${reg ? "Без аккаунта сайт не работает: оценка, сравнение, онлайн-бои и магазин доступны только после регистрации. Это бесплатно." : "Без аккаунта сайт не работает: войдите, чтобы пользоваться оценкой, онлайн-боями и магазином."}</p>
     <form id="auth-form" novalidate>
       ${reg ? `<label class="field"><span>Имя</span><input name="name" autocomplete="nickname" maxlength="30" required></label>` : ""}
       <label class="field"><span>Email</span><input name="email" type="email" autocomplete="username" required></label>
@@ -2905,27 +3235,30 @@ function updateAccountUI() {
   const u = Accounts.current(), a = $("account-link");
   a.href = u ? "#/profile" : "#/login";
   const av = a.querySelector(".av"); av.innerHTML = u ? avatarHTML(u) : "";
+  av.className = "av " + (u ? avCls(Online.eq) : "");
   av.querySelector("img")?.addEventListener("error", e => { e.target.remove(); av.textContent = [...u.name][0].toUpperCase(); }, {once: true});
   a.classList.toggle("in", !!u);
   a.querySelector(".acc-name").textContent = u ? u.name : "Войти";
   const g = $("guest-note");
   g.innerHTML = u ? `Вы вошли как <b>${esc(u.name)}</b>: каждая оценка сохраняется в истории профиля.` : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
 }
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", privacy: "Конфиденциальность"};
+const GATED = ["app", "online", "shop", "profile"];   // pages that need an account
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", privacy: "Конфиденциальность"};
 function navigate(to, replace) { const h = "#/" + to; if (replace) location.replace(h); else if (location.hash === h) render(); else location.hash = h; }
 function render() {
   const raw = location.hash.replace(/^#\/?/, ""), [path, qs] = raw.split("?"), params = new URLSearchParams(qs || "");
   let name = ROUTES[path] ? path : "home";
   const user = Accounts.current();
-  if ((name === "profile" || name === "online") && !user) { nextRoute = name; return navigate("login", true); }   // both need an account
+  if (GATED.includes(name) && !user) { nextRoute = name; return navigate("login", true); }   // without an account nothing but the home page works
   if ((name === "login" || name === "register") && user) return navigate("profile", true);
   const id = ROUTES[name];
-  for (const v of ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-privacy"]) $(v).hidden = v !== id;
+  for (const v of ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-privacy"]) $(v).hidden = v !== id;
   if (name === "home" || name === "tiers") renderHome();
   if (name === "login" || name === "register") renderAuth(name);
   if (name === "profile") renderProfile();
   if (name === "online") renderOnline();
+  else if (name === "shop") renderShop();
   else onlineLeft();   // stops an online request or search that is still running
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
   if (name === "app") setMode(params.get("mode") === "battle" ? "battle" : mode);
@@ -2942,6 +3275,7 @@ function render() {
 window.addEventListener("hashchange", render);
 render();
 fxInit();
+shopBoot();
 
 
 // self-check

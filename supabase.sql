@@ -1,4 +1,4 @@
--- PSL Rater: онлайн-батлы 1 на 1. Выполните целиком: Supabase -> SQL Editor -> New query -> вставить -> Run.
+-- PSL Rater: онлайн-батлы 1 на 1 и магазин за Рету. Выполните целиком: Supabase -> SQL Editor -> New query -> вставить -> Run.
 -- Можно запускать повторно и поверх прошлой версии: лишнее удаляется, нужное создаётся.
 --
 -- Как идёт бой:
@@ -8,6 +8,8 @@
 --   3) когда оба определили рейт, побеждает тот, у кого PSL выше (хоть на 0,1); равный PSL это ничья;
 --   4) победа +100 очков, поражение -50 (ниже нуля не падает), ничья 0; 500 очков = 1 ранг, всего 8 рангов.
 --   Если соперник за 3 минуты не определил рейт или ушёл, побеждает тот, кто успел (неявка), второй получает поражение.
+-- Рета (местная валюта): +100 за каждую победу в онлайн-бое. В магазине за неё покупают анимации победы (могга) и косметику профиля.
+--   Цены лежат в таблице shop_items ниже: поменяйте число и снова нажмите Run. Баланс и покупки меняются только функциями сервера.
 -- Фото: маленькая копия лица (до 60 КБ) лежит только на время боя и стирается через 5 минут после его конца.
 -- Ограничение: PSL считается в браузере игрока, сервер ему верит.
 
@@ -22,6 +24,8 @@ create table if not exists public.players (
   sex text check (sex in ('m', 'f')),
   created_at timestamptz not null default now()
 );
+alter table public.players add column if not exists reta integer not null default 0 check (reta >= 0);
+alter table public.players add column if not exists equipped jsonb not null default '{}'::jsonb;
 
 -- остатки прошлой версии (бои с «претендентом» без соперника онлайн)
 drop function if exists public.fight();
@@ -45,6 +49,7 @@ create table if not exists public.battles (
 alter table public.battles alter column my_psl drop not null;
 alter table public.battles alter column opp_psl drop not null;
 alter table public.battles add column if not exists note text;
+alter table public.battles add column if not exists reta integer not null default 0;
 
 create table if not exists public.queue (
   player_id uuid primary key references public.players (id) on delete cascade,
@@ -71,6 +76,10 @@ create table if not exists public.matches (
   a_psl numeric(3, 1), b_psl numeric(3, 1),
   a_delta integer, b_delta integer
 );
+alter table public.matches add column if not exists a_eq jsonb not null default '{}'::jsonb;   -- что было надето у игроков в начале боя
+alter table public.matches add column if not exists b_eq jsonb not null default '{}'::jsonb;
+alter table public.matches add column if not exists a_reta integer not null default 0;
+alter table public.matches add column if not exists b_reta integer not null default 0;
 create index if not exists matches_a on public.matches (a) where status = 'live';
 create index if not exists matches_b on public.matches (b) where status = 'live';
 
@@ -83,6 +92,30 @@ create table if not exists public.reports (   -- жалобы на фото: с�
   photo text
 );
 
+create table if not exists public.shop_items (
+  id text primary key,
+  kind text not null check (kind in ('mogg', 'frame', 'title', 'nick', 'banner')),
+  name text not null,
+  price integer not null check (price >= 0),
+  sort integer not null default 0
+);
+create table if not exists public.purchases (
+  player_id uuid not null references public.players (id) on delete cascade,
+  item_id text not null references public.shop_items (id) on delete cascade,
+  at timestamptz not null default now(),
+  primary key (player_id, item_id)
+);
+
+-- каталог и цены (id должны совпадать с теми, что знает сайт)
+insert into public.shop_items (id, kind, name, price, sort) values
+  ('mogg_bolt', 'mogg', 'Молния', 300, 1), ('mogg_glitch', 'mogg', 'Глитч', 400, 2), ('mogg_fire', 'mogg', 'Пламя', 500, 3),
+  ('mogg_crack', 'mogg', 'Трещины', 600, 4), ('mogg_crown', 'mogg', 'Корона', 800, 5), ('mogg_meteor', 'mogg', 'Метеорит', 1000, 6),
+  ('frame_gold', 'frame', 'Золотая рамка', 200, 1), ('frame_neon', 'frame', 'Неон', 300, 2), ('frame_fire', 'frame', 'Огонь', 500, 3), ('frame_ice', 'frame', 'Лёд', 500, 4),
+  ('title_moger', 'title', 'Могер', 150, 1), ('title_reta', 'title', 'Ретаголик', 250, 2), ('title_king', 'title', 'Король лица', 500, 3), ('title_eye', 'title', 'Хищный взгляд', 700, 4),
+  ('nick_gold', 'nick', 'Золотой ник', 200, 1), ('nick_aurora', 'nick', 'Северное сияние', 350, 2), ('nick_glow', 'nick', 'Неоновое свечение', 500, 3),
+  ('banner_aurora', 'banner', 'Аврора', 300, 1), ('banner_matrix', 'banner', 'Матрица', 400, 2), ('banner_sunset', 'banner', 'Закат', 400, 3)
+on conflict (id) do update set kind = excluded.kind, name = excluded.name, price = excluded.price, sort = excluded.sort;
+
 create index if not exists battles_player_at on public.battles (player_id, at desc);
 create index if not exists players_points on public.players (points desc);
 
@@ -92,12 +125,20 @@ alter table public.battles enable row level security;
 alter table public.queue enable row level security;
 alter table public.matches enable row level security;
 alter table public.reports enable row level security;
+alter table public.shop_items enable row level security;
+alter table public.purchases enable row level security;
 drop policy if exists players_read on public.players;
 create policy players_read on public.players for select to authenticated using (true);
 drop policy if exists battles_read on public.battles;
 create policy battles_read on public.battles for select to authenticated using (player_id = auth.uid());
-revoke all on public.players, public.battles, public.queue, public.matches, public.reports from anon, authenticated;
-grant select on public.players, public.battles to authenticated;
+drop policy if exists shop_read on public.shop_items;
+create policy shop_read on public.shop_items for select to authenticated using (true);
+drop policy if exists purchases_read on public.purchases;
+create policy purchases_read on public.purchases for select to authenticated using (player_id = auth.uid());
+revoke all on public.players, public.battles, public.queue, public.matches, public.reports, public.shop_items, public.purchases from anon, authenticated;
+-- баланс Реты (колонка reta) другим игрокам не показывается: свой профиль приходит через my_profile()
+grant select (id, name, picture, points, wins, losses, draws, sex, created_at, equipped) on public.players to authenticated;
+grant select on public.battles, public.shop_items, public.purchases to authenticated;
 
 -- ---------- внутренние помощники (клиентам недоступны) ----------
 
@@ -107,7 +148,7 @@ returns void language plpgsql security definer set search_path = public as $$
 declare
   m matches;
   pa players; pb players;
-  da int := 0; db int := 0;
+  da int := 0; db int := 0; ra int := 0; rb int := 0;
 begin
   select * into m from matches where id = p_id for update;
   if not found or m.status <> 'live' then return; end if;
@@ -117,19 +158,19 @@ begin
   end if;
   select * into pa from players where id = m.a for update;
   select * into pb from players where id = m.b for update;
-  if p_result = 'a' then da := 100; db := -least(50, coalesce(pb.points, 0));
-  elsif p_result = 'b' then db := 100; da := -least(50, coalesce(pa.points, 0)); end if;
+  if p_result = 'a' then da := 100; ra := 100; db := -least(50, coalesce(pb.points, 0));
+  elsif p_result = 'b' then db := 100; rb := 100; da := -least(50, coalesce(pa.points, 0)); end if;
   if pa.id is not null then
-    update players set points = points + da, wins = wins + (p_result = 'a')::int, losses = losses + (p_result = 'b')::int, draws = draws + (p_result = 'draw')::int where id = pa.id;
-    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note)
-    values (pa.id, m.b, m.b_name, m.a_psl, m.b_psl, case p_result when 'a' then 'win' when 'b' then 'loss' else 'draw' end, da, p_note);
+    update players set points = points + da, reta = reta + ra, wins = wins + (p_result = 'a')::int, losses = losses + (p_result = 'b')::int, draws = draws + (p_result = 'draw')::int where id = pa.id;
+    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note, reta)
+    values (pa.id, m.b, m.b_name, m.a_psl, m.b_psl, case p_result when 'a' then 'win' when 'b' then 'loss' else 'draw' end, da, p_note, ra);
   end if;
   if pb.id is not null then
-    update players set points = points + db, wins = wins + (p_result = 'b')::int, losses = losses + (p_result = 'a')::int, draws = draws + (p_result = 'draw')::int where id = pb.id;
-    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note)
-    values (pb.id, m.a, m.a_name, m.b_psl, m.a_psl, case p_result when 'b' then 'win' when 'a' then 'loss' else 'draw' end, db, p_note);
+    update players set points = points + db, reta = reta + rb, wins = wins + (p_result = 'b')::int, losses = losses + (p_result = 'a')::int, draws = draws + (p_result = 'draw')::int where id = pb.id;
+    insert into battles (player_id, opp_id, opp_name, my_psl, opp_psl, result, delta, note, reta)
+    values (pb.id, m.a, m.a_name, m.b_psl, m.a_psl, case p_result when 'b' then 'win' when 'a' then 'loss' else 'draw' end, db, p_note, rb);
   end if;
-  update matches set status = 'done', result = p_result, finished_at = now(), a_delta = da, b_delta = db, note = p_note where id = p_id;
+  update matches set status = 'done', result = p_result, finished_at = now(), a_delta = da, b_delta = db, a_reta = ra, b_reta = rb, note = p_note where id = p_id;
 end $$;
 
 -- решает бой, если пора: оба определили рейт, либо вышло время (3 минуты)
@@ -166,12 +207,12 @@ end $$;
 create or replace function public._view(p_id uuid, p_uid uuid)
 returns jsonb language plpgsql security definer set search_path = public as $$
 declare
-  m matches; me_a boolean; res text; pts int;
+  m matches; me_a boolean; res text; pts int; bal int;
 begin
   select * into m from matches where id = p_id;
   if not found then return null; end if;
   me_a := m.a = p_uid;
-  select points into pts from players where id = p_uid;
+  select points, reta into pts, bal from players where id = p_uid;
   res := case when m.status = 'live' then null when m.result = 'void' then 'void' when m.result = 'draw' then 'draw'
               when (m.result = 'a') = me_a then 'win' else 'loss' end;
   return jsonb_build_object(
@@ -179,14 +220,18 @@ begin
     'left_s', greatest(0, 180 - extract(epoch from now() - m.created_at))::int,
     'me', jsonb_build_object('name', case when me_a then m.a_name else m.b_name end, 'picture', case when me_a then m.a_pic else m.b_pic end,
           'rank', case when me_a then m.a_rank else m.b_rank end, 'photo', case when me_a then m.a_photo else m.b_photo end,
-          'rated', (case when me_a then m.a_psl else m.b_psl end) is not null),
+          'rated', (case when me_a then m.a_psl else m.b_psl end) is not null,
+          'eq', case when me_a then m.a_eq else m.b_eq end),
     'opp', jsonb_build_object('name', case when me_a then m.b_name else m.a_name end, 'picture', case when me_a then m.b_pic else m.a_pic end,
           'rank', case when me_a then m.b_rank else m.a_rank end, 'photo', case when me_a then m.b_photo else m.a_photo end,
-          'rated', (case when me_a then m.b_psl else m.a_psl end) is not null),
+          'rated', (case when me_a then m.b_psl else m.a_psl end) is not null,
+          'eq', case when me_a then m.b_eq else m.a_eq end),
     'my_psl', case when m.status = 'done' then case when me_a then m.a_psl else m.b_psl end end,
     'opp_psl', case when m.status = 'done' then case when me_a then m.b_psl else m.a_psl end end,
     'delta', case when m.status = 'done' then case when me_a then m.a_delta else m.b_delta end end,
-    'points', pts, 'rank_after', least(coalesce(pts, 0) / 500, 7));
+    'points', pts, 'rank_after', least(coalesce(pts, 0) / 500, 7),
+    'reta', bal, 'reta_delta', case when m.status = 'done' then case when me_a then m.a_reta else m.b_reta end end,
+    'fx', case when m.status = 'done' then case m.result when 'a' then m.a_eq ->> 'mogg' when 'b' then m.b_eq ->> 'mogg' end end);
 end $$;
 
 -- ---------- функции для сайта ----------
@@ -250,8 +295,8 @@ begin
     return jsonb_build_object('state', 'searching', 'waited', extract(epoch from now() - v_since)::int);
   end if;
 
-  insert into matches (a, b, a_name, b_name, a_pic, b_pic, a_rank, b_rank)
-  select v_q.player_id, v_uid, pa.name, v_me.name, pa.picture, v_me.picture, v_q.rank, v_rank
+  insert into matches (a, b, a_name, b_name, a_pic, b_pic, a_rank, b_rank, a_eq, b_eq)
+  select v_q.player_id, v_uid, pa.name, v_me.name, pa.picture, v_me.picture, v_q.rank, v_rank, pa.equipped, v_me.equipped
   from players pa where pa.id = v_q.player_id
   returning id into v_id;
   delete from queue where player_id in (v_uid, v_q.player_id);
@@ -347,6 +392,49 @@ begin
   insert into reports (reporter, reported, match_id, photo) values (v_uid, v_opp, p_match, v_photo);
 end $$;
 
+-- свой профиль целиком (с балансом Реты)
+create or replace function public.my_profile()
+returns jsonb language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is null then raise exception 'not_signed_in'; end if;
+  return (select to_jsonb(p) from players p where p.id = auth.uid());
+end $$;
+
+-- купить предмет за Рету
+create or replace function public.buy_item(p_item text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_item shop_items; v_me players;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  select * into v_item from shop_items where id = p_item;
+  if not found then raise exception 'no_item'; end if;
+  select * into v_me from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  if exists (select 1 from purchases where player_id = v_uid and item_id = p_item) then raise exception 'owned'; end if;
+  if v_me.reta < v_item.price then raise exception 'poor'; end if;
+  update players set reta = reta - v_item.price where id = v_uid;
+  insert into purchases (player_id, item_id) values (v_uid, p_item);
+  return jsonb_build_object('reta', v_me.reta - v_item.price, 'item', p_item);
+end $$;
+
+-- надеть купленное (p_item = null снимает предмет из этой ячейки)
+create or replace function public.equip_item(p_slot text, p_item text default null)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_eq jsonb;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_slot is null or p_slot not in ('mogg', 'frame', 'title', 'nick', 'banner') then raise exception 'bad_slot'; end if;
+  perform 1 from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  if p_item is null then
+    update players set equipped = equipped - p_slot where id = v_uid returning equipped into v_eq;
+  else
+    if not exists (select 1 from shop_items i join purchases b on b.item_id = i.id where i.id = p_item and i.kind = p_slot and b.player_id = v_uid) then raise exception 'not_owned'; end if;
+    update players set equipped = jsonb_set(equipped, array[p_slot], to_jsonb(p_item)) where id = v_uid returning equipped into v_eq;
+  end if;
+  return v_eq;
+end $$;
+
 -- удалить свой профиль, очки и историю боёв
 create or replace function public.leave_ladder()
 returns void language plpgsql security definer set search_path = public as $$
@@ -357,6 +445,6 @@ end $$;
 
 revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid) from public, anon, authenticated;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder() from public, anon;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text) from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder() to authenticated;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text) to authenticated;
