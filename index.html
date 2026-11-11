@@ -1153,6 +1153,11 @@
   /* the header got busy: tighter menu, the brand never wraps */
   .brand-text small,.brand-text b{white-space:nowrap}
   @media(min-width:1000px){.nav a{padding:8px 10px}.nav{gap:2px}.top-actions{gap:6px}}
+
+  .terms-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;color:var(--soft);font-size:15px;line-height:1.55}
+  .terms-list b{color:var(--strong)}
+  .terms-list em{color:var(--dim)}
+  .legal ul{margin:8px 0;padding-left:20px;color:var(--soft);font-size:15px;line-height:1.65}
 </style>
 </head>
 <body>
@@ -1309,6 +1314,19 @@
   <section id="view-bonus" class="view bonus" hidden></section>
   <section id="view-donate" class="view bonus" hidden></section>
   <section id="view-gate" class="view online" hidden></section>
+  <section id="view-terms" class="view legal" hidden>
+    <h1>Условия покупки</h1>
+    <p class="sec-lead">Публичная оферта на покупку рейтов и игр. Это заготовка: данные продавца подставляются ниже из настроек сайта, а текст нужно проверить перед приёмом платежей.</p>
+    <article class="card"><h2>Продавец</h2><div id="terms-seller"></div></article>
+    <article class="card"><h2>1. Что продаётся</h2><p><b>Рейт</b> даёт право один раз оценить фото на сайте (в режиме «Сравнение» на каждое из двух фото нужен один рейт). <b>Игра</b> даёт право на один онлайн-бой. Это цифровая услуга: физических товаров и доставки нет. Рейты и игры привязаны к вашему аккаунту Google и действуют, пока существует сайт и ваш аккаунт.</p></article>
+    <article class="card"><h2>2. Цены и оплата</h2><p>Цена пакета указана на странице «Донат» до оплаты и не меняется после неё. Пример цен в гривнах:</p>
+      <ul><li>20 рейтов — 45 грн, 60 рейтов — 119 грн, 150 рейтов — 269 грн, 400 рейтов — 649 грн;</li><li>20 игр — 55 грн, 60 игр — 149 грн, 150 игр — 329 грн.</li></ul>
+      <p>Оплата проходит на странице платёжной системы LiqPay банковской картой или другими способами, которые она предлагает. Данные карты вводятся только на странице платёжной системы, сайт их не получает и не хранит.</p></article>
+    <article class="card"><h2>3. Получение</h2><p>Пакет начисляется на баланс автоматически сразу после того, как платёжная система подтвердит оплату (обычно в течение минуты). Баланс виден в шапке сайта и на странице «Донат». Если оплата прошла, а баланс не изменился в течение часа, напишите продавцу на почту из раздела «Продавец» и укажите время платежа.</p></article>
+    <article class="card"><h2>4. Возврат</h2><p>Использованные рейты и игры возврату не подлежат. Если из купленного пакета не использована ни одна единица, продавец вернёт деньги по запросу на почту в течение 14 дней со дня покупки. Возврат делается тем же способом, которым была оплата. Если пакет не начислен по вине сайта, продавец начислит его вручную или вернёт деньги.</p></article>
+    <article class="card"><h2>5. Бесплатные рейты и игры</h2><p>Новому игроку дают 10 рейтов и 10 игр, а каждый день можно забрать +5 рейтов и +10 игр бесплатно. Бесплатные и купленные единицы не отличаются. Продавец может изменить размер бесплатных бонусов, на уже купленные пакеты это не влияет.</p></article>
+    <article class="card"><h2>6. Данные и ответственность</h2><p>Как сайт обращается с данными, написано на странице «Конфиденциальность». Оценка лица это развлечение, а не медицинская, психологическая или иная консультация, и не мерило ценности человека. Покупая пакет, вы подтверждаете, что вам исполнилось 18 лет или у вас есть согласие родителей или опекунов.</p></article>
+  </section>
   <section id="view-privacy" class="view legal" hidden>
     <h1>Конфиденциальность</h1>
     <p class="sec-lead">Коротко и без юридических оговорок: что сайт делает с вашими данными.</p>
@@ -1324,7 +1342,7 @@
 </main>
 <footer class="site-foot">
   <span>PSL Rater: развлекательный инструмент. Оценка отражает вкус группы оценщиков и не является мерилом ценности человека.</span>
-  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/bonus">Бонусы</a><a href="#/donate">Донат</a><a href="#/privacy">Конфиденциальность</a></nav>
+  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/bonus">Бонусы</a><a href="#/donate">Донат</a><a href="#/terms">Условия покупки</a><a href="#/privacy">Конфиденциальность</a></nav>
 </footer>
 <dialog id="settings" aria-labelledby="settings-title">
   <form method="dialog" class="set">
@@ -3369,7 +3387,7 @@ function paintDonate(v, tok) {
     <p class="err" id="dn-err" role="alert"></p><p class="dn-note" id="dn-note" hidden></p>
     ${group("rates", "Рейты", "1 рейт = одна оценка фото (в режиме «Сравнение» каждое из двух фото).", ICON_RATE)}${group("games", "Игры", "1 игра = один онлайн-бой.", ICON_GAME)}
     ${orders.length ? `<section class="dn-sec"><h2>Последние заказы</h2><ul class="dn-orders">${orders.map(o => `<li class="${o.status}"><time>${dateText(o.created_at)}</time><b>${esc(o.pack_id.replace("_", " "))}</b><span>${money(o.amount_minor, o.currency)}</span><em>${{paid: "оплачен", pending: "ждёт оплаты", failed: "не прошёл"}[o.status] ?? ""}</em></li>`).join("")}</ul></section>` : ""}
-    <p class="why dn-legal">Покупка цифровых услуг: рейты и игры начисляются сразу после подтверждения оплаты и не возвращаются деньгами. Если платёж прошёл, а баланс не изменился, напишите владельцу сайта${window.PSL_CONFIG?.contactEmail ? `: <a href="mailto:${esc(window.PSL_CONFIG.contactEmail)}">${esc(window.PSL_CONFIG.contactEmail)}</a>` : ""}.</p>`;
+    <p class="why dn-legal">Покупка цифровых услуг: рейты и игры начисляются сразу после подтверждения оплаты и не возвращаются деньгами, кроме случаев из <a href="#/terms">условий покупки</a>. Если платёж прошёл, а баланс не изменился, напишите владельцу сайта${window.PSL_CONFIG?.contactEmail ? `: <a href="mailto:${esc(window.PSL_CONFIG.contactEmail)}">${esc(window.PSL_CONFIG.contactEmail)}</a>` : ""}.</p>`;
   fxObserve(v);
   $("dn-cur").addEventListener("change", e => { DN.st.cur = e.target.value; Store.set("psl-currency", e.target.value); paintDonate(v, tok); });
   v.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", async () => {
@@ -3606,10 +3624,14 @@ function updateAccountUI() {
   const g = $("guest-note");
   g.innerHTML = u ? `Вы вошли как <b>${esc(u.name)}</b>: каждая оценка сохраняется в истории профиля.` : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
 }
+function renderTerms() {   // the seller details come from config.js (seller), so the owner fills them in without touching the page
+  const s = window.PSL_CONFIG?.seller ?? {}, row = (label, v) => `<li><b>${label}:</b> ${v ? esc(v) : "<em>не указано (заполните seller в config.js)</em>"}</li>`;
+  $("terms-seller").innerHTML = `<ul class="terms-list">${row("Продавец", s.name)}${row("Регистрационные данные (ЄДРПОУ / ІПН)", s.taxId)}${row("Адрес", s.address)}${row("Почта для вопросов и возвратов", s.email || window.PSL_CONFIG?.contactEmail)}${row("Телефон", s.phone)}${row("Сайт", location.origin)}</ul>`;
+}
 const GATED = ["app", "online", "shop", "profile", "bonus", "donate"];   // pages that need an account
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", privacy: "Конфиденциальность"};
-const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-privacy"];
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", privacy: "Конфиденциальность"};
+const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-terms", "view-privacy"];
 async function appGate() {   // connect Google and set a nick first (shown in its own page), then open the app
   const tok = ++olTok; olAgain = render; onlineFileHook = null;
   for (const v of VIEWS) $(v).hidden = v !== "view-gate";
@@ -3636,6 +3658,7 @@ function render() {
   else if (name === "bonus") renderBonus();
   else if (name === "donate") renderDonate();
   else onlineLeft();   // stops an online request or search that is still running
+  if (name === "terms") renderTerms();
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
   if (name === "app") setMode(params.get("mode") === "battle" ? "battle" : mode);
   else document.querySelector("main").classList.remove("wide");
