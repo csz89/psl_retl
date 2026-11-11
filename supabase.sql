@@ -16,6 +16,9 @@
 -- Недельные задания (quest_defs): за выполнение дают Рету, прогресс считает сервер, неделя сбрасывается в понедельник по UTC.
 -- Оплата: платёж подтверждает только сервер платёжной системы (Vercel-функции в папке api/), которая вызывает credit_order.
 --   Ключ service_role нужен только им и хранится в переменных окружения Vercel, на сайт он не попадает.
+-- Администраторы (таблица admins): аккаунт с подтверждённым Google-адресом из списка получает безлимит рейтов, игр и Реты (ничего не списывается,
+--   покупать и надевать можно всё) и страницу «Админ»: поиск игроков, выдача им Реты, рейтов, игр и украшений. Каждое действие пишется в admin_log.
+--   Проверку делает сервер по адресу, который подтвердил Google; чтобы добавить администратора, впишите его почту в insert в блоке admins ниже и нажмите Run.
 -- Фото: маленькая копия лица (до 60 КБ) лежит только на время боя и стирается через 5 минут после его конца.
 -- Ограничение: PSL считается в браузере игрока, сервер ему верит.
 
@@ -177,6 +180,17 @@ insert into public.pack_prices (pack_id, currency, amount_minor) values
   ('rates_20', 'KZT', 59000), ('rates_60', 'KZT', 159000), ('rates_150', 'KZT', 349000), ('rates_400', 'KZT', 849000), ('games_20', 'KZT', 69000), ('games_60', 'KZT', 189000), ('games_150', 'KZT', 419000)
 on conflict (pack_id, currency) do update set amount_minor = excluded.amount_minor;
 
+create table if not exists public.admins (email text primary key check (email = lower(email)));
+insert into public.admins (email) values ('renkonkop@gmail.com') on conflict do nothing;
+create table if not exists public.admin_log (
+  id bigint generated always as identity primary key,
+  at timestamptz not null default now(),
+  admin_id uuid,
+  target_id uuid,
+  action text not null,
+  detail jsonb
+);
+
 create table if not exists public.purchases (
   player_id uuid not null references public.players (id) on delete cascade,
   item_id text not null references public.shop_items (id) on delete cascade,
@@ -205,6 +219,8 @@ alter table public.matches enable row level security;
 alter table public.reports enable row level security;
 alter table public.shop_items enable row level security;
 alter table public.purchases enable row level security;
+alter table public.admins enable row level security;
+alter table public.admin_log enable row level security;
 alter table public.quest_defs enable row level security;
 alter table public.quest_progress enable row level security;
 alter table public.packs enable row level security;
@@ -218,6 +234,7 @@ drop policy if exists shop_read on public.shop_items;
 create policy shop_read on public.shop_items for select to authenticated using (true);
 drop policy if exists purchases_read on public.purchases;
 create policy purchases_read on public.purchases for select to authenticated using (player_id = auth.uid());
+revoke all on public.admins, public.admin_log from anon, authenticated;
 revoke all on public.players, public.battles, public.queue, public.matches, public.reports, public.shop_items, public.purchases, public.quest_defs, public.quest_progress, public.packs, public.pack_prices, public.orders from anon, authenticated;
 -- баланс Реты (колонка reta) другим игрокам не показывается: свой профиль приходит через my_profile()
 grant select (id, name, picture, points, wins, losses, draws, sex, created_at, equipped) on public.players to authenticated;
@@ -374,7 +391,7 @@ begin
   if found then return jsonb_build_object('state', 'match', 'match', _view(v_m.id, v_uid)); end if;
 
   select * into v_me from players where id = v_uid;
-  if v_me.games < 1 then raise exception 'no_games'; end if;
+  if v_me.games < 1 and not _is_admin(v_uid) then raise exception 'no_games'; end if;
   v_rank := least(v_me.points / 500, 7);
   update players set sex = p_sex where id = v_uid;
   insert into queue (player_id, sex, rank) values (v_uid, p_sex, v_rank)
@@ -382,7 +399,7 @@ begin
     since = case when queue.sex = excluded.sex then queue.since else now() end, sex = excluded.sex;
   select since into v_since from queue where player_id = v_uid;
 
-  select q.* into v_q from queue q join players pq on pq.id = q.player_id and pq.games >= 1
+  select q.* into v_q from queue q join players pq on pq.id = q.player_id and (pq.games >= 1 or _is_admin(pq.id))
   where q.player_id <> v_uid and q.sex = p_sex and q.seen > now() - interval '15 seconds'
     and (q.rank = v_rank or (abs(q.rank - v_rank) = 1 and (q.since < now() - interval '10 seconds' or v_since < now() - interval '10 seconds')))
   order by abs(q.rank - v_rank), q.since
@@ -396,7 +413,7 @@ begin
   from players pa where pa.id = v_q.player_id
   returning id into v_id;
   delete from queue where player_id in (v_uid, v_q.player_id);
-  update players set games = games - 1 where id in (v_uid, v_q.player_id);   -- каждый платит одну игру
+  update players set games = games - 1 where id in (v_uid, v_q.player_id) and not _is_admin(id);   -- каждый платит одну игру, кроме администратора
   return jsonb_build_object('state', 'match', 'match', _view(v_id, v_uid));
 end $$;
 
@@ -489,6 +506,14 @@ begin
   insert into reports (reporter, reported, match_id, photo) values (v_uid, v_opp, p_match, v_photo);
 end $$;
 
+-- администратор ли игрок: его Google-аккаунт (identity google с подтверждённой почтой) есть в списке admins
+create or replace function public._is_admin(p_uid uuid default auth.uid())
+returns boolean language plpgsql stable security definer set search_path = public as $$
+begin
+  if p_uid is null then return false; end if;
+  return exists (select 1 from admins a join auth.identities i on i.provider = 'google' and lower(i.identity_data ->> 'email') = a.email where i.user_id = p_uid);
+end $$;
+
 -- прогресс заданий: вызывается самим сервером при событиях (бой, рейт, покупка...)
 create or replace function public._quest_progress(p_uid uuid, p_event text, p_n integer)
 returns void language plpgsql security definer set search_path = public as $$
@@ -555,8 +580,10 @@ begin
   if p_kind is null or p_kind not in ('rate', 'cmp') then raise exception 'bad_kind'; end if;
   select * into v_me from players where id = v_uid for update;
   if not found then raise exception 'not_joined'; end if;
-  if v_me.rates < 1 then raise exception 'no_rates'; end if;
-  update players set rates = rates - 1 where id = v_uid;
+  if not _is_admin(v_uid) then   -- у администратора рейты безлимитные
+    if v_me.rates < 1 then raise exception 'no_rates'; end if;
+    update players set rates = rates - 1 where id = v_uid;
+  end if;
   perform _quest_progress(v_uid, case p_kind when 'rate' then 'rate' else 'compare' end, 1);
   return my_profile();
 end $$;
@@ -601,7 +628,7 @@ create or replace function public.my_profile()
 returns jsonb language plpgsql security definer set search_path = public as $$
 begin
   if auth.uid() is null then raise exception 'not_signed_in'; end if;
-  return (select to_jsonb(p) || jsonb_build_object('daily_ready', p.daily_on is distinct from (now() at time zone 'utc')::date,
+  return (select to_jsonb(p) || jsonb_build_object('is_admin', _is_admin(p.id), 'daily_ready', p.daily_on is distinct from (now() at time zone 'utc')::date,
     'next_daily_s', extract(epoch from (date_trunc('day', now() at time zone 'utc') + interval '1 day') - (now() at time zone 'utc'))::int)
     from players p where p.id = auth.uid());
 end $$;
@@ -617,11 +644,14 @@ begin
   select * into v_me from players where id = v_uid for update;
   if not found then raise exception 'not_joined'; end if;
   if exists (select 1 from purchases where player_id = v_uid and item_id = p_item) then raise exception 'owned'; end if;
-  if v_me.reta < v_item.price then raise exception 'poor'; end if;
-  update players set reta = reta - v_item.price where id = v_uid;
+  if not _is_admin(v_uid) then
+    if v_me.reta < v_item.price then raise exception 'poor'; end if;
+    update players set reta = reta - v_item.price where id = v_uid;
+    v_me.reta := v_me.reta - v_item.price;
+  end if;
   insert into purchases (player_id, item_id) values (v_uid, p_item);
   perform _quest_progress(v_uid, 'shop', 1);
-  return jsonb_build_object('reta', v_me.reta - v_item.price, 'item', p_item);
+  return jsonb_build_object('reta', v_me.reta, 'item', p_item);
 end $$;
 
 -- надеть купленное (p_item = null снимает предмет из этой ячейки)
@@ -636,10 +666,79 @@ begin
   if p_item is null then
     update players set equipped = equipped - p_slot where id = v_uid returning equipped into v_eq;
   else
-    if not exists (select 1 from shop_items i join purchases b on b.item_id = i.id where i.id = p_item and i.kind = p_slot and b.player_id = v_uid) then raise exception 'not_owned'; end if;
+    if not exists (select 1 from shop_items where id = p_item and kind = p_slot) then raise exception 'not_owned'; end if;
+    if not _is_admin(v_uid) and not exists (select 1 from purchases where player_id = v_uid and item_id = p_item) then raise exception 'not_owned'; end if;
     update players set equipped = jsonb_set(equipped, array[p_slot], to_jsonb(p_item)) where id = v_uid returning equipped into v_eq;
   end if;
   return v_eq;
+end $$;
+
+-- ---------- админ-панель ----------
+create or replace function public.admin_search(p_q text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_q text := btrim(coalesce(p_q, ''));
+begin
+  if not _is_admin() then raise exception 'not_admin'; end if;
+  return coalesce((select jsonb_agg(to_jsonb(r)) from (
+    select p.id, p.name, u.email, p.points, p.reta, p.rates, p.games, p.created_at
+    from players p join auth.users u on u.id = p.id
+    where v_q = '' or p.name ilike '%' || replace(replace(v_q, '%', '\%'), '_', '\_') || '%' or u.email ilike '%' || replace(replace(v_q, '%', '\%'), '_', '\_') || '%' or p.id::text = v_q
+    order by p.created_at desc limit 20) r), '[]'::jsonb);
+end $$;
+
+create or replace function public.admin_player(p_id uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v jsonb;
+begin
+  if not _is_admin() then raise exception 'not_admin'; end if;
+  select to_jsonb(p) || jsonb_build_object('email', u.email,
+      'items', coalesce((select jsonb_agg(b.item_id order by b.at) from purchases b where b.player_id = p.id), '[]'::jsonb),
+      'orders', coalesce((select jsonb_agg(jsonb_build_object('pack_id', o.pack_id, 'currency', o.currency, 'amount_minor', o.amount_minor, 'status', o.status, 'created_at', o.created_at) order by o.created_at desc)
+                          from (select * from orders where player_id = p.id order by created_at desc limit 5) o), '[]'::jsonb))
+    into v from players p join auth.users u on u.id = p.id where p.id = p_id;
+  if v is null then raise exception 'no_player'; end if;
+  return v;
+end $$;
+
+-- выдать (или забрать, если число отрицательное) Рету, рейты и игры; ниже нуля не уходит
+create or replace function public.admin_grant(p_player uuid, p_reta integer default 0, p_rates integer default 0, p_games integer default 0)
+returns jsonb language plpgsql security definer set search_path = public as $$
+begin
+  if not _is_admin() then raise exception 'not_admin'; end if;
+  if abs(coalesce(p_reta, 0)) > 1000000 or abs(coalesce(p_rates, 0)) > 1000000 or abs(coalesce(p_games, 0)) > 1000000 then raise exception 'bad_amount'; end if;
+  perform 1 from players where id = p_player for update;
+  if not found then raise exception 'no_player'; end if;
+  update players set reta = greatest(0, reta + coalesce(p_reta, 0)), rates = greatest(0, rates + coalesce(p_rates, 0)), games = greatest(0, games + coalesce(p_games, 0)) where id = p_player;
+  insert into admin_log (admin_id, target_id, action, detail) values (auth.uid(), p_player, 'grant', jsonb_build_object('reta', p_reta, 'rates', p_rates, 'games', p_games));
+  return admin_player(p_player);
+end $$;
+
+-- выдать украшение или анимацию (p_give = true) либо забрать (false)
+create or replace function public.admin_item(p_player uuid, p_item text, p_give boolean)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_item shop_items;
+begin
+  if not _is_admin() then raise exception 'not_admin'; end if;
+  select * into v_item from shop_items where id = p_item;
+  if not found then raise exception 'no_item'; end if;
+  perform 1 from players where id = p_player for update;
+  if not found then raise exception 'no_player'; end if;
+  if p_give then
+    insert into purchases (player_id, item_id) values (p_player, p_item) on conflict do nothing;
+  else
+    delete from purchases where player_id = p_player and item_id = p_item;
+    update players set equipped = equipped - v_item.kind where id = p_player and equipped ->> v_item.kind = p_item;
+  end if;
+  insert into admin_log (admin_id, target_id, action, detail) values (auth.uid(), p_player, case when p_give then 'give_item' else 'take_item' end, jsonb_build_object('item', p_item));
+  return admin_player(p_player);
+end $$;
+
+create or replace function public.admin_recent()
+returns jsonb language plpgsql security definer set search_path = public as $$
+begin
+  if not _is_admin() then raise exception 'not_admin'; end if;
+  return coalesce((select jsonb_agg(to_jsonb(r)) from (
+    select l.at, l.action, l.detail, coalesce(p.name, '(удалён)') as target from admin_log l left join players p on p.id = l.target_id order by l.at desc limit 10) r), '[]'::jsonb);
 end $$;
 
 -- удалить свой профиль, очки и историю боёв
@@ -650,10 +749,12 @@ begin
   delete from players where id = auth.uid();
 end $$;
 
-revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid), public._quest_progress(uuid, text, integer) from public, anon, authenticated;
+revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid), public._quest_progress(uuid, text, integer), public._is_admin(uuid) from public, anon, authenticated;
 revoke all on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) from public, anon, authenticated;
 grant execute on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) to service_role;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text) from public, anon;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text) to authenticated;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() to authenticated;

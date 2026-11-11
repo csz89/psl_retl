@@ -1158,13 +1158,51 @@
   .terms-list b{color:var(--strong)}
   .terms-list em{color:var(--dim)}
   .legal ul{margin:8px 0;padding-left:20px;color:var(--soft);font-size:15px;line-height:1.65}
+
+  /* ---------- admin ---------- */
+  .ad-head h1{margin:0 0 6px;font-size:clamp(26px,4vw,34px);color:var(--strong)}
+  .ad-head .why{margin:0;max-width:70ch}
+  .ad-search{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+  .ad-search .field{flex:1;min-width:220px}
+  .ad-ok{margin:0;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,#22c55e 16%,transparent);border:1px solid #22c55e;color:var(--strong)}
+  .ad-ok[hidden]{display:none}
+  .ad-cols{display:grid;gap:14px;align-items:start}
+  @media(min-width:900px){.ad-cols{grid-template-columns:minmax(260px,1fr) 1.6fr}}
+  .ad-cols h2{margin:0 0 10px;font-size:20px;color:var(--strong)}
+  .ad-list,.ad-log{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .ad-list button{display:grid;gap:2px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--txt);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+  .ad-list button:hover,.ad-list button.on{border-color:var(--accent);background:var(--surface2)}
+  .ad-list b{color:var(--strong)}
+  .ad-list span{color:var(--dim);font-size:13px;overflow:hidden;text-overflow:ellipsis}
+  .ad-list em{font-style:normal;color:var(--soft);font-size:12px}
+  .ad-card header{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+  .ad-card header .av{display:grid;width:52px;height:52px;font-size:22px;flex:none}
+  .ad-card h2{margin:0}
+  .ad-card .why{margin:2px 0 0;word-break:break-all}
+  .ad-card h3{margin:16px 0 6px;font-size:16px;color:var(--strong)}
+  .ad-stats{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--soft)}
+  .ad-stats span{display:inline-flex;align-items:center;gap:5px}
+  .ad-stats b{color:var(--strong)}
+  .ad-stats .wic{width:18px;height:18px;color:var(--accent)}
+  .ad-grant,.ad-give{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+  .ad-grant .field{width:110px}.ad-give .field{flex:1;min-width:200px}
+  .ad-give select{font:inherit;font-size:15px;color:var(--txt);padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+  .ad-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .ad-quick .btn{padding:8px 14px;font-size:14px;border-radius:12px}
+  .ad-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .ad-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--strong);font-size:14px}
+  .ad-chip button{width:22px;height:22px;border-radius:50%;border:0;background:var(--surface2);color:var(--soft);cursor:pointer;font:inherit;line-height:1}
+  .ad-chip button:hover{background:#ef4444;color:#fff}
+  .ad-log li{display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;padding:7px 10px;border-radius:10px;background:var(--surface);font-size:14px}
+  .ad-log time{color:var(--dim);font-size:12px}
+  .ad-log span{color:var(--soft)}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/admin" data-nav="admin" id="nav-admin" hidden>Админ</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
     <div class="wallet" id="wallet" hidden><a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a><a class="wal" id="rate-pill" href="#/donate"></a><a class="wal" id="game-pill" href="#/donate"></a><a class="wal gift" id="gift-pill" href="#/bonus" hidden aria-label="Ежедневный бонус готов"></a></div>
@@ -1314,6 +1352,7 @@
   <section id="view-bonus" class="view bonus" hidden></section>
   <section id="view-donate" class="view bonus" hidden></section>
   <section id="view-gate" class="view online" hidden></section>
+  <section id="view-admin" class="view bonus admin" hidden></section>
   <section id="view-terms" class="view legal" hidden>
     <h1>Условия покупки</h1>
     <p class="sec-lead">Публичная оферта на покупку рейтов и игр. Это заготовка: данные продавца подставляются ниже из настроек сайта, а текст нужно проверить перед приёмом платежей.</p>
@@ -2792,7 +2831,7 @@ function olHead(me, fromPts = me.points) {   // fromPts: where the number and th
     r0 = rankOf(fromPts), from = r0 === rk ? (last ? 1 : (fromPts % RANK_PTS) / RANK_PTS) : r0 < rk ? 0 : 1, need = (rk + 1) * RANK_PTS - me.points, wins = Math.ceil(need / WIN_PTS);
   return `<div class="o-hero">${emblem(rk, "emb live")}
       <div class="o-who"><div class="o-name"><span class="av ${avCls(me.equipped)}" aria-hidden="true">${avatarHTML({name: me.name, picture: me.picture})}</span><h1>${nickHTML(me.name, me.equipped)}</h1></div><p class="o-rank" style="--c:${RANKS[rk][1]}">${RANKS[rk][0]}</p></div>
-      <div class="o-pts"><b data-from="${fromPts}" data-to="${me.points}">${fromPts}</b><span>очков</span><a class="o-reta" href="#/shop" title="Магазин">${retaIcon("xs2")}<b>${me.reta ?? 0}</b> Реты</a></div></div>
+      <div class="o-pts"><b data-from="${fromPts}" data-to="${me.points}">${fromPts}</b><span>очков</span><a class="o-reta" href="#/shop" title="Магазин">${retaIcon("xs2")}<b>${me.is_admin ? "∞" : me.reta ?? 0}</b> Реты</a></div></div>
     <div class="o-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${RANK_PTS}" aria-valuenow="${last ? RANK_PTS : me.points % RANK_PTS}" aria-label="Прогресс до следующего ранга"><i data-to="${Math.round(into * 100)}" style="width:${Math.round(from * 100)}%;--c:${RANKS[rk][1]}"></i></div>
     <p class="why">${last ? "Высший ранг. Держитесь в топе." : `До ранга «${RANKS[rk + 1][0]}»: ${need} очков (${wins} ${plural(wins, ["победа", "победы", "побед"])}).`}</p>
     <div class="o-rec"><span><b>${me.wins}</b> ${plural(me.wins, ["победа", "победы", "побед"])}</span><span><b>${me.losses}</b> ${plural(me.losses, ["поражение", "поражения", "поражений"])}</span><span><b>${me.draws}</b> ${plural(me.draws, ["ничья", "ничьи", "ничьих"])}</span></div>`;
@@ -2893,7 +2932,7 @@ function arenaIdle(note = "") {
     <p class="why">Бой 1 на 1. Вам подбирают игрока вашего ранга и пола, у каждого своё окно: включается камера, вы делаете снимок своего лица (фото из файлов не принимаются), жмёте «Определить рейт», и побеждает тот, у кого рейт выше (даже на 0,1). Победа +${WIN_PTS} очков, поражение −${LOSS_PTS}. Рекрут никогда не встретит Титана.</p>
     <fieldset class="o-sex"><legend>Я</legend><label><input type="radio" name="osex" value="m" ${Arena.sex === "m" ? "checked" : ""}><span>Мужчина</span></label><label><input type="radio" name="osex" value="f" ${Arena.sex === "f" ? "checked" : ""}><span>Женщина</span></label></fieldset>
     <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Я согласен, что в бою включится камера, а соперник увидит маленький снимок моего лица. Видео не записывается и не отправляется, снимок удаляется с сервера через 5 минут после боя.</span></label>
-    <p class="why">Бой стоит 1 игру. У вас ${Online.profile?.games ?? "?"} ${plural(Online.profile?.games ?? 0, ["игра", "игры", "игр"])}: <a href="#/bonus">бесплатные</a> и <a href="#/donate">платные</a> можно получить на сайте.</p>
+    <p class="why">Бой стоит 1 игру. У вас ${Online.profile?.is_admin ? "∞ игр" : `${Online.profile?.games ?? "?"} ${plural(Online.profile?.games ?? 0, ["игра", "игры", "игр"])}`}: <a href="#/bonus">бесплатные</a> и <a href="#/donate">платные</a> можно получить на сайте.</p>
     ${note ? `<p class="err" role="alert">${esc(note)}</p>` : ""}
     <button class="btn primary o-go" id="o-find" type="button" ${consent ? "" : "disabled"}>Найти соперника</button>`;
   box.querySelectorAll("input[name=osex]").forEach(r => r.addEventListener("change", () => { Arena.sex = r.value; Store.set("psl-online-sex", r.value); }));
@@ -3105,8 +3144,9 @@ const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(nam
 // ---------- the balance in the header ----------
 function retaSet(n) {
   const pill = $("reta-pill"), wallet = $("wallet"); if (!pill) return;
-  if (n == null) { pill.hidden = true; if (wallet) wallet.hidden = true; return; }
+  if (n == null) { pill.hidden = true; if (wallet) wallet.hidden = true; const na = $("nav-admin"); if (na) { na.hidden = true; fxNav(); } return; }
   if (wallet) wallet.hidden = false;
+  if (n === Infinity) { if (!pill.firstElementChild) pill.innerHTML = retaIcon("xs2") + "<b>0</b>"; pill.querySelector("b").textContent = "∞"; pill.querySelector("b").dataset.v = ""; pill.hidden = false; return; }
   if (!pill.firstElementChild) pill.innerHTML = retaIcon("xs2") + "<b>0</b>";
   const b = pill.querySelector("b"), from = +b.dataset.v || 0; b.dataset.v = n;
   const first = pill.hidden; pill.hidden = false;
@@ -3179,7 +3219,7 @@ function shopPaint() {
   }).join("");
   v.innerHTML = `<div class="card shop-head"><div class="sh-ico">${retaIcon("big live")}</div>
       <div class="sh-txt"><h1>Магазин</h1><p class="why">Рета — местные очки, они выглядят как упаковка Реты. За каждую победу в онлайн-бое дают ${RETA_PER_WIN} Реты. Здесь их можно потратить на анимации победы и косметику профиля.</p></div>
-      <div class="sh-bal"><b>${SH.reta}</b><span>Реты</span><a class="btn ghost" href="#/online">В бой</a></div></div>
+      <div class="sh-bal"><b>${SH.reta >= 1e9 ? "∞" : SH.reta}</b><span>Реты</span><a class="btn ghost" href="#/online">В бой</a></div></div>
     <p class="err" id="sh-err" role="alert"></p>${groups || `<p class="why">Каталог пока пуст.</p>`}`;
   fxMark(v, ".sh-sec, .si");
   v.querySelectorAll(".si[data-kind=mogg]").forEach(card => {
@@ -3196,7 +3236,8 @@ async function shopAct(btn) {
     if (act === "buy") {
       if (!(await ask(`Купить «${SHOP[id].name}» за ${it.price} Реты?`, "Купить"))) { btn.disabled = false; return; }
       const r = await Online.buy(id);
-      SH.reta = r.reta; SH.owned.add(id); retaSet(r.reta);
+      if (!Online.profile?.is_admin) { SH.reta = r.reta; retaSet(r.reta); }   // an admin never pays
+      SH.owned.add(id);
       if (!cosId(SH.eq, kind)) { SH.eq = await Online.equip(kind, id); Online.eq = SH.eq; updateAccountUI(); }   // the first item of a kind is worn right away
       if (tok === SH.tok) { shopPaint(); const q = $("view-shop").querySelector(`.si[data-id="${id}"]`)?.getBoundingClientRect(); if (q) fxConfetti(q.left + q.width / 2, q.top + 40, {count: 36, spread: 280}); }
       return;
@@ -3212,7 +3253,7 @@ async function renderShop() {
   try {
     const [items, mine] = await Promise.all([Online.shopItems(), Online.purchases()]);
     if (tok !== olTok) return;
-    SH.items = items.filter(i => shopId(i.id) && SHOP[i.id].kind === i.kind); SH.owned = new Set(mine.map(p => p.item_id)); SH.eq = eqOf(me.equipped); SH.reta = me.reta ?? 0;
+    SH.items = items.filter(i => shopId(i.id) && SHOP[i.id].kind === i.kind); SH.owned = new Set(mine.map(p => p.item_id)); SH.eq = eqOf(me.equipped); SH.reta = me.is_admin ? 1e9 : me.reta ?? 0;
     shopPaint();
   } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
 }
@@ -3223,19 +3264,22 @@ const ICON_RATE = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="curr
 const ICON_GAME = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l9 9M20 4l-9 9M5 15l4 4M19 15l-4 4M3 17l3 3M21 17l-3 3"/></svg>`;
 const ICON_GIFT = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>`;
 const DAILY_RATES = 5, DAILY_GAMES = 10;   // keep in sync with daily_claim() in supabase.sql
+const showBal = (p, k) => p?.is_admin ? "∞" : p?.[k] ?? 0;   // an admin has no limits
 const fmtLeft = s => { s = Math.max(0, Math.round(s)); const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return d ? `${d} д ${h} ч` : h ? `${h} ч ${m} мин` : `${Math.max(1, m)} мин`; };
 
 function walletSet(p) {   // p: the profile the server sent (my_profile or any function that returns it)
   if (!p) return;
-  Online.profile = p; retaSet(p.reta ?? 0);
+  Online.profile = p; retaSet(p.is_admin ? Infinity : p.reta ?? 0);
+  const na = $("nav-admin"); if (na && na.hidden === !!p.is_admin) { na.hidden = !p.is_admin; fxNav(); }   // the Admin menu item exists only for admins
   for (const [id, icon, key, tip] of [["rate-pill", ICON_RATE, "rates", "Рейты: попытки оценить фото"], ["game-pill", ICON_GAME, "games", "Игры: попытки онлайн-боя"]]) {
     const el = $(id); if (!el) continue;
     if (!el.firstElementChild) { el.innerHTML = icon + "<b>0</b>"; el.title = tip; }
     const b = el.querySelector("b"), from = +b.dataset.v || 0, to = p[key] ?? 0; b.dataset.v = to;
+    if (p.is_admin) { b.textContent = "∞"; el.classList.remove("low"); el.dataset.init = "1"; continue; }
     fxCount(b, el.dataset.init ? from : 0, to, 700); el.dataset.init = "1";
     el.classList.toggle("low", to < 1);
   }
-  const gift = $("gift-pill"); if (gift) { if (!gift.firstElementChild) gift.innerHTML = ICON_GIFT; gift.hidden = !p.daily_ready; gift.title = `Ежедневный бонус готов: +${DAILY_RATES} рейтов и +${DAILY_GAMES} игр`; }
+  const gift = $("gift-pill"); if (gift) { if (!gift.firstElementChild) gift.innerHTML = ICON_GIFT; gift.hidden = !p.daily_ready || !!p.is_admin; gift.title = `Ежедневный бонус готов: +${DAILY_RATES} рейтов и +${DAILY_GAMES} игр`; }
 }
 
 // ---------- API ----------
@@ -3316,7 +3360,7 @@ function paintBonus(v, p, q, tok) {
   clearInterval(bnTimer);
   const done = q.quests.filter(x => x.claimed).length, ready = q.quests.filter(x => !x.claimed && x.progress >= x.goal).length;
   v.innerHTML = `<div class="card bn-head"><div><h1>Бонусы и задания</h1><p class="why">Бесплатные рейты и игры каждый день и Рета за еженедельные задания. Рета тратится в магазине.</p></div>
-      <div class="bn-sum"><span>${ICON_RATE}<b>${p.rates ?? 0}</b> рейтов</span><span>${ICON_GAME}<b>${p.games ?? 0}</b> игр</span><span>${retaIcon("xs2")}<b>${p.reta ?? 0}</b> Реты</span></div></div>
+      <div class="bn-sum"><span>${ICON_RATE}<b>${showBal(p, "rates")}</b> рейтов</span><span>${ICON_GAME}<b>${showBal(p, "games")}</b> игр</span><span>${retaIcon("xs2")}<b>${showBal(p, "reta")}</b> Реты</span></div></div>
     <p class="err" id="bn-err" role="alert"></p>
     <div class="card bn-daily ${p.daily_ready ? "ready" : ""}"><span class="bn-gift">${ICON_GIFT}</span>
       <div class="bn-dtxt"><h2>Ежедневный бонус</h2><p class="why">+${DAILY_RATES} рейтов и +${DAILY_GAMES} игр раз в сутки (новый день начинается в полночь по UTC).</p></div>
@@ -3381,7 +3425,7 @@ function paintDonate(v, tok) {
         <div class="dn-buy">${provs.length ? provs.map(pv => `<button class="btn primary" type="button" data-pack="${esc(x.id)}" data-prov="${pv}">${provs.length > 1 ? (pv === "stripe" ? "Картой (Stripe)" : "LiqPay") : "Купить"}</button>`).join("") : `<button class="btn ghost" type="button" disabled>Оплата не подключена</button>`}</div></article>`; }).join("")}</div></section>`;
   };
   v.innerHTML = `<div class="card bn-head"><div><h1>Пополнить баланс</h1><p class="why">Рейты нужны, чтобы оценивать фото, игры чтобы играть мог-батлы. Бесплатные рейты и игры дают каждый день и за регистрацию, а здесь их можно докупить и поддержать сайт.</p></div>
-      <div class="bn-sum"><span>${ICON_RATE}<b>${p.rates ?? 0}</b> рейтов</span><span>${ICON_GAME}<b>${p.games ?? 0}</b> игр</span><a class="btn ghost" href="#/bonus">Бесплатно</a></div></div>
+      <div class="bn-sum"><span>${ICON_RATE}<b>${showBal(p, "rates")}</b> рейтов</span><span>${ICON_GAME}<b>${showBal(p, "games")}</b> игр</span><a class="btn ghost" href="#/bonus">Бесплатно</a></div></div>
     <div class="dn-cur"><label class="field"><span>Валюта</span><select id="dn-cur">${have.map(c => `<option value="${c}" ${c === cur ? "selected" : ""}>${c}</option>`).join("")}</select></label>
       <p class="why">Цены подобраны для вашего региона. ${provs.length ? "Оплата проходит на стороне платёжной системы, сайт данных карты не видит." : "Приём платежей на этом сайте ещё не подключён: цены показаны, но купить пока нельзя."}</p></div>
     <p class="err" id="dn-err" role="alert"></p><p class="dn-note" id="dn-note" hidden></p>
@@ -3403,6 +3447,65 @@ async function waitForPayment(v, tok, before) {   // back from the payment page:
     try { const p = await Online.me(); if (tok !== olTok) return; if ((p.rates ?? 0) + (p.games ?? 0) > b0) { note.textContent = "Оплата получена, баланс пополнен. Спасибо за поддержку!"; fxConfetti(innerWidth / 2, innerHeight / 3, {count: 50, spread: 360}); DN.st.orders = await Online.orders(); paintDonate(v, tok); $("dn-note").hidden = false; $("dn-note").textContent = "Оплата получена, баланс пополнен. Спасибо за поддержку!"; return; } } catch {}
   }
   if (tok === olTok) note.textContent = "Подтверждение ещё не пришло. Обычно это занимает до минуты: обновите страницу позже. Если баланс не изменится, напишите владельцу сайта.";
+}
+// ---------- admin page: find players, give them currency and items ----------
+// The page is only a remote control: every call is checked again by the server (supabase.sql, table admins), so opening it by hand does nothing for anyone else.
+Object.assign(ONLINE_ERRORS, {not_admin: "Нет доступа.", bad_amount: "Слишком большое число.", no_player: "Игрок не найден."});
+Object.assign(Online, {
+  adminSearch: q => Online.call(sb => sb.rpc("admin_search", {p_q: q})),
+  adminPlayer: id => Online.call(sb => sb.rpc("admin_player", {p_id: id})),
+  adminGrant: (id, reta, rates, games) => Online.call(sb => sb.rpc("admin_grant", {p_player: id, p_reta: reta, p_rates: rates, p_games: games})),
+  adminItem: (id, item, give) => Online.call(sb => sb.rpc("admin_item", {p_player: id, p_item: item, p_give: give})),
+  adminRecent: () => Online.call(sb => sb.rpc("admin_recent")),
+});
+const AD = {list: [], sel: null, log: [], q: "", msg: ""};
+const adItemName = id => SHOP[shopId(id)]?.name ?? id;
+const adAction = {grant: "выдача", give_item: "выдан предмет", take_item: "забран предмет"};
+async function renderAdmin() {
+  const v = $("view-admin"), tok = ++olTok; olAgain = renderAdmin; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  if (!me.is_admin) { navigate("", true); return; }   // not an admin: nothing to see here
+  try {
+    AD.q = ""; AD.sel = null; AD.msg = "";
+    [AD.list, AD.log] = await Promise.all([Online.adminSearch(""), Online.adminRecent()]);
+    if (tok === olTok) paintAdmin(v, tok);
+  } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
+}
+function adCard(d) {
+  const owned = d.items ?? [], catalog = Object.entries(SHOP).filter(([id]) => !owned.includes(id));
+  return `<div class="card ad-card"><header><span class="av" aria-hidden="true">${avatarHTML(d)}</span><div><h2>${nickHTML(d.name, d.equipped)}</h2><p class="why">${esc(d.email ?? "")} · id ${esc(d.id)} · создан ${new Date(d.created_at).toLocaleDateString("ru-RU")}</p></div></header>
+    <div class="ad-stats"><span><b>${d.points}</b> очков</span><span><b>${d.wins}</b> побед</span><span><b>${d.losses}</b> поражений</span><span>${retaIcon("xs2")}<b id="ad-reta">${d.reta}</b> Реты</span><span>${ICON_RATE}<b>${d.rates}</b> рейтов</span><span>${ICON_GAME}<b>${d.games}</b> игр</span></div>
+    <h3>Валюта</h3><p class="why">Число можно ставить отрицательное, чтобы забрать (ниже нуля не уходит).</p>
+    <form id="ad-grant" class="ad-grant"><label class="field"><span>Реты</span><input name="reta" type="number" step="1" value="0"></label><label class="field"><span>Рейты</span><input name="rates" type="number" step="1" value="0"></label><label class="field"><span>Игры</span><input name="games" type="number" step="1" value="0"></label><button class="btn primary" type="submit">Применить</button></form>
+    <div class="ad-quick">${[["+100 Реты", 100, 0, 0], ["+1000 Реты", 1000, 0, 0], ["+20 рейтов", 0, 20, 0], ["+20 игр", 0, 0, 20]].map(([t, a, b, c]) => `<button type="button" class="btn ghost" data-q="${a},${b},${c}">${t}</button>`).join("")}</div>
+    <h3>Украшения и анимации</h3>
+    <div class="ad-items">${owned.length ? owned.map(id => `<span class="ad-chip">${esc(adItemName(id))}<button type="button" data-take="${esc(id)}" aria-label="Забрать ${esc(adItemName(id))}">×</button></span>`).join("") : `<span class="why">У игрока пока ничего нет.</span>`}</div>
+    <form id="ad-item" class="ad-give"><label class="field"><span>Выдать</span><select name="item">${SHOP_KINDS.map(([k, t]) => `<optgroup label="${esc(t)}">${catalog.filter(([, x]) => x.kind === k).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</optgroup>`).join("")}</select></label><button class="btn primary" type="submit" ${catalog.length ? "" : "disabled"}>Выдать</button></form>
+    ${d.orders?.length ? `<h3>Заказы</h3><ul class="dn-orders">${d.orders.map(o => `<li class="${o.status}"><time>${dateText(o.created_at)}</time><b>${esc(o.pack_id.replace("_", " "))}</b><span>${money(o.amount_minor, o.currency)}</span><em>${{paid: "оплачен", pending: "ждёт оплаты", failed: "не прошёл"}[o.status] ?? ""}</em></li>`).join("")}</ul>` : ""}</div>`;
+}
+function paintAdmin(v, tok) {
+  v.innerHTML = `<div class="card ad-head"><h1>Админ-панель</h1><p class="why">У вас безлимит: рейты, игры и Рета не списываются, в магазине можно брать и надевать всё бесплатно. Здесь можно найти игрока и выдать ему валюту или украшения. Все действия записываются в журнал.</p></div>
+    <form id="ad-search" class="card ad-search"><label class="field"><span>Найти игрока</span><input name="q" value="${esc(AD.q)}" placeholder="ник, почта или id" autocomplete="off"></label><button class="btn primary" type="submit">Найти</button></form>
+    <p class="err" id="ad-err" role="alert"></p><p class="ad-ok" id="ad-ok" ${AD.msg ? "" : "hidden"}>${esc(AD.msg)}</p>
+    <div class="ad-cols"><div class="card"><h2>Игроки</h2>${AD.list.length ? `<ul class="ad-list">${AD.list.map(x => `<li><button type="button" class="${AD.sel?.id === x.id ? "on" : ""}" data-id="${esc(x.id)}"><b>${esc(x.name)}</b><span>${esc(x.email ?? "")}</span><em>${x.points} оч. · ${x.reta} Р · ${x.rates} рейт. · ${x.games} игр</em></button></li>`).join("")}</ul>` : `<p class="why">Никого не найдено.</p>`}</div>
+      <div id="ad-detail">${AD.sel ? adCard(AD.sel) : `<div class="card"><p class="why">Выберите игрока слева, чтобы открыть его карточку.</p></div>`}</div></div>
+    <div class="card"><h2>Журнал</h2>${AD.log.length ? `<ul class="ad-log">${AD.log.map(l => `<li><time>${dateText(l.at)}</time><b>${adAction[l.action] ?? esc(l.action)}</b><span>${esc(l.target)}${l.action === "grant" ? `: ${["reta", "rates", "games"].map((k, i) => l.detail?.[k] ? `${l.detail[k] > 0 ? "+" : ""}${l.detail[k]} ${["Реты", "рейтов", "игр"][i]}` : "").filter(Boolean).join(", ")}` : l.detail?.item ? `: ${esc(adItemName(l.detail.item))}` : ""}</span></li>`).join("")}</ul>` : `<p class="why">Пока пусто.</p>`}</div>`;
+  const say = (t, good = false) => { $("ad-err").textContent = good ? "" : t; const o = $("ad-ok"); o.textContent = good ? t : ""; o.hidden = !good; };
+  const refresh = async (d, note) => {   // the card and the list row follow what the server answered
+    if (tok !== olTok) return;
+    AD.sel = d; AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x); AD.log = await Online.adminRecent(); AD.msg = note; paintAdmin(v, tok);
+  };
+  const act = async (fn, note) => { try { await refresh(await fn(), note); } catch (ex) { say(onlineMsg(ex)); } };
+  $("ad-search").addEventListener("submit", async e => { e.preventDefault(); AD.q = new FormData(e.target).get("q").trim(); try { AD.list = await Online.adminSearch(AD.q); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(onlineMsg(ex)); } });
+  v.querySelectorAll(".ad-list button").forEach(b => b.addEventListener("click", async () => { try { AD.sel = await Online.adminPlayer(b.dataset.id); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(onlineMsg(ex)); } }));
+  if (!AD.sel) return;
+  const id = AD.sel.id;
+  $("ad-grant").addEventListener("submit", e => { e.preventDefault(); const f = e.target.elements, n = k => Math.trunc(+f[k].value) || 0; const [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return say("Впишите число."); act(() => Online.adminGrant(id, a, b, c), "Готово: валюта выдана."); });
+  v.querySelectorAll("[data-q]").forEach(b => b.addEventListener("click", () => { const [a, c, d] = b.dataset.q.split(",").map(Number); act(() => Online.adminGrant(id, a, c, d), "Готово: " + b.textContent + "."); }));
+  // read the select directly: form.elements.item is the collection's own method, not the field
+  $("ad-item").addEventListener("submit", e => { e.preventDefault(); const item = e.target.querySelector("select").value; if (item) act(() => Online.adminItem(id, item, true), `Готово: выдано «${adItemName(item)}».`); });
+  v.querySelectorAll("[data-take]").forEach(b => b.addEventListener("click", () => act(() => Online.adminItem(id, b.dataset.take, false), `Готово: забрано «${adItemName(b.dataset.take)}».`)));
 }
 // ---------- site: home page, account screens, router ----------
 const TIER_SHARES = {"m": [9.5, 47.6, 17.1, 10.1, 7.1, 7.2, 1.3, 0.0], "m_median": 3.85, "f": [12.6, 38.9, 17.0, 16.3, 9.1, 6.0, 0.1, 0.0], "f_median": 3.96};   // % of the held-out training faces per tier, by sex (same order as TIERS)
@@ -3628,10 +3731,10 @@ function renderTerms() {   // the seller details come from config.js (seller), s
   const s = window.PSL_CONFIG?.seller ?? {}, row = (label, v) => `<li><b>${label}:</b> ${v ? esc(v) : "<em>не указано (заполните seller в config.js)</em>"}</li>`;
   $("terms-seller").innerHTML = `<ul class="terms-list">${row("Продавец", s.name)}${row("Регистрационные данные (ЄДРПОУ / ІПН)", s.taxId)}${row("Адрес", s.address)}${row("Почта для вопросов и возвратов", s.email || window.PSL_CONFIG?.contactEmail)}${row("Телефон", s.phone)}${row("Сайт", location.origin)}</ul>`;
 }
-const GATED = ["app", "online", "shop", "profile", "bonus", "donate"];   // pages that need an account
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", privacy: "Конфиденциальность"};
-const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-terms", "view-privacy"];
+const GATED = ["app", "online", "shop", "profile", "bonus", "donate", "admin"];   // pages that need an account
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", admin: "view-admin", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", admin: "Админ-панель", privacy: "Конфиденциальность"};
+const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-terms", "view-admin", "view-privacy"];
 async function appGate() {   // connect Google and set a nick first (shown in its own page), then open the app
   const tok = ++olTok; olAgain = render; onlineFileHook = null;
   for (const v of VIEWS) $(v).hidden = v !== "view-gate";
@@ -3657,6 +3760,7 @@ function render() {
   else if (name === "shop") renderShop();
   else if (name === "bonus") renderBonus();
   else if (name === "donate") renderDonate();
+  else if (name === "admin") renderAdmin();
   else onlineLeft();   // stops an online request or search that is still running
   if (name === "terms") renderTerms();
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
