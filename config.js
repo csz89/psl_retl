@@ -4,6 +4,11 @@ window.PSL_CONFIG = {
   // Client ID из Google Cloud Console (раздел Clients). Пока строка пустая, кнопка «Войти через Google» на публичном сайте неактивна.
   googleClientId: "766175831745-3mu7gqfqck6jf6fkvik2to685jl6ark1.apps.googleusercontent.com",
 
+  // Онлайн-батлы (Supabase). Пока пусто, страница «Онлайн» пишет, что режим не подключён. Оба значения публичные, секретов здесь нет.
+  // Project URL выглядит как https://abcdefgh.supabase.co, anon public key это длинная строка из Project Settings -> API.
+  supabaseUrl: "",
+  supabaseAnonKey: "",
+
   // Почта для вопросов по данным (показывается на странице «Конфиденциальность»). Можно оставить пустой.
   contactEmail: "",
 };

@@ -681,13 +681,87 @@
   .legal .card p{margin:0;color:var(--soft);font-size:15px;line-height:1.65}
   .legal a{color:var(--accent)}
   .gbtn[disabled]{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+  /* ---------- online ladder ---------- */
+  .online{max-width:1040px;margin:0 auto;display:grid;gap:14px;padding-bottom:24px}
+  .online .auth{margin:0 auto}
+  .online h1,.online h2{margin:0}
+  .online h2{font-size:18px;margin-bottom:10px;color:var(--strong)}
+  .o-top,.o-cols{display:grid;gap:14px}
+  .o-card{display:grid;gap:12px;align-content:start}
+  .o-card h2{margin:0}
+  .o-hero{display:flex;align-items:center;gap:16px}
+  .o-who{flex:1;min-width:0}
+  .o-who h1{font-size:clamp(22px,4vw,30px);letter-spacing:-.02em;color:var(--strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .o-rank{margin:2px 0 0;font-weight:800;font-size:18px;color:var(--c)}
+  [data-tone=light] .o-rank{color:color-mix(in srgb,var(--c) 62%,#000)}
+  .o-pts{display:grid;text-align:right;line-height:1}
+  .o-pts b{font-size:clamp(30px,5vw,44px);font-weight:800;color:var(--strong);font-variant-numeric:tabular-nums}
+  .o-pts span{color:var(--dim);font-size:12px;margin-top:4px}
+  .o-bar{height:10px;border-radius:999px;background:var(--surface2);overflow:hidden}
+  .o-bar i{display:block;height:100%;border-radius:inherit;background:var(--c);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .o-rec{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--dim);font-size:14px}
+  .o-rec b{color:var(--strong);font-size:16px}
+  .emblem{display:grid;place-items:center;width:54px;height:60px;flex:none;clip-path:polygon(50% 0,100% 22%,100% 70%,50% 100%,0 70%,0 22%);background:linear-gradient(160deg,var(--c),color-mix(in srgb,var(--c) 40%,#000))}
+  .emblem b{font-size:20px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+  .o-fighter{display:flex;align-items:center;gap:14px}
+  .o-fighter .fnum{font-size:44px;line-height:1;font-weight:800;color:var(--strong);font-variant-numeric:tabular-nums}
+  .o-fighter>div{display:grid;gap:4px;justify-items:start}
+  .o-fighter .why{margin:0}
+  .o-arena{display:grid;gap:12px;justify-items:start}
+  .o-arena h2,.o-arena .why{margin:0}
+  .o-go{min-width:200px}
+  #o-vs{width:100%;display:grid;gap:14px}
+  .o-vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--surface);transition:border-color .4s,box-shadow .4s}
+  .o-vs.win{border-color:#22c55e;box-shadow:0 0 0 3px color-mix(in srgb,#22c55e 25%,transparent)}
+  .o-vs.loss{border-color:#ef4444;box-shadow:0 0 0 3px color-mix(in srgb,#ef4444 22%,transparent)}
+  .o-side{display:grid;gap:8px;justify-items:center;text-align:center;min-width:0}
+  .o-side .chip,.o-list .chip{justify-self:center}
+  .o-side>b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--strong)}
+  .o-side .av{display:grid;width:56px;height:56px;font-size:22px}
+  .o-side .av img,.o-list .av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+  .o-score i{font-style:normal;font-size:clamp(36px,7vw,56px);font-weight:800;line-height:1;color:var(--strong);font-variant-numeric:tabular-nums}
+  .o-x{font-weight:800;color:var(--dim);letter-spacing:.1em}
+  .o-vs.win .o-side.me .o-score i,.o-vs.loss .o-side.opp .o-score i{color:#22c55e}
+  .o-vs.loss .o-side.me .o-score i,.o-vs.win .o-side.opp .o-score i{color:var(--dim)}
+  .o-result{display:grid;gap:4px;justify-items:center;text-align:center;animation:fadeUp .4s ease backwards}
+  .o-result b{font-size:26px;font-weight:800;letter-spacing:-.01em}
+  .o-result.win b{color:#22c55e}
+  .o-result.loss b{color:#ef4444}
+  .o-result span{color:var(--soft)}
+  .o-result em{font-style:normal;font-weight:800;color:var(--accent)}
+  .o-search{animation:pulse 1s ease-in-out infinite alternate}
+  @keyframes pulse{from{opacity:.45}to{opacity:1}}
+  .o-list,.o-ranks,.o-hist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .o-list li{display:grid;grid-template-columns:28px 32px 1fr auto auto;align-items:center;gap:10px;padding:8px 10px;border-radius:12px}
+  .o-list li:nth-child(odd){background:var(--surface)}
+  .o-list li.me{outline:2px solid var(--accent)}
+  .o-list .pl{color:var(--dim);font-weight:700;text-align:center}
+  .o-list .av{display:grid;width:32px;height:32px;font-size:14px}
+  .o-list b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--strong)}
+  .o-list .pts{font-weight:800;font-variant-numeric:tabular-nums;color:var(--strong);min-width:44px;text-align:right}
+  .o-ranks li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
+  .o-ranks .emblem{width:32px;height:36px}
+  .o-ranks .emblem b{font-size:13px}
+  .o-ranks span{color:var(--dim);font-size:13px}
+  .o-hist li{display:grid;grid-template-columns:auto auto 1fr auto;gap:4px 12px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--surface);font-size:14px}
+  .o-hist time{color:var(--dim);font-size:12px}
+  .o-hist .win b,.o-hist .win .d{color:#22c55e}
+  .o-hist .loss b,.o-hist .loss .d{color:#ef4444}
+  .o-hist .d{font-weight:800;font-variant-numeric:tabular-nums}
+  .o-nick{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:6px}
+  .o-nick .field{flex:1;min-width:200px}
+  .o-me{display:grid;gap:10px;justify-items:start}
+  .o-me .err{min-height:0}
+  @media(min-width:860px){.o-top{grid-template-columns:1.1fr 1fr}.o-cols{grid-template-columns:1.5fr 1fr}}
+  @media(max-width:560px){.o-hist li{grid-template-columns:1fr auto}.o-hist time{grid-column:1/-1}.o-list li{grid-template-columns:24px 28px 1fr auto}.o-list li .chip{display:none}}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
     <button type="button" class="gear" id="gear" aria-label="Настройки" aria-haspopup="dialog" title="Настройки">
@@ -706,7 +780,8 @@
         <p class="lead">Модель обучена на 5 500 лицах, которые оценивали 60 человек. Она выравнивает фото, сравнивает лицо с идеальным и честно объясняет, из чего сложился рейт. Фото остаётся в твоём браузере и никуда не отправляется.</p>
         <div class="cta">
           <a class="btn primary" href="#/app">Оценить лицо</a>
-          <a class="btn ghost" href="#/app?mode=battle">Батл двух фото</a>
+          <a class="btn ghost" href="#/online">Онлайн-батлы</a>
+          <a class="btn ghost" href="#/app?mode=battle">Сравнить два фото</a>
         </div>
         <ul class="facts">
           <li><b>0,88</b><span>корреляция с оценками людей на неизвестных лицах</span></li>
@@ -805,7 +880,7 @@
     <div class="app-bar">
       <div class="tabs" role="tablist" aria-label="Режим">
         <button role="tab" data-mode="rate" aria-selected="true">Оценка</button>
-        <button role="tab" data-mode="battle" aria-selected="false">Батл</button>
+        <button role="tab" data-mode="battle" aria-selected="false">Сравнение</button>
       </div>
       <p class="privacy">Фото обрабатывается в вашем браузере и никуда не отправляется.</p>
     </div>
@@ -817,17 +892,19 @@
     <div id="verdict"></div>
   </section>
   
-    <p class="note">Оценку считает модель, обученная на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков; набор выпущен для научных целей, проверьте его условия перед публичным использованием). PSL здесь это 4 + отклонение предсказанного балла от среднего в стандартных отклонениях; шкала и проценты следуют из модели нормального распределения, а не из замеров. Это вкус группы оценщиков, а не объективная истина и не показатель вашей ценности. Крайние значения шкалы растянуты (за пределами ±0,9 σ в 1,3 раза), потому что регрессия сжимает крайности к середине. Результат по одному лицу колеблется примерно на ±0,5 PSL, а в батле разница меньше ±0,7 может быть случайной. Подуровни LLTN…HHTN делят LTN, MTN и HTN на трети по 0,17 PSL, это тоньше погрешности модели, поэтому соседние подуровни почти неразличимы.</p>
+    <p class="note">Оценку считает модель, обученная на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков; набор выпущен для научных целей, проверьте его условия перед публичным использованием). PSL здесь это 4 + отклонение предсказанного балла от среднего в стандартных отклонениях; шкала и проценты следуют из модели нормального распределения, а не из замеров. Это вкус группы оценщиков, а не объективная истина и не показатель вашей ценности. Крайние значения шкалы растянуты (за пределами ±0,9 σ в 1,3 раза), потому что регрессия сжимает крайности к середине. Результат по одному лицу колеблется примерно на ±0,5 PSL, а при сравнении двух фото разница меньше ±0,7 может быть случайной. Подуровни LLTN…HHTN делят LTN, MTN и HTN на трети по 0,17 PSL, это тоньше погрешности модели, поэтому соседние подуровни почти неразличимы.</p>
   </section>
 
   <section id="view-auth" class="view" hidden></section>
   <section id="view-profile" class="view" hidden></section>
+  <section id="view-online" class="view online" hidden></section>
   <section id="view-privacy" class="view legal" hidden>
     <h1>Конфиденциальность</h1>
     <p class="sec-lead">Коротко и без юридических оговорок: что сайт делает с вашими данными.</p>
     <article class="card"><h2>Фото</h2><p>Фото обрабатывается прямо в вашем браузере. Оно не загружается на сервер и нигде не сохраняется. В историю профиля попадают только числа: дата, пол, PSL, тир.</p></article>
     <article class="card"><h2>Аккаунт</h2><p>Профиль хранится в памяти вашего браузера (localStorage), а не на сервере. Пароль хранится только в виде хеша (PBKDF2-SHA256 с индивидуальной солью). Очистка данных сайта в браузере удалит профиль и историю. Это можно сделать и в самом профиле: «Очистить историю» и «Удалить аккаунт».</p></article>
     <article class="card"><h2>Вход через Google</h2><p>Если вы входите через Google, браузер получает от Google ваше имя, адрес почты, фото профиля и идентификатор. Эти данные сохраняются только в локальном профиле в вашем браузере, сайт никому их не передаёт. Для входа браузер обращается к серверам Google (accounts.google.com).</p></article>
+    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, число PSL бойца, очки и история боёв, а также идентификатор и фото профиля вашего аккаунта Google. Сами фото никогда не загружаются. Ник, ранг и очки видят все игроки. Удалить всё это можно кнопкой «Удалить профиль бойца» на странице «Онлайн».</p></article>
     <article class="card"><h2>Сторонние ресурсы</h2><p>При открытии сайт загружает с чужих серверов библиотеку и модели распознавания лица (cdn.jsdelivr.net, storage.googleapis.com) и шрифт Inter (fonts.googleapis.com). Эти сервисы, как любой сервер, видят ваш IP-адрес и обычные технические данные запроса, но не ваши фото.</p></article>
     <article class="card"><h2>Об оценке</h2><p>Оценка получена моделью, обученной на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков). Это развлекательный инструмент: он отражает вкус группы оценщиков и не является мерилом ценности человека.</p></article>
     <div id="privacy-contact"></div>
@@ -835,7 +912,7 @@
 </main>
 <footer class="site-foot">
   <span>PSL Rater: развлекательный инструмент. Оценка отражает вкус группы оценщиков и не является мерилом ценности человека.</span>
-  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/privacy">Конфиденциальность</a></nav>
+  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/privacy">Конфиденциальность</a></nav>
 </footer>
 <dialog id="settings" aria-labelledby="settings-title">
   <form method="dialog" class="set">
@@ -1716,7 +1793,7 @@ duel.forEach(s => s.view = (last, sex, spin) => renderCompact({...last.geo, sc: 
 let verdictSeen = false, battleSaved = false;
 function updateVerdict() {
   const [a, b] = duel;
-  verdictEl.innerHTML = a.last && b.last ? verdict(a, b) : `<p class="why" style="text-align:center">${a.last || b.last ? "Загрузите второе фото, чтобы начать батл." : "Загрузите два фото, чтобы сравнить лица."}</p>`;
+  verdictEl.innerHTML = a.last && b.last ? verdict(a, b) : `<p class="why" style="text-align:center">${a.last || b.last ? "Загрузите второе фото, чтобы начать сравнение." : "Загрузите два фото, чтобы сравнить лица."}</p>`;
   if (!(a.last && b.last)) { verdictSeen = false; battleSaved = false; return; }
   if (!battleSaved) { battleSaved = true; recordBattle(a, b); }
   const ready = Promise.all([a.counted, b.counted]);
@@ -1859,7 +1936,7 @@ const Accounts = {
     try { raw = localStorage.getItem("psl-session") ?? sessionStorage.getItem("psl-session"); } catch {}
     try { const id = JSON.parse(raw)?.id; return id ? Accounts.list().find(u => u.id === id) ?? null : null; } catch { return null; }
   },
-  logout() { Store.del("psl-session"); try { sessionStorage.removeItem("psl-session"); } catch {} },
+  logout() { Store.del("psl-session"); try { sessionStorage.removeItem("psl-session"); } catch {} Online.signOut(); },
   setPrefs(id, prefs) { Store.set("psl-users", Accounts.list().map(u => u.id === id ? {...u, prefs: {...prefs}} : u)); },
   remove(id) { Store.set("psl-users", Accounts.list().filter(u => u.id !== id)); Store.del(History.key(id)); Accounts.logout(); },
 };
@@ -1930,6 +2007,204 @@ function applySettings() {
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });   // a click on the dimmed backdrop closes the window
   $("settings-reset").addEventListener("click", () => { settings = {...DEFAULTS}; applySettings(); sync(); });
   applySettings();
+}
+
+// ---------- online ladder: fights between signed-in players (Supabase). Only numbers are sent (nick, sex, PSL), never photos ----------
+// shortcut: the PSL is computed in the visitor's browser and the server has to trust it, so a determined cheater can post a fake number; a real fix needs the model to run on a server
+const RANKS = [["Рекрут", "#94a3b8"], ["Страж", "#4ade80"], ["Рыцарь", "#38bdf8"], ["Герой", "#a78bfa"], ["Легенда", "#fbbf24"], ["Властелин", "#fb7185"], ["Божество", "#fb923c"], ["Титан", "#f43f5e"]];
+const RANK_PTS = 500, WIN_PTS = 100, LOSS_PTS = 50;   // keep in sync with supabase.sql
+const rankOf = pts => Math.min(RANKS.length - 1, Math.floor(pts / RANK_PTS));
+const SB_URL = String(window.PSL_CONFIG?.supabaseUrl ?? "").trim().replace(/\/+$/, ""), SB_KEY = String(window.PSL_CONFIG?.supabaseAnonKey ?? "").trim();
+class OnlineError extends Error {}
+const ONLINE_ERRORS = {   // codes raised by supabase.sql
+  not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала создайте профиль бойца.", no_fighter: "Сначала выставьте бойца: оцените своё фото и нажмите «Выставить бойцом».",
+  no_opponent: "Пока нет соперников вашего ранга. Попробуйте позже: чем больше игроков, тем быстрее находится бой.", too_fast: "Слишком часто. Подождите несколько секунд.",
+  bad_name: "Ник: от 2 до 30 символов.", bad_psl: "Некорректный PSL.", bad_sex: "Не указан пол.",
+};
+const Online = {
+  enabled: /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SB_URL) && SB_KEY.length > 20,
+  _sb: null,
+  async sb() {
+    if (Online._sb) return Online._sb;
+    if (!globalThis.supabase?.createClient) await new Promise((ok, fail) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"; s.onload = ok;
+      s.onerror = () => fail(new OnlineError("Не удалось загрузить онлайн-режим (нужен интернет)."));
+      document.head.appendChild(s);
+    });
+    return Online._sb = globalThis.supabase.createClient(SB_URL, SB_KEY, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: false}});
+  },
+  async call(fn) {
+    const {data, error} = await fn(await Online.sb());
+    if (error) {
+      const code = Object.keys(ONLINE_ERRORS).find(k => String(error.message).includes(k));
+      throw new OnlineError(code ? ONLINE_ERRORS[code] : "Онлайн-режим недоступен: " + error.message);
+    }
+    return data;
+  },
+  async user() { const {data} = await (await Online.sb()).auth.getSession(); return data?.session?.user ?? null; },
+  async signInGoogle(token) {   // the server checks the Google token itself, so nobody can play under someone else's name
+    const {error} = await (await Online.sb()).auth.signInWithIdToken({provider: "google", token});
+    if (error) throw new OnlineError("Не удалось подключить онлайн-режим: " + error.message);
+  },
+  async signOut() {
+    if (!Online.enabled) return;
+    try { for (const k of Object.keys(localStorage)) if (/^sb-.*-auth-token/.test(k)) localStorage.removeItem(k); } catch {}
+    try { if (Online._sb) await Online._sb.auth.signOut({scope: "local"}); } catch {}
+    Online._sb = null;
+  },
+  async me() { const u = await Online.user(); return u ? Online.call(sb => sb.from("players").select("*").eq("id", u.id).maybeSingle()) : null; },
+  join: name => Online.call(sb => sb.rpc("join_ladder", {p_name: name})),
+  setFighter: (sex, psl) => Online.call(sb => sb.rpc("set_fighter", {p_sex: sex, p_psl: psl})),
+  fight: () => Online.call(sb => sb.rpc("fight")),
+  ladder: () => Online.call(sb => sb.from("players").select("id,name,picture,points,wins,losses,draws").or("wins.gt.0,losses.gt.0,draws.gt.0").order("points", {ascending: false}).order("wins", {ascending: false}).limit(20)),
+  history: () => Online.call(sb => sb.from("battles").select("*").order("at", {ascending: false}).limit(10)),
+  leave: () => Online.call(sb => sb.rpc("leave_ladder")),
+};
+const onlineMsg = ex => ex instanceof OnlineError || ex instanceof AuthError ? ex.message : "Не удалось выполнить действие. Проверьте интернет и попробуйте ещё раз.";
+
+// ---------- online screen ----------
+const rankChip = i => `<span class="chip" style="--c:${RANKS[i][1]}">${RANKS[i][0]}</span>`;
+const emblem = i => `<span class="emblem" style="--c:${RANKS[i][1]}" aria-hidden="true"><b>${i + 1}</b></span>`;
+const sexWord = s => s === "f" ? "Женщины" : "Мужчины";
+let olTok = 0;
+async function renderOnline() {
+  const v = $("view-online"), tok = ++olTok, stale = () => tok !== olTok;
+  if (!Online.enabled) {
+    v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-батлы</h1><p class="why">Онлайн-режим на этом сайте ещё не подключён. Он появится, как только владелец сайта настроит сервер.${isDevHost() ? " (Владельцу: инструкция в README, раздел «Онлайн-батлы».)" : ""}</p><a class="btn ghost" href="#/app">Оценить лицо</a></div>`;
+    return;
+  }
+  v.innerHTML = `<div class="auth card"><p class="why">Загружаю онлайн-режим…</p></div>`;
+  try {
+    const user = await Online.user();
+    if (stale()) return;
+    if (!user) return renderOnlineConnect(v);
+    const me = await Online.me();
+    if (stale()) return;
+    if (!me) return renderOnlineJoin(v);
+    const [top, hist] = await Promise.all([Online.ladder(), Online.history()]);
+    if (stale()) return;
+    renderOnlineMain(v, me, top, hist);
+  } catch (ex) {
+    if (stale()) return;
+    v.innerHTML = `<div class="auth card"><h1 class="auth-title">Онлайн-батлы</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`;
+    $("o-retry").addEventListener("click", renderOnline);
+  }
+}
+function renderOnlineConnect(v) {
+  v.innerHTML = `<div class="auth card">
+    <h1 class="auth-title">Онлайн-батлы</h1>
+    <p class="why">Бои идут между зарегистрированными игроками и дают очки в рейтинге лиц. Чтобы никто не играл под чужим именем, онлайн-режим подтверждает аккаунт через Google.</p>
+    <div class="gbox"></div>
+    <p class="err" role="alert"></p>
+    <p class="fine">На сервер уходят только ник, пол и число PSL. Фото остаётся на вашем устройстве.</p></div>`;
+  setupGoogle(false, v.querySelector(".gbox"), onGoogleOnline);
+}
+async function onGoogleOnline(resp) {
+  const err = $("view-online").querySelector(".err");
+  try {
+    const claims = decodeJwt(resp.credential), problem = googleClaimsProblem(claims, googleClientId());
+    if (problem) throw new AuthError(problem);
+    await Online.signInGoogle(resp.credential);
+    renderOnline();
+  } catch (ex) { if (err) err.textContent = onlineMsg(ex); }
+}
+window.__googleOnline = onGoogleOnline;   // test hook
+function renderOnlineJoin(v) {
+  const u = Accounts.current(), first = String(u?.name ?? "").trim().split(/\s+/)[0].slice(0, 30);
+  v.innerHTML = `<div class="auth card">
+    <h1 class="auth-title">Профиль бойца</h1>
+    <p class="why">Выберите ник для рейтинга. Его увидят все игроки, поэтому не используйте полное имя, если не хотите его показывать. Сменить ник можно потом.</p>
+    <form id="o-join" novalidate>
+      <label class="field"><span>Ник</span><input name="nick" maxlength="30" autocomplete="nickname" value="${esc(first)}" required></label>
+      <p class="err" role="alert"></p>
+      <button class="btn primary wide" type="submit">Создать профиль</button>
+    </form></div>`;
+  $("o-join").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = e.target, err = f.querySelector(".err"), nick = f.elements.nick.value.trim();
+    err.textContent = "";
+    if (nick.length < 2) { err.textContent = ONLINE_ERRORS.bad_name; return; }
+    try { await Online.join(nick); renderOnline(); } catch (ex) { err.textContent = onlineMsg(ex); }
+  });
+}
+function olHead(me) {
+  const rk = rankOf(me.points), last = rk === RANKS.length - 1, into = last ? 1 : (me.points % RANK_PTS) / RANK_PTS;
+  return `<div class="o-hero">${emblem(rk)}
+      <div class="o-who"><h1>${esc(me.name)}</h1><p class="o-rank" style="--c:${RANKS[rk][1]}">${RANKS[rk][0]}</p></div>
+      <div class="o-pts"><b>${me.points}</b><span>очков</span></div></div>
+    <div class="o-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${RANK_PTS}" aria-valuenow="${last ? RANK_PTS : me.points % RANK_PTS}" aria-label="Прогресс до следующего ранга"><i style="width:${Math.round(into * 100)}%;--c:${RANKS[rk][1]}"></i></div>
+    <p class="why">${last ? "Высший ранг. Держитесь в топе." : `До ранга «${RANKS[rk + 1][0]}»: ${(rk + 1) * RANK_PTS - me.points} очков (${Math.ceil(((rk + 1) * RANK_PTS - me.points) / WIN_PTS)} ${plural(Math.ceil(((rk + 1) * RANK_PTS - me.points) / WIN_PTS), ["победа", "победы", "побед"])}).`}</p>
+    <div class="o-rec"><span><b>${me.wins}</b> ${plural(me.wins, ["победа", "победы", "побед"])}</span><span><b>${me.losses}</b> ${plural(me.losses, ["поражение", "поражения", "поражений"])}</span><span><b>${me.draws}</b> ${plural(me.draws, ["ничья", "ничьи", "ничьих"])}</span></div>`;
+}
+function olLadder(top, me) {
+  return top.length ? `<ol class="o-list">${top.map((p, i) => `<li class="${p.id === me.id ? "me" : ""}"><span class="pl">${i + 1}</span><span class="av sm" aria-hidden="true">${avatarHTML(p)}</span><b>${esc(p.name)}</b>${rankChip(rankOf(p.points))}<span class="pts">${p.points}</span></li>`).join("")}</ol>`
+    : `<p class="why">Пока никто не провёл ни одного боя. Станьте первым.</p>`;
+}
+function olHist(hist) {
+  const label = {win: "Победа", loss: "Поражение", draw: "Ничья"};
+  return hist.length ? `<ul class="o-hist">${hist.map(h => `<li class="${h.result}"><time>${dateText(h.at)}</time><b>${label[h.result]}</b><span>против ${esc(h.opp_name)}: ${(+h.my_psl).toFixed(1)} : ${(+h.opp_psl).toFixed(1)}</span><span class="d">${h.delta > 0 ? "+" : h.delta < 0 ? "−" : ""}${Math.abs(h.delta)}</span></li>`).join("")}</ul>`
+    : `<p class="why">Боёв пока не было.</p>`;
+}
+function renderOnlineMain(v, me, top, hist) {
+  const sc = rate.last ? score(rate.last.feat, rate.sex()) : null, nowPsl = sc ? Math.round(sc.psl * 10) / 10 : null;
+  const fighter = me.psl == null ? `<p class="why">Бойца пока нет: оцените своё фото и выставите его в бой.</p>`
+    : `<div class="o-fighter"><b class="fnum">${(+me.psl).toFixed(1)}</b><div><span class="chip" style="--c:${tierColor(tier(+me.psl)[1])}">${esc(tierLabel(+me.psl))}</span><span class="why">PSL бойца · ${sexWord(me.sex)}</span></div></div>`;
+  v.innerHTML = `
+    <div class="o-top">
+      <div class="card o-card" id="o-head">${olHead(me)}</div>
+      <div class="card o-card"><h2>Ваш боец</h2>${fighter}
+        ${sc ? `<button class="btn primary" id="o-set" type="button">Выставить бойцом: PSL ${nowPsl.toFixed(1)}</button><p class="why">Берётся последняя оценка из режима «Оценка» (${rate.sex() === "f" ? "женщина" : "мужчина"}).</p>` : `<a class="btn ghost" href="#/app">Оценить фото</a><p class="why">Оценка появится здесь после загрузки фото в режиме «Оценка».</p>`}
+        <p class="why">На сервер уходит только число PSL и пол. Фото не покидает ваше устройство.</p>
+        <p class="err" id="o-set-err" role="alert"></p></div>
+    </div>
+    <div class="card o-arena"><h2>Арена</h2>
+      <p class="why">Вам достаётся соперник вашего ранга (при нехватке игроков соседнего). У кого PSL выше хотя бы на 0,1, тот побеждает: победа +${WIN_PTS}, поражение −${LOSS_PTS}. Соперники: ${sexWord(me.sex ?? rate.sex()).toLowerCase()}.</p>
+      <button class="btn primary o-go" id="o-fight" type="button" ${me.psl == null ? "disabled" : ""}>В бой</button>
+      <div id="o-vs" aria-live="polite"></div></div>
+    <div class="o-cols">
+      <div class="card"><h2>Рейтинг лиц</h2><div id="o-ladder">${olLadder(top, me)}</div></div>
+      <div class="card"><h2>Ранги</h2><ul class="o-ranks">${RANKS.map((r, i) => `<li>${emblem(i)}<b>${r[0]}</b><span>${i === 0 ? "с нуля" : "от " + i * RANK_PTS}</span></li>`).join("")}</ul></div>
+    </div>
+    <div class="card"><h2>Последние бои</h2><div id="o-hist">${olHist(hist)}</div></div>
+    <div class="card o-me"><h2>Профиль бойца</h2>
+      <form id="o-nick" class="o-nick"><label class="field"><span>Ник</span><input name="nick" maxlength="30" value="${esc(me.name)}" required></label><button class="btn ghost" type="submit">Сменить</button></form>
+      <p class="err" id="o-nick-err" role="alert"></p>
+      <button class="btn danger" id="o-leave" type="button">Удалить профиль бойца</button></div>`;
+  $("o-set")?.addEventListener("click", async () => {
+    try { await Online.setFighter(rate.sex(), nowPsl); renderOnline(); } catch (ex) { $("o-set-err").textContent = onlineMsg(ex); }
+  });
+  $("o-fight").addEventListener("click", () => olFight(me));
+  $("o-nick").addEventListener("submit", async e => {
+    e.preventDefault(); const nick = e.target.elements.nick.value.trim(), err = $("o-nick-err"); err.textContent = "";
+    if (nick.length < 2) { err.textContent = ONLINE_ERRORS.bad_name; return; }
+    try { await Online.join(nick); renderOnline(); } catch (ex) { err.textContent = onlineMsg(ex); }
+  });
+  $("o-leave").addEventListener("click", async () => {
+    if (!(await ask("Удалить профиль бойца, очки и историю боёв? Это нельзя отменить.", "Удалить"))) return;
+    try { await Online.leave(); renderOnline(); } catch (ex) { $("o-nick-err").textContent = onlineMsg(ex); }
+  });
+}
+const olSide = (name, who, psl, extra) => `<div class="o-side ${who}"><span class="av" aria-hidden="true">${avatarHTML({name, picture: extra.picture})}</span><b>${esc(name)}</b>${extra.chip}<span class="o-score"><i data-psl="${psl}">0.0</i></span></div>`;
+async function olFight(me) {
+  const btn = $("o-fight"), box = $("o-vs"), tok = olTok;
+  btn.disabled = true; box.innerHTML = `<p class="why o-search">Ищем соперника…</p>`;
+  try {
+    const [r] = await Promise.all([Online.fight(), new Promise(ok => setTimeout(ok, REDUCED ? 0 : 1100))]);
+    if (tok !== olTok) return;
+    box.innerHTML = `<div class="o-vs">${olSide(me.name, "me", r.me.psl, {picture: me.picture, chip: rankChip(r.rank_before)})}<span class="o-x">VS</span>${olSide(r.opp.name, "opp", r.opp.psl, {picture: r.opp.picture, chip: rankChip(rankOf(r.opp.points))})}</div><div class="o-result" hidden></div>`;
+    await Promise.all([...box.querySelectorAll("[data-psl]")].map((el, i) => animateNumber(el, +el.dataset.psl, {delay: i * 150, ms: 1300})));
+    if (tok !== olTok) return;
+    const up = r.rank_after > r.rank_before, down = r.rank_after < r.rank_before, res = box.querySelector(".o-result");
+    box.querySelector(".o-vs").classList.add(r.result);
+    res.className = "o-result " + r.result;
+    res.innerHTML = `<b>${{win: "Победа", loss: "Поражение", draw: "Ничья"}[r.result]}</b><span>${r.delta > 0 ? "+" : r.delta < 0 ? "−" : ""}${Math.abs(r.delta)} очков · теперь ${r.points}</span>${up ? `<em>Новый ранг: ${RANKS[r.rank_after][0]}!</em>` : down ? `<em>Ранг понижен: ${RANKS[r.rank_after][0]}</em>` : ""}`;
+    res.hidden = false;
+    const [m2, top, hist] = await Promise.all([Online.me(), Online.ladder(), Online.history()]);
+    if (tok !== olTok) return;
+    $("o-head").innerHTML = olHead(m2); $("o-ladder").innerHTML = olLadder(top, m2); $("o-hist").innerHTML = olHist(hist);
+  } catch (ex) { if (tok === olTok) box.innerHTML = `<p class="err" role="alert">${esc(onlineMsg(ex))}</p>`; }
+  finally { if (tok === olTok) btn.disabled = false; }
 }
 
 // ---------- site: home page, account screens, router ----------
@@ -2042,17 +2317,18 @@ const loadGis = () => new Promise((ok, fail) => {
   sc.src = "https://accounts.google.com/gsi/client"; sc.async = true; sc.onload = ok; sc.onerror = () => fail(new Error("gis-load"));
   document.head.appendChild(sc);
 });
-function onGoogleCredential(resp) {
+async function onGoogleCredential(resp) {
   const err = $("view-auth").querySelector(".err");
   try {
     const claims = decodeJwt(resp.credential), problem = googleClaimsProblem(claims, googleClientId());
     if (problem) throw new AuthError(problem);
+    if (Online.enabled) await Online.signInGoogle(resp.credential).catch(() => {});   // the same Google sign-in also opens the online mode
     afterAuth(Accounts.google(claims, document.querySelector("#auth-form input[name=remember]")?.checked ?? true));
   } catch (ex) { if (err) err.textContent = ex instanceof AuthError ? ex.message : "Не удалось войти через Google."; }
 }
 window.__googleCredential = onGoogleCredential;   // test hook
-async function setupGoogle(reg) {
-  const box = $("google-box"), id = googleClientId(), label = reg ? "Зарегистрироваться через Google" : "Войти через Google";
+async function setupGoogle(reg, box = $("google-box"), cb = onGoogleCredential) {   // box and cb let the online screen reuse the same button
+  const q = sel => box.querySelector(sel), id = googleClientId(), label = reg ? "Зарегистрироваться через Google" : "Войти через Google";
   const setup = (note = "") => {
     box.innerHTML = `<button type="button" class="gbtn" id="g-open" aria-expanded="${note ? "true" : "false"}">${G_LOGO}<span>${label}</span></button>
       <div class="gsetup" id="g-setup" ${note ? "" : "hidden"}>
@@ -2068,11 +2344,11 @@ async function setupGoogle(reg) {
         <p class="err" id="g-err" role="alert">${esc(note)}</p>
         <button type="button" class="btn primary" id="g-save">Сохранить и включить</button>
       </div>`;
-    $("g-open").addEventListener("click", () => { const p = $("g-setup"); p.hidden = !p.hidden; $("g-open").setAttribute("aria-expanded", String(!p.hidden)); if (!p.hidden) $("g-client").focus(); });
-    $("g-save").addEventListener("click", () => {
-      const v = $("g-client").value.trim();
-      if (!CLIENT_ID_RE.test(v)) { $("g-err").textContent = "Это не похоже на Client ID: он выглядит как 1234567890-abc.apps.googleusercontent.com"; return; }
-      Store.set("psl-google-client", v); setupGoogle(reg);
+    q("#g-open").addEventListener("click", () => { const p = q("#g-setup"); p.hidden = !p.hidden; q("#g-open").setAttribute("aria-expanded", String(!p.hidden)); if (!p.hidden) q("#g-client").focus(); });
+    q("#g-save").addEventListener("click", () => {
+      const v = q("#g-client").value.trim();
+      if (!CLIENT_ID_RE.test(v)) { q("#g-err").textContent = "Это не похоже на Client ID: он выглядит как 1234567890-abc.apps.googleusercontent.com"; return; }
+      Store.set("psl-google-client", v); setupGoogle(reg, box, cb);
     });
   };
   if (!id && !isDevHost()) {
@@ -2082,11 +2358,11 @@ async function setupGoogle(reg) {
   if (!id) return setup();
   if (location.protocol === "file:") return setup("Страница открыта как файл: вход через Google работает только с http://localhost или https.");
   box.innerHTML = `<p class="why">Загружаю вход через Google…</p>`;
-  try { await loadGis(); } catch { box.innerHTML = `<p class="err">Не удалось загрузить скрипт Google (нужен интернет).</p><button type="button" class="linkbtn" id="g-retry">Повторить</button>`; $("g-retry").addEventListener("click", () => setupGoogle(reg)); return; }
+  try { await loadGis(); } catch { box.innerHTML = `<p class="err">Не удалось загрузить скрипт Google (нужен интернет).</p><button type="button" class="linkbtn" id="g-retry">Повторить</button>`; q("#g-retry").addEventListener("click", () => setupGoogle(reg, box, cb)); return; }
   box.innerHTML = `<div id="g-btn" class="gframe"></div><p class="fine g-note">Кнопка загружается с серверов Google. Фото никуда не отправляется.${GOOGLE_CLIENT_ID ? "" : ' <button type="button" class="linkbtn" id="g-change">Сменить Client ID</button>'}</p>`;   // the id from config.js is the owner's, visitors cannot change it
-  google.accounts.id.initialize({client_id: id, callback: onGoogleCredential, auto_select: false, cancel_on_tap_outside: true});
-  google.accounts.id.renderButton($("g-btn"), {type: "standard", theme: document.documentElement.dataset.tone === "light" ? "outline" : "filled_black", size: "large", text: reg ? "signup_with" : "signin_with", shape: "pill", logo_alignment: "left", width: 340, locale: "ru"});
-  $("g-change")?.addEventListener("click", () => { Store.del("psl-google-client"); setupGoogle(reg); });
+  google.accounts.id.initialize({client_id: id, callback: cb, auto_select: false, cancel_on_tap_outside: true});
+  google.accounts.id.renderButton(q("#g-btn"), {type: "standard", theme: document.documentElement.dataset.tone === "light" ? "outline" : "filled_black", size: "large", text: reg ? "signup_with" : "signin_with", shape: "pill", logo_alignment: "left", width: 340, locale: "ru"});
+  q("#g-change")?.addEventListener("click", () => { Store.del("psl-google-client"); setupGoogle(reg, box, cb); });
 }
 
 // ---------- profile ----------
@@ -2107,7 +2383,7 @@ function renderProfile() {
   const chip = (name, psl) => `<span class="chip" style="--c:${tierColor(name)}">${name} · ${psl.toFixed(1)}</span>`;
   const row = e => e.mode === "rate"
     ? `<li><time>${dateText(e.at)}</time><span class="kind">Оценка · ${e.sex === "m" ? "М" : "Ж"}</span>${chip(e.tier, e.psl)}<span class="sub">${e.sub ?? ""}</span><button class="del" data-id="${e.id}" aria-label="Удалить запись">×</button></li>`
-    : `<li><time>${dateText(e.at)}</time><span class="kind">Батл</span><span class="battle">A ${chip(e.a.tier, e.a.psl)} против B ${chip(e.b.tier, e.b.psl)}</span><span class="sub">${e.winner === "=" ? "ничья" : "победил " + e.winner}</span><button class="del" data-id="${e.id}" aria-label="Удалить запись">×</button></li>`;
+    : `<li><time>${dateText(e.at)}</time><span class="kind">Сравнение</span><span class="battle">A ${chip(e.a.tier, e.a.psl)} против B ${chip(e.b.tier, e.b.psl)}</span><span class="sub">${e.winner === "=" ? "ничья" : "победил " + e.winner}</span><button class="del" data-id="${e.id}" aria-label="Удалить запись">×</button></li>`;
   $("view-profile").innerHTML = `
     <div class="prof-head card"><span class="av big" aria-hidden="true">${avatarHTML(u)}</span>
       <div><h1>${esc(u.name)}</h1><p class="why">${esc(u.email)} · аккаунт создан ${new Date(u.created).toLocaleDateString("ru-RU")}${u.googleSub ? ` · <span class="gbadge">вход через Google</span>` : ""}</p></div>
@@ -2116,7 +2392,7 @@ function renderProfile() {
       <div class="card stat"><b>${rated.length}</b><span>${plural(rated.length, ["оценка", "оценки", "оценок"])}</span></div>
       <div class="card stat"><b>${avg == null ? "—" : avg.toFixed(1)}</b><span>средний PSL</span></div>
       <div class="card stat"><b>${best == null ? "—" : best.toFixed(1)}</b><span>лучший PSL</span></div>
-      <div class="card stat"><b>${battles}</b><span>${plural(battles, ["батл", "батла", "батлов"])}</span></div>
+      <div class="card stat"><b>${battles}</b><span>${plural(battles, ["сравнение", "сравнения", "сравнений"])}</span></div>
     </div>
     <div class="card"><h2>Динамика</h2>${sparkline(hist)}</div>
     <div class="card"><h2>История</h2>${hist.length ? `<ul class="hist">${hist.map(row).join("")}</ul>` : `<p class="why">Пока пусто. Сделайте первую оценку, и она появится здесь.</p><a class="btn primary" href="#/app">Оценить лицо</a>`}</div>
@@ -2147,20 +2423,22 @@ function updateAccountUI() {
   const g = $("guest-note");
   g.innerHTML = u ? `Вы вошли как <b>${esc(u.name)}</b>: каждая оценка сохраняется в истории профиля.` : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
 }
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", privacy: "Конфиденциальность"};
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", privacy: "Конфиденциальность"};
 function navigate(to, replace) { const h = "#/" + to; if (replace) location.replace(h); else if (location.hash === h) render(); else location.hash = h; }
 function render() {
   const raw = location.hash.replace(/^#\/?/, ""), [path, qs] = raw.split("?"), params = new URLSearchParams(qs || "");
   let name = ROUTES[path] ? path : "home";
   const user = Accounts.current();
-  if (name === "profile" && !user) { nextRoute = "profile"; return navigate("login", true); }
+  if ((name === "profile" || name === "online") && !user) { nextRoute = name; return navigate("login", true); }   // both need an account
   if ((name === "login" || name === "register") && user) return navigate("profile", true);
   const id = ROUTES[name];
-  for (const v of ["view-home", "view-app", "view-auth", "view-profile", "view-privacy"]) $(v).hidden = v !== id;
+  for (const v of ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-privacy"]) $(v).hidden = v !== id;
   if (name === "home" || name === "tiers") renderHome();
   if (name === "login" || name === "register") renderAuth(name);
   if (name === "profile") renderProfile();
+  if (name === "online") renderOnline();
+  else olTok++;   // drops an online request that is still loading
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
   if (name === "app") setMode(params.get("mode") === "battle" ? "battle" : mode);
   else document.querySelector("main").classList.remove("wide");
