@@ -1054,6 +1054,19 @@
   @keyframes quake{0%,100%{transform:translate(0)}15%{transform:translate(-8px,5px)}30%{transform:translate(7px,-6px)}45%{transform:translate(-5px,4px)}60%{transform:translate(4px,-3px)}80%{transform:translate(-2px,1px)}}
   [data-fx=mogg_meteor] .o-stamp{color:#fb923c;border-color:#fb923c;transition-delay:1.1s!important}
   [data-motion=off] .fx-flash,[data-motion=off] .fx-scan{display:none}
+
+  /* ---------- online battle: camera ---------- */
+  .o-cam{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#000}   /* the picture is mirrored like a mirror; the photo that is sent is not */
+  .o-win.cam-on .o-cam{display:block}
+  .o-guide{display:none;position:absolute;left:50%;top:47%;width:58%;height:74%;transform:translate(-50%,-50%);border:2px dashed rgba(255,255,255,.85);border-radius:50%;box-shadow:0 0 0 999px rgba(0,0,0,.38);pointer-events:none}
+  .o-win.cam-on .o-guide{display:block}
+  .o-count{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(70px,16vw,120px);font-weight:800;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.7);pointer-events:none;animation:countPop .85s ease-out}
+  .o-count[hidden]{display:none}
+  @keyframes countPop{0%{transform:scale(1.8);opacity:0}25%{opacity:1}100%{transform:scale(.8);opacity:.2}}
+  .o-btns{display:flex;gap:10px;flex-wrap:wrap}
+  .o-btns .btn{flex:1;min-width:150px;padding-left:14px;padding-right:14px}
+  .o-btns [hidden]{display:none}
+  .o-win.me .o-face{cursor:default}
 </style>
 </head>
 <body>
@@ -1212,7 +1225,7 @@
     <article class="card"><h2>Фото</h2><p>В режимах «Оценка» и «Сравнение» фото обрабатывается прямо в вашем браузере, не загружается на сервер и нигде не сохраняется. В историю профиля попадают только числа: дата, пол, PSL, тир. Единственное исключение: онлайн-бой (см. ниже).</p></article>
     <article class="card"><h2>Аккаунт</h2><p>Профиль хранится в памяти вашего браузера (localStorage), а не на сервере. Пароль хранится только в виде хеша (PBKDF2-SHA256 с индивидуальной солью). Очистка данных сайта в браузере удалит профиль и историю. Это можно сделать и в самом профиле: «Очистить историю» и «Удалить аккаунт».</p></article>
     <article class="card"><h2>Вход через Google</h2><p>Если вы входите через Google, браузер получает от Google ваше имя, адрес почты, фото профиля и идентификатор. Эти данные сохраняются только в локальном профиле в вашем браузере, сайт никому их не передаёт. Для входа браузер обращается к серверам Google (accounts.google.com).</p></article>
-    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, ваш рейт в бою, очки и история боёв, а также идентификатор и аватар вашего аккаунта Google. Ник, ранг и очки видят все игроки. В бою вы сами ставите своё лицо в окно: браузер вырезает из фото квадрат с лицом (около 256 пикселей), и эту маленькую копию видит ваш соперник. Исходное фото не отправляется. Копия хранится на сервере только пока идёт бой и стирается через 5 минут после его окончания. Если соперник пожалуется на фото, копия сохраняется для проверки до 30 дней. Перед первым боем нужно поставить галочку согласия. На сервере также хранятся баланс Реты, ваши покупки и надетые предметы. Удалить ник, очки, Рету и историю боёв можно кнопкой «Удалить мой профиль» на странице «Онлайн». Не отправляйте чужие фото и неприемлемые снимки: бой это игра между живыми людьми.</p></article>
+    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, ваш рейт в бою, очки и история боёв, а также идентификатор и аватар вашего аккаунта Google. Ник, ранг и очки видят все игроки. В бою лицо ставится только с камеры вашего устройства (загрузка файлов, перетаскивание и вставка отключены): браузер включает камеру, вы делаете один снимок, вырезает из него квадрат с лицом (около 256 пикселей), и эту маленькую копию видит ваш соперник. Видео не записывается и не отправляется, кадр целиком и исходное фото тоже. Камера выключается сразу после снимка и в конце боя. Копия хранится на сервере только пока идёт бой и стирается через 5 минут после его окончания. Если соперник пожалуется на фото, копия сохраняется для проверки до 30 дней. Перед первым боем нужно поставить галочку согласия. На сервере также хранятся баланс Реты, ваши покупки и надетые предметы. Удалить ник, очки, Рету и историю боёв можно кнопкой «Удалить мой профиль» на странице «Онлайн». Не отправляйте чужие фото и неприемлемые снимки: бой это игра между живыми людьми.</p></article>
     <article class="card"><h2>Сторонние ресурсы</h2><p>При открытии сайт загружает с чужих серверов библиотеку и модели распознавания лица (cdn.jsdelivr.net, storage.googleapis.com) и шрифт Inter (fonts.googleapis.com). Эти сервисы, как любой сервер, видят ваш IP-адрес и обычные технические данные запроса, но не ваши фото.</p></article>
     <article class="card"><h2>Об оценке</h2><p>Оценка получена моделью, обученной на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков). Это развлекательный инструмент: он отражает вкус группы оценщиков и не является мерилом ценности человека.</p></article>
     <div id="privacy-contact"></div>
@@ -2586,7 +2599,7 @@ const shotWarnings = (r, sex) => {   // the same hints as in the rating mode
 // ---------- online screen ----------
 let olTok = 0;
 function onlineLeft() {   // the router calls this when another page opens
-  olTok++; onlineFileHook = null; document.querySelectorAll(".si[data-kind=mogg]").forEach(pvReset);
+  olTok++; onlineFileHook = null; Cam.stop(); document.querySelectorAll(".si[data-kind=mogg]").forEach(pvReset);
   if (Arena.phase === "searching") { Arena.phase = "idle"; Online.queueLeave().catch(() => {}); }
 }
 let olAgain = null;   // what to draw again after connecting / creating the profile
@@ -2613,7 +2626,7 @@ function onlineFail(v, ex) {
 }
 async function renderOnline() {
   const v = $("view-online"), tok = ++olTok;
-  olAgain = renderOnline; Arena.phase = "idle"; Arena.tok++; onlineFileHook = null;
+  olAgain = renderOnline; Arena.phase = "idle"; Arena.tok++; onlineFileHook = null; Cam.stop();
   const me = await onlineEnter(v, tok);
   if (!me) return;
   try {
@@ -2717,16 +2730,47 @@ function renderOnlineMain(v, me, top, hist, st) {
   if (st.state === "match") arenaBattle(st.match); else arenaIdle();
 }
 
+// ---------- camera: in an online battle the face can only come from the live camera (no file, no drag and drop) ----------
+// shortcut: this is a rule of the page, not a proof: a determined cheater can feed the camera a picture or call the server directly
+const camMsg = e => ({
+  NotAllowedError: "Доступ к камере запрещён. Разрешите камеру (значок замка рядом с адресом сайта) и нажмите «Включить камеру».",
+  SecurityError: "Доступ к камере запрещён. Разрешите камеру (значок замка рядом с адресом сайта) и нажмите «Включить камеру».",
+  NotFoundError: "Камера не найдена. Для онлайн-боя нужна камера.",
+  NotReadableError: "Камеру занимает другое приложение. Закройте его и нажмите «Включить камеру».",
+}[e?.name] ?? "Не удалось включить камеру.");
+const Cam = {
+  stream: null, video: null,
+  get live() { return !!Cam.stream; },
+  async start(video) {
+    Cam.stop();
+    if (!navigator.mediaDevices?.getUserMedia) throw new OnlineError("Камера недоступна: откройте сайт в современном браузере по https.");
+    try { Cam.stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user", width: {ideal: 1280}, height: {ideal: 960}}, audio: false}); }
+    catch (e) { throw new OnlineError(camMsg(e)); }
+    Cam.video = video; video.srcObject = Cam.stream;
+    await video.play().catch(() => {});
+  },
+  stop() { Cam.stream?.getTracks().forEach(t => t.stop()); Cam.stream = null; if (Cam.video) Cam.video.srcObject = null; },
+  async shot() {   // one frame as a JPEG file
+    const v = Cam.video;
+    if (!v || !v.videoWidth) throw new OnlineError("Камера ещё не готова. Подождите секунду.");
+    const c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight; c.getContext("2d").drawImage(v, 0, 0);
+    const blob = await new Promise(ok => c.toBlob(ok, "image/jpeg", 0.92));
+    if (!blob) throw new OnlineError("Не удалось сделать снимок.");
+    return new File([blob], "camera.jpg", {type: "image/jpeg"});
+  },
+};
+addEventListener("pagehide", () => Cam.stop());
+
 // ---------- arena: search -> two windows -> rating -> mogged ----------
 const Arena = {phase: "idle", tok: 0, view: null, mine: null, shown: null, busy: false, t0: 0, sex: Store.get("psl-online-sex", "m")};
 const arenaOk = (tok, otok) => tok === Arena.tok && otok === olTok;
 function arenaIdle(note = "") {
-  const box = $("o-arena"); Arena.phase = "idle"; Arena.tok++; Arena.mine = null; onlineFileHook = null;
+  const box = $("o-arena"); Arena.phase = "idle"; Arena.tok++; Arena.mine = null; onlineFileHook = null; Cam.stop();
   const consent = Store.get("psl-online-consent", false);
   box.innerHTML = `<h2>Арена</h2>
-    <p class="why">Бой 1 на 1. Вам подбирают игрока вашего ранга и пола, у каждого своё окно: вы ставите своё лицо, жмёте «Определить рейт», и побеждает тот, у кого рейт выше (даже на 0,1). Победа +${WIN_PTS} очков, поражение −${LOSS_PTS}. Рекрут никогда не встретит Титана.</p>
+    <p class="why">Бой 1 на 1. Вам подбирают игрока вашего ранга и пола, у каждого своё окно: включается камера, вы делаете снимок своего лица (фото из файлов не принимаются), жмёте «Определить рейт», и побеждает тот, у кого рейт выше (даже на 0,1). Победа +${WIN_PTS} очков, поражение −${LOSS_PTS}. Рекрут никогда не встретит Титана.</p>
     <fieldset class="o-sex"><legend>Я</legend><label><input type="radio" name="osex" value="m" ${Arena.sex === "m" ? "checked" : ""}><span>Мужчина</span></label><label><input type="radio" name="osex" value="f" ${Arena.sex === "f" ? "checked" : ""}><span>Женщина</span></label></fieldset>
-    <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Я согласен, что соперник увидит маленькую копию моего лица. Она удаляется с сервера через 5 минут после боя.</span></label>
+    <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Я согласен, что в бою включится камера, а соперник увидит маленький снимок моего лица. Видео не записывается и не отправляется, снимок удаляется с сервера через 5 минут после боя.</span></label>
     ${note ? `<p class="err" role="alert">${esc(note)}</p>` : ""}
     <button class="btn primary o-go" id="o-find" type="button" ${consent ? "" : "disabled"}>Найти соперника</button>`;
   box.querySelectorAll("input[name=osex]").forEach(r => r.addEventListener("change", () => { Arena.sex = r.value; Store.set("psl-online-sex", r.value); }));
@@ -2752,12 +2796,13 @@ async function arenaSearch() {
 }
 const winHTML = who => `<section class="o-win ${who}" data-who="${who}">
     <header><span class="av" aria-hidden="true"></span><div><b class="nm"></b><span class="rk"></span></div><em class="tag">${who === "me" ? "Ты" : "Соперник"}</em></header>
-    ${who === "me" ? `<label class="o-face"><input type="file" accept="image/*,.heic,.heif,.avif,.jfif">` : `<div class="o-face">`}
+    <div class="o-face">
+      ${who === "me" ? `<video class="o-cam" playsinline muted autoplay aria-label="Камера"></video><i class="o-guide" aria-hidden="true"></i><b class="o-count" hidden aria-live="assertive"></b>` : ""}
       <img class="o-photo" alt="" hidden><span class="o-ph">${FACE_ICON}<b></b><small></small></span><i class="o-stamp" aria-hidden="true">MOGGED</i>
-    ${who === "me" ? `</label>` : `</div>`}
+    </div>
     <div class="o-num"><i>?</i></div>
     <p class="o-st" aria-live="polite"></p>
-    ${who === "me" ? `<button class="btn primary wide" type="button" id="o-rate" disabled>Определить рейт</button>` : ""}
+    ${who === "me" ? `<div class="o-btns"><button class="btn ghost" type="button" id="o-snap">Включить камеру</button><button class="btn primary" type="button" id="o-rate" disabled>Определить рейт</button></div>` : ""}
   </section>`;
 const setSt = (win, t) => { win.querySelector(".o-st").textContent = t; };
 function arenaBattle(view) {
@@ -2766,8 +2811,10 @@ function arenaBattle(view) {
   box.innerHTML = `<div class="o-bhead"><h2>Бой</h2><span class="o-timer" id="o-timer"></span><button class="linkbtn" id="o-quit" type="button">Выйти из боя</button></div>
     <div class="o-battle">${winHTML("me")}<span class="o-x">VS</span>${winHTML("opp")}</div>
     <p class="err" id="o-err" role="alert"></p><div class="o-end" id="o-end" hidden></div>`;
-  const me = box.querySelector(".o-win.me"), file = me.querySelector("input[type=file]"), zone = me.querySelector(".o-face");
+  const me = box.querySelector(".o-win.me"), vid = me.querySelector(".o-cam");
   const say = t => { $("o-err").textContent = t; };
+  let counting = false;
+  const camOn = async () => { say(""); try { await Cam.start(vid); } catch (ex) { say(onlineMsg(ex)); } if (arenaOk(tok, otok)) paintBattle(); };
   async function placeFace(f) {
     const v = Arena.view; if (!arenaOk(tok, otok) || v.status !== "live" || v.me.rated || Arena.busy) return;
     Arena.busy = true; say(""); setSt(me, "Анализирую лицо…"); $("o-rate").disabled = true;
@@ -2777,15 +2824,25 @@ function arenaBattle(view) {
       Arena.mine = {feat: r.feat, sex, thumb};
       const w = shotWarnings(r, sex); if (w) say(w);
       Arena.view = await Online.matchPhoto(v.id, thumb);
-    } catch (ex) { Arena.mine = null; say(onlineMsg(ex)); }
+    } catch (ex) { Arena.mine = null; say(onlineMsg(ex)); if (arenaOk(tok, otok)) { Arena.busy = false; return camOn(); } }   // no face found: the camera comes back for another try
     finally { Arena.busy = false; }
     if (arenaOk(tok, otok)) paintBattle();
   }
-  file.addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; if (f) placeFace(f); });
-  ["dragenter", "dragover"].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add("over"); }));
-  zone.addEventListener("dragleave", () => zone.classList.remove("over"));
-  zone.addEventListener("drop", e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove("over"); veil.hidden = true; dragDepth = 0; const f = e.dataTransfer.files[0]; if (f) placeFace(f); });
-  onlineFileHook = f => { if (!arenaOk(tok, otok) || Arena.view?.status !== "live") return false; placeFace(f); return true; };
+  onlineFileHook = () => { if (!arenaOk(tok, otok) || Arena.view?.status !== "live") return false; say("В онлайн-бое лицо ставится только с камеры: файлы и вставка не принимаются."); return true; };
+  $("o-snap").addEventListener("click", async () => {   // off -> turn the camera on; on -> 3, 2, 1 and a shot; a shot exists -> take another one
+    const v = Arena.view; if (counting || Arena.busy || v.status !== "live" || v.me.rated) return;
+    if (!Cam.live) return camOn();
+    counting = true; say(""); paintBattle();
+    const cnt = me.querySelector(".o-count");
+    try {
+      if (!REDUCED) for (const n of [3, 2, 1]) { cnt.textContent = n; cnt.hidden = false; cnt.style.animation = "none"; void cnt.offsetWidth; cnt.style.animation = ""; await sleep(850); if (!arenaOk(tok, otok)) return; }
+      cnt.hidden = true;
+      const f = await Cam.shot(); Cam.stop(); counting = false;
+      await placeFace(f);
+    } catch (ex) { say(onlineMsg(ex)); }
+    finally { counting = false; cnt.hidden = true; }
+    if (arenaOk(tok, otok)) paintBattle();
+  });
   $("o-rate").addEventListener("click", async () => {
     const v = Arena.view; if (!Arena.mine || v.status !== "live" || v.me.rated) return;
     const psl = Math.min(9, Math.max(1, Math.round(score(Arena.mine.feat, Arena.mine.sex).psl * 10) / 10));
@@ -2800,6 +2857,7 @@ function arenaBattle(view) {
     if (arenaOk(tok, otok)) paintBattle();
   });
   paintBattle();
+  if (!view.me.photo && view.status === "live") camOn();   // a fresh battle: the camera starts at once (after a reload with a photo already sent it stays off)
   // polling: the opponent's face and rating arrive here; a second timer counts the minutes down
   (async () => {
     while (arenaOk(tok, otok) && Arena.view.status === "live") {
@@ -2830,20 +2888,27 @@ function fillWin(win, side, photoSrc, emptyTitle, emptySub) {
 }
 function paintBattle() {
   const v = Arena.view, box = $("o-arena"), me = box.querySelector(".o-win.me"), opp = box.querySelector(".o-win.opp"), live = v.status === "live";
-  fillWin(me, v.me, v.me.photo ?? Arena.mine?.thumb, "Поставь своё лицо", "нажми сюда или перетащи фото");
+  fillWin(me, v.me, v.me.photo ?? Arena.mine?.thumb, "Включи камеру", "лицо ставится только со снимка с камеры");
+  const cam = Cam.live && live && !v.me.rated;
+  me.classList.toggle("cam-on", cam);
+  if (cam) { me.querySelector(".o-photo").hidden = true; me.querySelector(".o-ph").hidden = true; }
   fillWin(opp, v.opp, v.opp.photo, "Соперник ещё не поставил лицо", "ждём…");
   me.classList.toggle("locked", !live || v.me.rated);
-  $("o-rate").disabled = !live || !Arena.mine || !v.me.photo || v.me.rated || Arena.busy;
+  $("o-rate").disabled = !live || !Arena.mine || !v.me.photo || v.me.rated || Arena.busy || Cam.live;
   $("o-rate").hidden = !live;
+  const snap = $("o-snap"); snap.hidden = !live || v.me.rated;
+  snap.disabled = Arena.busy || me.querySelector(".o-count:not([hidden])") !== null;
+  snap.textContent = Cam.live ? "Сделать снимок" : v.me.photo || Arena.mine ? "Переснять" : "Включить камеру";
+  if (!live || v.me.rated) Cam.stop();
   if (live) {
-    if (!Arena.busy) setSt(me, v.me.rated ? "Рейт определён. Ждём соперника…" : !v.me.photo ? "Поставь своё лицо, чтобы определить рейт." : Arena.mine ? "Лицо поставлено. Жми «Определить рейт»." : "Фото уже отправлено. После перезагрузки поставь лицо заново.");
+    if (!Arena.busy) setSt(me, v.me.rated ? "Рейт определён. Ждём соперника…" : Cam.live ? "Смотри в камеру, лицо в овале, нейтральное выражение. Жми «Сделать снимок»." : !v.me.photo ? "Включи камеру и сделай снимок, чтобы определить рейт." : Arena.mine ? "Снимок готов. Жми «Определить рейт» или переснимись." : "Снимок уже отправлен. После перезагрузки сделай новый.");
     setSt(opp, v.opp.rated ? (v.me.rated ? "Рейт определён" : "Рейт уже определён, твой ход") : v.opp.photo ? "Лицо поставлено, ждём рейт…" : "Соперник ставит лицо…");
   } else finishBattle();
 }
 async function finishBattle() {
   const v = Arena.view, box = $("o-arena"), tok = Arena.tok, otok = olTok, me = box.querySelector(".o-win.me"), opp = box.querySelector(".o-win.opp");
   if (Arena.shown === v.id) return;
-  Arena.shown = v.id; onlineFileHook = null;
+  Arena.shown = v.id; onlineFileHook = null; Cam.stop();
   $("o-timer").textContent = ""; $("o-quit").hidden = true;
   const end = $("o-end"), res = v.result, walk = v.note === "walkover";
   me.classList.add("locked"); opp.classList.add("locked"); setSt(me, ""); setSt(opp, "");
