@@ -2028,7 +2028,7 @@ const Online = {
     if (Online._sb) return Online._sb;
     if (!globalThis.supabase?.createClient) await new Promise((ok, fail) => {
       const s = document.createElement("script");
-      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"; s.onload = ok;
+      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"; s.onload = ok;
       s.onerror = () => fail(new OnlineError("Не удалось загрузить онлайн-режим (нужен интернет)."));
       document.head.appendChild(s);
     });

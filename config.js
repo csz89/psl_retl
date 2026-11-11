@@ -6,8 +6,8 @@ window.PSL_CONFIG = {
 
   // Онлайн-батлы (Supabase). Пока пусто, страница «Онлайн» пишет, что режим не подключён. Оба значения публичные, секретов здесь нет.
   // Project URL выглядит как https://abcdefgh.supabase.co, anon public key это длинная строка из Project Settings -> API.
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://tzqawpsgogcjxqtdicou.supabase.co",
+  supabaseAnonKey: "sb_publishable_esleR0YJzJECoHy1Ft7QCA_eHUqDIgG",
 
   // Почта для вопросов по данным (показывается на странице «Конфиденциальность»). Можно оставить пустой.
   contactEmail: "",
