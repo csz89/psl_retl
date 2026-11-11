@@ -904,7 +904,7 @@
     <article class="card"><h2>Фото</h2><p>Фото обрабатывается прямо в вашем браузере. Оно не загружается на сервер и нигде не сохраняется. В историю профиля попадают только числа: дата, пол, PSL, тир.</p></article>
     <article class="card"><h2>Аккаунт</h2><p>Профиль хранится в памяти вашего браузера (localStorage), а не на сервере. Пароль хранится только в виде хеша (PBKDF2-SHA256 с индивидуальной солью). Очистка данных сайта в браузере удалит профиль и историю. Это можно сделать и в самом профиле: «Очистить историю» и «Удалить аккаунт».</p></article>
     <article class="card"><h2>Вход через Google</h2><p>Если вы входите через Google, браузер получает от Google ваше имя, адрес почты, фото профиля и идентификатор. Эти данные сохраняются только в локальном профиле в вашем браузере, сайт никому их не передаёт. Для входа браузер обращается к серверам Google (accounts.google.com).</p></article>
-    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, число PSL бойца, очки и история боёв, а также идентификатор и фото профиля вашего аккаунта Google. Сами фото никогда не загружаются. Ник, ранг и очки видят все игроки. Удалить всё это можно кнопкой «Удалить профиль бойца» на странице «Онлайн».</p></article>
+    <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, число PSL претендента, очки и история боёв, а также идентификатор и фото профиля вашего аккаунта Google. Сами фото никогда не загружаются. Ник, ранг и очки видят все игроки. Удалить всё это можно кнопкой «Удалить мой профиль» на странице «Онлайн».</p></article>
     <article class="card"><h2>Сторонние ресурсы</h2><p>При открытии сайт загружает с чужих серверов библиотеку и модели распознавания лица (cdn.jsdelivr.net, storage.googleapis.com) и шрифт Inter (fonts.googleapis.com). Эти сервисы, как любой сервер, видят ваш IP-адрес и обычные технические данные запроса, но не ваши фото.</p></article>
     <article class="card"><h2>Об оценке</h2><p>Оценка получена моделью, обученной на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков). Это развлекательный инструмент: он отражает вкус группы оценщиков и не является мерилом ценности человека.</p></article>
     <div id="privacy-contact"></div>
@@ -2017,7 +2017,7 @@ const rankOf = pts => Math.min(RANKS.length - 1, Math.floor(pts / RANK_PTS));
 const SB_URL = String(window.PSL_CONFIG?.supabaseUrl ?? "").trim().replace(/\/+$/, ""), SB_KEY = String(window.PSL_CONFIG?.supabaseAnonKey ?? "").trim();
 class OnlineError extends Error {}
 const ONLINE_ERRORS = {   // codes raised by supabase.sql
-  not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала создайте профиль бойца.", no_fighter: "Сначала выставьте бойца: оцените своё фото и нажмите «Выставить бойцом».",
+  not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала поставьте ник.", no_fighter: "Сначала выставьте претендента: оцените своё фото и нажмите «Выставить претендентом».",
   no_opponent: "Пока нет соперников вашего ранга. Попробуйте позже: чем больше игроков, тем быстрее находится бой.", too_fast: "Слишком часто. Подождите несколько секунд.",
   bad_name: "Ник: от 2 до 30 символов.", bad_psl: "Некорректный PSL.", bad_sex: "Не указан пол.",
 };
@@ -2113,7 +2113,7 @@ window.__googleOnline = onGoogleOnline;   // test hook
 function renderOnlineJoin(v) {
   const u = Accounts.current(), first = String(u?.name ?? "").trim().split(/\s+/)[0].slice(0, 30);
   v.innerHTML = `<div class="auth card">
-    <h1 class="auth-title">Профиль бойца</h1>
+    <h1 class="auth-title">Поставь ник</h1>
     <p class="why">Выберите ник для рейтинга. Его увидят все игроки, поэтому не используйте полное имя, если не хотите его показывать. Сменить ник можно потом.</p>
     <form id="o-join" novalidate>
       <label class="field"><span>Ник</span><input name="nick" maxlength="30" autocomplete="nickname" value="${esc(first)}" required></label>
@@ -2148,13 +2148,13 @@ function olHist(hist) {
 }
 function renderOnlineMain(v, me, top, hist) {
   const sc = rate.last ? score(rate.last.feat, rate.sex()) : null, nowPsl = sc ? Math.round(sc.psl * 10) / 10 : null;
-  const fighter = me.psl == null ? `<p class="why">Бойца пока нет: оцените своё фото и выставите его в бой.</p>`
-    : `<div class="o-fighter"><b class="fnum">${(+me.psl).toFixed(1)}</b><div><span class="chip" style="--c:${tierColor(tier(+me.psl)[1])}">${esc(tierLabel(+me.psl))}</span><span class="why">PSL бойца · ${sexWord(me.sex)}</span></div></div>`;
+  const fighter = me.psl == null ? `<p class="why">Претендента пока нет: оцените своё фото и выставите его в бой.</p>`
+    : `<div class="o-fighter"><b class="fnum">${(+me.psl).toFixed(1)}</b><div><span class="chip" style="--c:${tierColor(tier(+me.psl)[1])}">${esc(tierLabel(+me.psl))}</span><span class="why">PSL претендента · ${sexWord(me.sex)}</span></div></div>`;
   v.innerHTML = `
     <div class="o-top">
       <div class="card o-card" id="o-head">${olHead(me)}</div>
-      <div class="card o-card"><h2>Ваш боец</h2>${fighter}
-        ${sc ? `<button class="btn primary" id="o-set" type="button">Выставить бойцом: PSL ${nowPsl.toFixed(1)}</button><p class="why">Берётся последняя оценка из режима «Оценка» (${rate.sex() === "f" ? "женщина" : "мужчина"}).</p>` : `<a class="btn ghost" href="#/app">Оценить фото</a><p class="why">Оценка появится здесь после загрузки фото в режиме «Оценка».</p>`}
+      <div class="card o-card"><h2>Ваш претендент</h2>${fighter}
+        ${sc ? `<button class="btn primary" id="o-set" type="button">Выставить претендентом: PSL ${nowPsl.toFixed(1)}</button><p class="why">Берётся последняя оценка из режима «Оценка» (${rate.sex() === "f" ? "женщина" : "мужчина"}).</p>` : `<a class="btn ghost" href="#/app">Оценить фото</a><p class="why">Оценка появится здесь после загрузки фото в режиме «Оценка».</p>`}
         <p class="why">На сервер уходит только число PSL и пол. Фото не покидает ваше устройство.</p>
         <p class="err" id="o-set-err" role="alert"></p></div>
     </div>
@@ -2167,10 +2167,10 @@ function renderOnlineMain(v, me, top, hist) {
       <div class="card"><h2>Ранги</h2><ul class="o-ranks">${RANKS.map((r, i) => `<li>${emblem(i)}<b>${r[0]}</b><span>${i === 0 ? "с нуля" : "от " + i * RANK_PTS}</span></li>`).join("")}</ul></div>
     </div>
     <div class="card"><h2>Последние бои</h2><div id="o-hist">${olHist(hist)}</div></div>
-    <div class="card o-me"><h2>Профиль бойца</h2>
+    <div class="card o-me"><h2>Ник и профиль</h2>
       <form id="o-nick" class="o-nick"><label class="field"><span>Ник</span><input name="nick" maxlength="30" value="${esc(me.name)}" required></label><button class="btn ghost" type="submit">Сменить</button></form>
       <p class="err" id="o-nick-err" role="alert"></p>
-      <button class="btn danger" id="o-leave" type="button">Удалить профиль бойца</button></div>`;
+      <button class="btn danger" id="o-leave" type="button">Удалить мой профиль</button></div>`;
   $("o-set")?.addEventListener("click", async () => {
     try { await Online.setFighter(rate.sex(), nowPsl); renderOnline(); } catch (ex) { $("o-set-err").textContent = onlineMsg(ex); }
   });
@@ -2181,7 +2181,7 @@ function renderOnlineMain(v, me, top, hist) {
     try { await Online.join(nick); renderOnline(); } catch (ex) { err.textContent = onlineMsg(ex); }
   });
   $("o-leave").addEventListener("click", async () => {
-    if (!(await ask("Удалить профиль бойца, очки и историю боёв? Это нельзя отменить.", "Удалить"))) return;
+    if (!(await ask("Удалить профиль, очки и историю боёв? Это нельзя отменить.", "Удалить"))) return;
     try { await Online.leave(); renderOnline(); } catch (ex) { $("o-nick-err").textContent = onlineMsg(ex); }
   });
 }

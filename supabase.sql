@@ -48,7 +48,7 @@ create policy battles_read on public.battles for select to authenticated using (
 revoke all on public.players, public.battles from anon, authenticated;
 grant select on public.players, public.battles to authenticated;
 
--- создать профиль бойца или сменить ник (аватар берётся из аккаунта Google, а не от пользователя)
+-- создать профиль (ник) или сменить ник (аватар берётся из аккаунта Google, а не от пользователя)
 create or replace function public.join_ladder(p_name text default null)
 returns void language plpgsql security definer set search_path = public as $$
 declare
@@ -70,7 +70,7 @@ begin
   end if;
 end $$;
 
--- выставить бойца: пол и PSL последней оценки (раз в 10 секунд)
+-- выставить претендента: пол и PSL последней оценки (раз в 10 секунд)
 create or replace function public.set_fighter(p_sex text, p_psl numeric)
 returns void language plpgsql security definer set search_path = public as $$
 declare
@@ -133,7 +133,7 @@ begin
     'opp', jsonb_build_object('name', v_opp.name, 'picture', v_opp.picture, 'psl', v_opp.psl, 'points', v_opp.points));
 end $$;
 
--- удалить свой профиль бойца и историю боёв
+-- удалить свой профиль и историю боёв
 create or replace function public.leave_ladder()
 returns void language plpgsql security definer set search_path = public as $$
 begin
