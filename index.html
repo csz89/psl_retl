@@ -1196,6 +1196,9 @@
   .ad-log li{display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;padding:7px 10px;border-radius:10px;background:var(--surface);font-size:14px}
   .ad-log time{color:var(--dim);font-size:12px}
   .ad-log span{color:var(--soft)}
+
+  .admin>*{animation:none}
+  .admin .ad-cols,.admin .ad-card{animation:none}
 </style>
 </head>
 <body>
@@ -3450,6 +3453,8 @@ async function waitForPayment(v, tok, before) {   // back from the payment page:
 }
 // ---------- admin page: find players, give them currency and items ----------
 // The page is only a remote control: every call is checked again by the server (supabase.sql, table admins), so opening it by hand does nothing for anyone else.
+// The page is drawn once; the list, the card and the log are updated in place, and the clicks are handled by ONE listener on the whole page,
+// so a click can never miss its handler, a form can never reload the page, and the card opens at once from the list row (the details load after it).
 Object.assign(ONLINE_ERRORS, {not_admin: "Нет доступа.", bad_amount: "Слишком большое число.", no_player: "Игрок не найден."});
 Object.assign(Online, {
   adminSearch: q => Online.call(sb => sb.rpc("admin_search", {p_q: q})),
@@ -3458,58 +3463,100 @@ Object.assign(Online, {
   adminItem: (id, item, give) => Online.call(sb => sb.rpc("admin_item", {p_player: id, p_item: item, p_give: give})),
   adminRecent: () => Online.call(sb => sb.rpc("admin_recent")),
 });
-const AD = {list: [], sel: null, log: [], q: "", msg: ""};
-const adErr = ex => { console.error("admin:", ex); return ex instanceof OnlineError || ex instanceof AuthError ? ex.message : `Ошибка: ${ex?.message ?? ex}`; };
+const AD = {list: [], sel: null, log: [], q: "", wired: false, seq: 0};
+const adAlive = () => location.hash.startsWith("#/admin");
 const adItemName = id => SHOP[shopId(id)]?.name ?? id;
 const adAction = {grant: "выдача", give_item: "выдан предмет", take_item: "забран предмет"};
+const adErr = ex => { console.error("admin:", ex); return ex instanceof OnlineError || ex instanceof AuthError ? ex.message : `Ошибка: ${ex?.message ?? ex}`; };
+function adSay(text, good = false) {
+  const e = $("ad-err"), o = $("ad-ok"); if (!e || !o) return;
+  e.textContent = good ? "" : text; o.textContent = good ? text : ""; o.hidden = !(good && text);
+}
 async function renderAdmin() {
   const v = $("view-admin"), tok = ++olTok; olAgain = renderAdmin; onlineFileHook = null;
   const me = await onlineEnter(v, tok);
   if (!me) return;
   if (!me.is_admin) { navigate("", true); return; }   // not an admin: nothing to see here
+  AD.q = ""; AD.sel = null;
+  v.innerHTML = `<div class="card ad-head"><h1>Админ-панель</h1><p class="why">У вас безлимит: рейты, игры и Рета не списываются, в магазине можно брать и надевать всё бесплатно. Здесь можно найти игрока и выдать ему валюту или украшения. Все действия записываются в журнал.</p></div>
+    <form id="ad-search" class="card ad-search" onsubmit="return false" novalidate><label class="field"><span>Найти игрока</span><input name="q" placeholder="ник, почта или id" autocomplete="off"></label><button class="btn primary" type="submit">Найти</button></form>
+    <p class="err" id="ad-err" role="alert"></p><p class="ad-ok" id="ad-ok" hidden></p>
+    <div class="ad-cols"><div class="card"><h2>Игроки</h2><div id="ad-list-box"></div></div><div id="ad-detail"></div></div>
+    <div class="card"><h2>Журнал</h2><div id="ad-log-box"></div></div>`;
+  adWire(v);
+  adList(); adDetail(); adLog();
   try {
-    AD.q = ""; AD.sel = null; AD.msg = "";
     [AD.list, AD.log] = await Promise.all([Online.adminSearch(""), Online.adminRecent()]);
-    if (tok === olTok) paintAdmin(v, tok);
-  } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
+    adList(); adLog();
+  } catch (ex) { adSay(adErr(ex)); }
 }
-function adCard(d) {
-  try { return adCardHTML(d); } catch (ex) { console.error("admin card:", ex); return `<div class="card ad-card"><p class="err">Не удалось показать карточку: ${esc(ex?.message ?? ex)}</p></div>`; }
+function adWire(v) {   // one listener for everything on the page, set once
+  if (AD.wired) return; AD.wired = true;
+  v.addEventListener("click", e => {
+    const t = e.target.closest("[data-id], [data-q], [data-take]"); if (!t || !v.contains(t)) return;
+    if (t.dataset.id) adOpen(t.dataset.id);
+    else if (t.dataset.q) { const [a, b, c] = t.dataset.q.split(",").map(Number); adDo(() => Online.adminGrant(AD.sel.id, a, b, c), "Готово: " + t.textContent.trim() + "."); }
+    else if (t.dataset.take) adDo(() => Online.adminItem(AD.sel.id, t.dataset.take, false), `Готово: забрано «${adItemName(t.dataset.take)}».`);
+  });
+  v.addEventListener("submit", e => {
+    e.preventDefault();   // none of the forms may ever reload the page
+    const f = e.target;
+    if (f.id === "ad-search") adFind(new FormData(f).get("q").trim());
+    else if (f.id === "ad-grant" && AD.sel) { const n = k => Math.trunc(+f.elements[k].value) || 0, [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return adSay("Впишите число."); adDo(() => Online.adminGrant(AD.sel.id, a, b, c), "Готово: валюта выдана."); }
+    else if (f.id === "ad-item" && AD.sel) { const item = f.querySelector("select")?.value; if (item) adDo(() => Online.adminItem(AD.sel.id, item, true), `Готово: выдано «${adItemName(item)}».`); }
+  });
+}
+async function adFind(q) {
+  AD.q = q; adSay("Ищу…", true);
+  try { AD.list = await Online.adminSearch(q); if (adAlive()) { adList(); adSay(""); } } catch (ex) { adSay(adErr(ex)); }
+}
+async function adOpen(id) {   // the card shows at once from the list row; the items and orders come a moment later
+  const row = AD.list.find(x => x.id === id); if (!row) return;
+  const seq = ++AD.seq;
+  AD.sel = {...row, items: null, orders: null, equipped: {}, wins: 0, losses: 0};
+  adList(); adDetail(); adSay("");
+  try {
+    const d = await Online.adminPlayer(id);
+    if (seq === AD.seq && adAlive()) { AD.sel = d; adDetail(); }
+  } catch (ex) { if (seq === AD.seq) adSay(adErr(ex)); }
+}
+async function adDo(fn, note) {   // grant, give or take: the card, the list row and the log follow what the server answered
+  const seq = AD.seq; adSay("Выполняю…", true);
+  try {
+    const d = await fn(); if (!adAlive()) return;
+    if (seq === AD.seq) AD.sel = d;
+    AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x);
+    adList(); adDetail(); adSay(note, true);
+    Online.adminRecent().then(l => { AD.log = l; adLog(); }, () => {});
+  } catch (ex) { adSay(adErr(ex)); }
+}
+function adList() {
+  const box = $("ad-list-box"); if (!box) return;
+  box.innerHTML = AD.list.length ? `<ul class="ad-list">${AD.list.map(x => `<li><button type="button" class="${AD.sel?.id === x.id ? "on" : ""}" data-id="${esc(x.id)}"><b>${esc(x.name)}</b><span>${esc(x.email ?? "")}</span><em>${x.points} оч. · ${x.reta} Р · ${x.rates} рейт. · ${x.games} игр</em></button></li>`).join("")}</ul>` : `<p class="why">Никого не найдено.</p>`;
+}
+function adLog() {
+  const box = $("ad-log-box"); if (!box) return;
+  const what = l => l.action === "grant" ? `: ${["reta", "rates", "games"].map((k, i) => l.detail?.[k] ? `${l.detail[k] > 0 ? "+" : ""}${l.detail[k]} ${["Реты", "рейтов", "игр"][i]}` : "").filter(Boolean).join(", ")}` : l.detail?.item ? `: ${esc(adItemName(l.detail.item))}` : "";
+  box.innerHTML = AD.log.length ? `<ul class="ad-log">${AD.log.map(l => `<li><time>${dateText(l.at)}</time><b>${adAction[l.action] ?? esc(l.action)}</b><span>${esc(l.target)}${what(l)}</span></li>`).join("")}</ul>` : `<p class="why">Пока пусто.</p>`;
+}
+function adDetail() {
+  const box = $("ad-detail"); if (!box) return;
+  const d = AD.sel;
+  if (!d) { box.innerHTML = `<div class="card"><p class="why">Выберите игрока слева, чтобы открыть его карточку.</p></div>`; return; }
+  try { box.innerHTML = adCardHTML(d); }
+  catch (ex) { console.error("admin card:", ex); box.innerHTML = `<div class="card ad-card"><p class="err">Не удалось показать карточку: ${esc(ex?.message ?? ex)}</p></div>`; }
 }
 function adCardHTML(d) {
-  const owned = d.items ?? [], catalog = Object.entries(SHOP).filter(([id]) => !owned.includes(id));
-  return `<div class="card ad-card"><header><span class="av" aria-hidden="true">${avatarHTML(d)}</span><div><h2>${nickHTML(d.name, d.equipped)}</h2><p class="why">${esc(d.email ?? "")} · id ${esc(d.id)} · создан ${new Date(d.created_at).toLocaleDateString("ru-RU")}</p></div></header>
-    <div class="ad-stats"><span><b>${d.points}</b> очков</span><span><b>${d.wins}</b> побед</span><span><b>${d.losses}</b> поражений</span><span>${retaIcon("xs2")}<b id="ad-reta">${d.reta}</b> Реты</span><span>${ICON_RATE}<b>${d.rates}</b> рейтов</span><span>${ICON_GAME}<b>${d.games}</b> игр</span></div>
+  const loading = d.items == null, owned = d.items ?? [], catalog = Object.entries(SHOP).filter(([id]) => !owned.includes(id));
+  return `<div class="card ad-card"><header><span class="av" aria-hidden="true">${avatarHTML(d)}</span><div><h2>${nickHTML(d.name, d.equipped)}</h2><p class="why">${esc(d.email ?? "")} · id ${esc(d.id)}${d.created_at ? ` · создан ${new Date(d.created_at).toLocaleDateString("ru-RU")}` : ""}</p></div></header>
+    <div class="ad-stats"><span><b>${d.points}</b> очков</span>${loading ? "" : `<span><b>${d.wins}</b> побед</span><span><b>${d.losses}</b> поражений</span>`}<span>${retaIcon("xs2")}<b id="ad-reta">${d.reta}</b> Реты</span><span>${ICON_RATE}<b>${d.rates}</b> рейтов</span><span>${ICON_GAME}<b>${d.games}</b> игр</span></div>
     <h3>Валюта</h3><p class="why">Число можно ставить отрицательное, чтобы забрать (ниже нуля не уходит).</p>
-    <form id="ad-grant" class="ad-grant"><label class="field"><span>Реты</span><input name="reta" type="number" step="1" value="0"></label><label class="field"><span>Рейты</span><input name="rates" type="number" step="1" value="0"></label><label class="field"><span>Игры</span><input name="games" type="number" step="1" value="0"></label><button class="btn primary" type="submit">Применить</button></form>
+    <form id="ad-grant" class="ad-grant" onsubmit="return false" novalidate><label class="field"><span>Реты</span><input name="reta" type="number" step="1" value="0"></label><label class="field"><span>Рейты</span><input name="rates" type="number" step="1" value="0"></label><label class="field"><span>Игры</span><input name="games" type="number" step="1" value="0"></label><button class="btn primary" type="submit">Применить</button></form>
     <div class="ad-quick">${[["+100 Реты", 100, 0, 0], ["+1000 Реты", 1000, 0, 0], ["+20 рейтов", 0, 20, 0], ["+20 игр", 0, 0, 20]].map(([t, a, b, c]) => `<button type="button" class="btn ghost" data-q="${a},${b},${c}">${t}</button>`).join("")}</div>
     <h3>Украшения и анимации</h3>
-    <div class="ad-items">${owned.length ? owned.map(id => `<span class="ad-chip">${esc(adItemName(id))}<button type="button" data-take="${esc(id)}" aria-label="Забрать ${esc(adItemName(id))}">×</button></span>`).join("") : `<span class="why">У игрока пока ничего нет.</span>`}</div>
-    <form id="ad-item" class="ad-give"><label class="field"><span>Выдать</span><select name="item">${SHOP_KINDS.map(([k, t]) => `<optgroup label="${esc(t)}">${catalog.filter(([, x]) => x.kind === k).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</optgroup>`).join("")}</select></label><button class="btn primary" type="submit" ${catalog.length ? "" : "disabled"}>Выдать</button></form>
+    <div class="ad-items">${loading ? `<span class="why">Загружаю…</span>` : owned.length ? owned.map(id => `<span class="ad-chip">${esc(adItemName(id))}<button type="button" data-take="${esc(id)}" aria-label="Забрать ${esc(adItemName(id))}">×</button></span>`).join("") : `<span class="why">У игрока пока ничего нет.</span>`}</div>
+    <form id="ad-item" class="ad-give" onsubmit="return false" novalidate><label class="field"><span>Выдать</span><select name="item">${SHOP_KINDS.map(([k, t]) => `<optgroup label="${esc(t)}">${catalog.filter(([, x]) => x.kind === k).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</optgroup>`).join("")}</select></label><button class="btn primary" type="submit" ${catalog.length ? "" : "disabled"}>Выдать</button></form>
     ${d.orders?.length ? `<h3>Заказы</h3><ul class="dn-orders">${d.orders.map(o => `<li class="${o.status}"><time>${dateText(o.created_at)}</time><b>${esc(o.pack_id.replace("_", " "))}</b><span>${money(o.amount_minor, o.currency)}</span><em>${{paid: "оплачен", pending: "ждёт оплаты", failed: "не прошёл"}[o.status] ?? ""}</em></li>`).join("")}</ul>` : ""}</div>`;
-}
-function paintAdmin(v, tok) {
-  v.innerHTML = `<div class="card ad-head"><h1>Админ-панель</h1><p class="why">У вас безлимит: рейты, игры и Рета не списываются, в магазине можно брать и надевать всё бесплатно. Здесь можно найти игрока и выдать ему валюту или украшения. Все действия записываются в журнал.</p></div>
-    <form id="ad-search" class="card ad-search"><label class="field"><span>Найти игрока</span><input name="q" value="${esc(AD.q)}" placeholder="ник, почта или id" autocomplete="off"></label><button class="btn primary" type="submit">Найти</button></form>
-    <p class="err" id="ad-err" role="alert"></p><p class="ad-ok" id="ad-ok" ${AD.msg ? "" : "hidden"}>${esc(AD.msg)}</p>
-    <div class="ad-cols"><div class="card"><h2>Игроки</h2>${AD.list.length ? `<ul class="ad-list">${AD.list.map(x => `<li><button type="button" class="${AD.sel?.id === x.id ? "on" : ""}" data-id="${esc(x.id)}"><b>${esc(x.name)}</b><span>${esc(x.email ?? "")}</span><em>${x.points} оч. · ${x.reta} Р · ${x.rates} рейт. · ${x.games} игр</em></button></li>`).join("")}</ul>` : `<p class="why">Никого не найдено.</p>`}</div>
-      <div id="ad-detail">${AD.sel ? adCard(AD.sel) : `<div class="card"><p class="why">Выберите игрока слева, чтобы открыть его карточку.</p></div>`}</div></div>
-    <div class="card"><h2>Журнал</h2>${AD.log.length ? `<ul class="ad-log">${AD.log.map(l => `<li><time>${dateText(l.at)}</time><b>${adAction[l.action] ?? esc(l.action)}</b><span>${esc(l.target)}${l.action === "grant" ? `: ${["reta", "rates", "games"].map((k, i) => l.detail?.[k] ? `${l.detail[k] > 0 ? "+" : ""}${l.detail[k]} ${["Реты", "рейтов", "игр"][i]}` : "").filter(Boolean).join(", ")}` : l.detail?.item ? `: ${esc(adItemName(l.detail.item))}` : ""}</span></li>`).join("")}</ul>` : `<p class="why">Пока пусто.</p>`}</div>`;
-  const say = (t, good = false) => { $("ad-err").textContent = good ? "" : t; const o = $("ad-ok"); o.textContent = good ? t : ""; o.hidden = !good; };
-  const refresh = async (d, note) => {   // the card and the list row follow what the server answered
-    if (tok !== olTok) return;
-    AD.sel = d; AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x); AD.log = await Online.adminRecent(); AD.msg = note; paintAdmin(v, tok);
-  };
-  const act = async (fn, note) => { try { await refresh(await fn(), note); } catch (ex) { say(adErr(ex)); } };
-  $("ad-search").addEventListener("submit", async e => { e.preventDefault(); AD.q = new FormData(e.target).get("q").trim(); try { AD.list = await Online.adminSearch(AD.q); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(adErr(ex)); } });
-  v.querySelectorAll(".ad-list button").forEach(b => b.addEventListener("click", async () => { say("Открываю карточку…", true); try { AD.sel = await Online.adminPlayer(b.dataset.id); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(adErr(ex)); } }));
-  if (!AD.sel) return;
-  const id = AD.sel.id;
-  $("ad-grant").addEventListener("submit", e => { e.preventDefault(); const f = e.target.elements, n = k => Math.trunc(+f[k].value) || 0; const [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return say("Впишите число."); act(() => Online.adminGrant(id, a, b, c), "Готово: валюта выдана."); });
-  v.querySelectorAll("[data-q]").forEach(b => b.addEventListener("click", () => { const [a, c, d] = b.dataset.q.split(",").map(Number); act(() => Online.adminGrant(id, a, c, d), "Готово: " + b.textContent + "."); }));
-  // read the select directly: form.elements.item is the collection's own method, not the field
-  $("ad-item").addEventListener("submit", e => { e.preventDefault(); const item = e.target.querySelector("select").value; if (item) act(() => Online.adminItem(id, item, true), `Готово: выдано «${adItemName(item)}».`); });
-  v.querySelectorAll("[data-take]").forEach(b => b.addEventListener("click", () => act(() => Online.adminItem(id, b.dataset.take, false), `Готово: забрано «${adItemName(b.dataset.take)}».`)));
 }
 // ---------- site: home page, account screens, router ----------
 const TIER_SHARES = {"m": [9.5, 47.6, 17.1, 10.1, 7.1, 7.2, 1.3, 0.0], "m_median": 3.85, "f": [12.6, 38.9, 17.0, 16.3, 9.1, 6.0, 0.1, 0.0], "f_median": 3.96};   // % of the held-out training faces per tier, by sex (same order as TIERS)
