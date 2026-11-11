@@ -3459,6 +3459,7 @@ Object.assign(Online, {
   adminRecent: () => Online.call(sb => sb.rpc("admin_recent")),
 });
 const AD = {list: [], sel: null, log: [], q: "", msg: ""};
+const adErr = ex => { console.error("admin:", ex); return ex instanceof OnlineError || ex instanceof AuthError ? ex.message : `Ошибка: ${ex?.message ?? ex}`; };
 const adItemName = id => SHOP[shopId(id)]?.name ?? id;
 const adAction = {grant: "выдача", give_item: "выдан предмет", take_item: "забран предмет"};
 async function renderAdmin() {
@@ -3473,6 +3474,9 @@ async function renderAdmin() {
   } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
 }
 function adCard(d) {
+  try { return adCardHTML(d); } catch (ex) { console.error("admin card:", ex); return `<div class="card ad-card"><p class="err">Не удалось показать карточку: ${esc(ex?.message ?? ex)}</p></div>`; }
+}
+function adCardHTML(d) {
   const owned = d.items ?? [], catalog = Object.entries(SHOP).filter(([id]) => !owned.includes(id));
   return `<div class="card ad-card"><header><span class="av" aria-hidden="true">${avatarHTML(d)}</span><div><h2>${nickHTML(d.name, d.equipped)}</h2><p class="why">${esc(d.email ?? "")} · id ${esc(d.id)} · создан ${new Date(d.created_at).toLocaleDateString("ru-RU")}</p></div></header>
     <div class="ad-stats"><span><b>${d.points}</b> очков</span><span><b>${d.wins}</b> побед</span><span><b>${d.losses}</b> поражений</span><span>${retaIcon("xs2")}<b id="ad-reta">${d.reta}</b> Реты</span><span>${ICON_RATE}<b>${d.rates}</b> рейтов</span><span>${ICON_GAME}<b>${d.games}</b> игр</span></div>
@@ -3496,9 +3500,9 @@ function paintAdmin(v, tok) {
     if (tok !== olTok) return;
     AD.sel = d; AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x); AD.log = await Online.adminRecent(); AD.msg = note; paintAdmin(v, tok);
   };
-  const act = async (fn, note) => { try { await refresh(await fn(), note); } catch (ex) { say(onlineMsg(ex)); } };
-  $("ad-search").addEventListener("submit", async e => { e.preventDefault(); AD.q = new FormData(e.target).get("q").trim(); try { AD.list = await Online.adminSearch(AD.q); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(onlineMsg(ex)); } });
-  v.querySelectorAll(".ad-list button").forEach(b => b.addEventListener("click", async () => { try { AD.sel = await Online.adminPlayer(b.dataset.id); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(onlineMsg(ex)); } }));
+  const act = async (fn, note) => { try { await refresh(await fn(), note); } catch (ex) { say(adErr(ex)); } };
+  $("ad-search").addEventListener("submit", async e => { e.preventDefault(); AD.q = new FormData(e.target).get("q").trim(); try { AD.list = await Online.adminSearch(AD.q); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(adErr(ex)); } });
+  v.querySelectorAll(".ad-list button").forEach(b => b.addEventListener("click", async () => { say("Открываю карточку…", true); try { AD.sel = await Online.adminPlayer(b.dataset.id); AD.msg = ""; if (tok === olTok) paintAdmin(v, tok); } catch (ex) { say(adErr(ex)); } }));
   if (!AD.sel) return;
   const id = AD.sel.id;
   $("ad-grant").addEventListener("submit", e => { e.preventDefault(); const f = e.target.elements, n = k => Math.trunc(+f[k].value) || 0; const [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return say("Впишите число."); act(() => Online.adminGrant(id, a, b, c), "Готово: валюта выдана."); });
