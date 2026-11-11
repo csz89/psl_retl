@@ -10,7 +10,9 @@ const supabaseUrl = () => env("SUPABASE_URL").replace(/\/+$/, "");
 
 async function rpc(fn, args) {   // calls a database function with the service key (the browser never has it)
   const key = env("SUPABASE_SERVICE_ROLE_KEY");
-  const r = await fetch(`${supabaseUrl()}/rest/v1/rpc/${fn}`, {method: "POST", headers: {apikey: key, authorization: "Bearer " + key, "content-type": "application/json"}, body: JSON.stringify(args)});
+  const headers = {apikey: key, "content-type": "application/json"};
+  if (key.startsWith("eyJ")) headers.authorization = "Bearer " + key;   // the old service_role key is a JWT; the new sb_secret_ keys are not and go in apikey only
+  const r = await fetch(`${supabaseUrl()}/rest/v1/rpc/${fn}`, {method: "POST", headers, body: JSON.stringify(args)});
   const text = await r.text();
   let data = null; try { data = text ? JSON.parse(text) : null; } catch {}
   if (!r.ok) { const e = new Error(data?.message ?? `database error ${r.status}`); e.status = r.status; throw e; }
