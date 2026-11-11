@@ -659,7 +659,7 @@
   .av img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
   .or{display:flex;align-items:center;gap:12px;color:var(--dim);font-size:13px}
   .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
-  .gbox{display:grid;gap:12px;justify-items:center}
+  .gbox{display:grid;gap:12px;justify-items:center;color-scheme:light}   /* иначе Google-iframe получает белый фон на тёмной странице */
   .gbtn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:340px;height:44px;border-radius:999px;border:1px solid #dadce0;background:#fff;color:#3c4043;font:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:box-shadow .15s,background .15s}
   .gbtn:hover{background:#f8f9fa;box-shadow:0 1px 3px rgba(60,64,67,.3)}
   .gbtn:focus-visible{outline:2px solid var(--strong);outline-offset:2px}
