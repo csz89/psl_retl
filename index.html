@@ -1067,16 +1067,102 @@
   .o-btns .btn{flex:1;min-width:150px;padding-left:14px;padding-right:14px}
   .o-btns [hidden]{display:none}
   .o-win.me .o-face{cursor:default}
+
+  /* ================= wallet, bonuses, donate ================= */
+  .wallet{display:flex;align-items:center;gap:6px}
+  .wallet[hidden]{display:none}
+  .wal{display:inline-flex;align-items:center;gap:5px;height:44px;padding:0 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--strong);font-weight:800;font-size:15px;text-decoration:none;font-variant-numeric:tabular-nums;transition:border-color .2s,transform .2s}
+  .wal[hidden]{display:none}
+  .wal:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .wal .wic{width:18px;height:18px;color:var(--accent)}
+  .wal.low{border-color:#ef4444}.wal.low .wic{color:#ef4444}
+  .wal.gift{padding:0 11px;border-color:#fbbf24;animation:giftPulse 1.6s ease-in-out infinite}
+  .wal.gift .wic{color:#fbbf24}
+  @keyframes giftPulse{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.5)}50%{box-shadow:0 0 0 7px rgba(251,191,36,0)}}
+  @media(max-width:700px){.wal,.reta{height:40px;padding:0 9px;font-size:14px}.wal .wic{width:16px;height:16px}.top-actions{flex-wrap:wrap;justify-content:flex-end}}
+  .bonus{max-width:1040px;margin:0 auto;display:grid;gap:16px;padding-bottom:28px}
+  .bonus>*{animation:rise .55s cubic-bezier(.2,.8,.2,1) backwards}
+  .bn-head{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .bn-head h1{margin:0 0 6px;font-size:clamp(26px,4vw,36px);color:var(--strong);letter-spacing:-.02em}
+  .bn-head .why{margin:0;max-width:60ch}
+  .bn-sum{display:flex;gap:10px 18px;align-items:center;flex-wrap:wrap}
+  .bn-sum span{display:inline-flex;align-items:center;gap:6px;color:var(--soft)}
+  .bn-sum b{font-size:22px;color:var(--strong);font-variant-numeric:tabular-nums}
+  .bn-sum .wic{width:20px;height:20px;color:var(--accent)}
+  .bn-daily{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .bn-daily.ready{border-color:#fbbf24;box-shadow:0 0 0 1px #fbbf24,0 18px 40px -22px #fbbf24}
+  .bn-gift{display:grid;place-items:center;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#fbbf24,#f97316);color:#fff;flex:none}
+  .bn-gift .wic{width:34px;height:34px}
+  .bn-daily.ready .bn-gift{animation:rkBob 2.2s ease-in-out infinite}
+  .bn-dtxt{flex:1;min-width:220px}
+  .bn-dtxt h2{margin:0 0 4px;font-size:20px;color:var(--strong)}
+  .bn-dtxt .why{margin:0}
+  .bn-wait{display:grid;justify-items:end;color:var(--dim);font-size:13px}
+  .bn-wait b{font-size:22px;color:var(--strong)}
+  .bn-qhead{display:flex;gap:6px 16px;align-items:baseline;flex-wrap:wrap;margin-bottom:12px}
+  .bn-qhead h2{margin:0;font-size:22px;color:var(--strong)}
+  .bn-qhead .why{margin:0}
+  .bn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .qst{position:relative;display:grid;gap:10px;padding:14px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,var(--card1),var(--card2))}
+  .qst-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+  .qst h3{margin:0;font-size:15px;color:var(--strong);line-height:1.3}
+  .qst-rw{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-weight:800;color:#2dd4bf}
+  .qst-bar{height:8px;border-radius:999px;background:var(--surface2);overflow:hidden}
+  .qst-bar i{display:block;height:100%;border-radius:inherit;background:var(--grad);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .qst footer{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:38px}
+  .qst .btn{padding:8px 16px;font-size:14px;border-radius:12px}
+  .qst-done{color:var(--dim);font-weight:700;font-size:13px}
+  .qst.full{border-color:#2dd4bf}
+  .qst.claimed{opacity:.6}
+  .qst.full .qst-bar i{background:#2dd4bf}
+  .dn-cur{display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+  .dn-cur .field{width:150px}
+  .dn-cur select{font:inherit;font-size:16px;font-weight:700;color:var(--txt);padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+  .dn-cur .why{margin:0;flex:1;min-width:220px}
+  .dn-note{margin:0;padding:12px 16px;border-radius:14px;background:color-mix(in srgb,#2dd4bf 16%,transparent);border:1px solid #2dd4bf;color:var(--strong)}
+  .dn-note[hidden]{display:none}
+  .dn-sec h2{margin:0 0 4px;font-size:22px;color:var(--strong);display:flex;align-items:center;gap:8px}
+  .dn-sec h2 .wic{width:24px;height:24px;color:var(--accent)}
+  .dn-sec>.why{margin:0 0 12px}
+  .dn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .dn-pack{display:grid;gap:6px;justify-items:center;text-align:center;padding:18px 14px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,var(--card1),var(--card2));transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s}
+  .dn-pack:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 18px 40px -22px color-mix(in srgb,var(--accent) 70%,transparent)}
+  .dn-amt{font-size:44px;font-weight:800;line-height:1;color:var(--strong)}
+  .dn-amt small{display:block;font-size:14px;font-weight:700;color:var(--dim);margin-top:4px}
+  .dn-price{font-size:22px;font-weight:800;color:var(--strong)}
+  .dn-pack .why{margin:0}
+  .dn-save{color:#22c55e}
+  .dn-buy{display:grid;gap:6px;width:100%;margin-top:6px}
+  .dn-buy .btn{padding:10px 14px;font-size:14px;border-radius:12px}
+  .dn-orders{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .dn-orders li{display:grid;grid-template-columns:auto 1fr auto auto;gap:4px 14px;align-items:center;padding:8px 12px;border-radius:12px;background:var(--surface);font-size:14px}
+  .dn-orders time{color:var(--dim);font-size:12px}
+  .dn-orders em{font-style:normal;font-weight:700}
+  .dn-orders .paid em{color:#22c55e}.dn-orders .failed em{color:#ef4444}.dn-orders .pending em{color:var(--dim)}
+  .dn-legal{max-width:80ch}
+  dialog.paywall{width:min(440px,calc(100vw - 24px));padding:0;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--txt)}
+  dialog.paywall::backdrop{background:var(--veil);backdrop-filter:blur(6px)}
+  dialog.paywall[open]{animation:popIn .3s cubic-bezier(.2,1.3,.4,1)}
+  .pw-box{display:grid;gap:12px;padding:24px}
+  .pw-box h2{margin:0;font-size:22px;color:var(--strong)}
+  .pw-box p{margin:0;color:var(--soft);line-height:1.55}
+  .pw-acts{display:grid;gap:8px}
+  .pw-acts .btn{width:100%}
+  .pw-acts .linkbtn{justify-self:center;color:var(--dim)}
+
+  /* the header got busy: tighter menu, the brand never wraps */
+  .brand-text small,.brand-text b{white-space:nowrap}
+  @media(min-width:1000px){.nav a{padding:8px 10px}.nav{gap:2px}.top-actions{gap:6px}}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
-    <a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a>
+    <div class="wallet" id="wallet" hidden><a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a><a class="wal" id="rate-pill" href="#/donate"></a><a class="wal" id="game-pill" href="#/donate"></a><a class="wal gift" id="gift-pill" href="#/bonus" hidden aria-label="Ежедневный бонус готов"></a></div>
     <button type="button" class="gear" id="gear" aria-label="Настройки" aria-haspopup="dialog" title="Настройки">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0A1.7 1.7 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>
     </button>
@@ -1181,6 +1267,7 @@
         <details><summary>Что такое PSL?</summary><p>Неформальная шкала привлекательности лица от 0 до 8 из онлайн-сообществ. Здесь 4 это среднее лицо обучающей выборки, а каждый балл выше или ниже равен одному стандартному отклонению оценок. Науки за самой шкалой нет, это удобный язык для сравнения.</p></details>
         <details><summary>Почему мой рейт отличается от того, что я ожидал?</summary><p>Модель повторяет вкус 60 оценщиков по фото и ошибается в среднем на ±0,5 PSL. Сильно влияют ракурс, свет, улыбка и фон. Для повторной проверки снимите фото анфас на уровне глаз при мягком свете с нейтральным выражением.</p></details>
         <details><summary>Зачем нужна рулетка?</summary><p>Это только анимация перед результатом. Рейт известен до её запуска, а рулетка лишь подводит к нему. Её можно выключить в настройках (шестерёнка).</p></details>
+        <details><summary>Что такое рейты и игры?</summary><p><b>Рейт</b> тратится на оценку одного фото (в режиме «Сравнение» на каждое из двух), <b>игра</b> на один онлайн-бой. Новому игроку дают по 10, а каждый день можно бесплатно забрать +5 рейтов и +10 игр. Ещё Рету за задания недели, а если не хватает, пакеты можно купить на странице «Донат».</p></details>
         <details><summary>Что даёт аккаунт?</summary><p>Он нужен для всего: без аккаунта оценка, сравнение, онлайн-бои и магазин не работают. История ваших оценок, статистика (средний и лучший PSL, график динамики) и сохранение настроек темы. Всё это хранится только в этом браузере.</p></details>
         <details><summary>Как удалить свои данные?</summary><p>В профиле есть кнопки «Очистить историю» и «Удалить аккаунт». Фото сайт не хранит вообще.</p></details>
         <details><summary>Можно ли использовать оценку серьёзно?</summary><p>Нет. Это развлекательный инструмент: модель обучена на ограниченной выборке и не знает о человеке ничего, кроме лица на фото.</p></details>
@@ -1219,6 +1306,9 @@
   <section id="view-profile" class="view" hidden></section>
   <section id="view-online" class="view online" hidden></section>
   <section id="view-shop" class="view shop" hidden></section>
+  <section id="view-bonus" class="view bonus" hidden></section>
+  <section id="view-donate" class="view bonus" hidden></section>
+  <section id="view-gate" class="view online" hidden></section>
   <section id="view-privacy" class="view legal" hidden>
     <h1>Конфиденциальность</h1>
     <p class="sec-lead">Коротко и без юридических оговорок: что сайт делает с вашими данными.</p>
@@ -1226,6 +1316,7 @@
     <article class="card"><h2>Аккаунт</h2><p>Профиль хранится в памяти вашего браузера (localStorage), а не на сервере. Пароль хранится только в виде хеша (PBKDF2-SHA256 с индивидуальной солью). Очистка данных сайта в браузере удалит профиль и историю. Это можно сделать и в самом профиле: «Очистить историю» и «Удалить аккаунт».</p></article>
     <article class="card"><h2>Вход через Google</h2><p>Если вы входите через Google, браузер получает от Google ваше имя, адрес почты, фото профиля и идентификатор. Эти данные сохраняются только в локальном профиле в вашем браузере, сайт никому их не передаёт. Для входа браузер обращается к серверам Google (accounts.google.com).</p></article>
     <article class="card"><h2>Онлайн-батлы</h2><p>Если вы играете онлайн, на сервер (Supabase) уходят: ваш ник, пол, ваш рейт в бою, очки и история боёв, а также идентификатор и аватар вашего аккаунта Google. Ник, ранг и очки видят все игроки. В бою лицо ставится только с камеры вашего устройства (загрузка файлов, перетаскивание и вставка отключены): браузер включает камеру, вы делаете один снимок, вырезает из него квадрат с лицом (около 256 пикселей), и эту маленькую копию видит ваш соперник. Видео не записывается и не отправляется, кадр целиком и исходное фото тоже. Камера выключается сразу после снимка и в конце боя. Копия хранится на сервере только пока идёт бой и стирается через 5 минут после его окончания. Если соперник пожалуется на фото, копия сохраняется для проверки до 30 дней. Перед первым боем нужно поставить галочку согласия. На сервере также хранятся баланс Реты, ваши покупки и надетые предметы. Удалить ник, очки, Рету и историю боёв можно кнопкой «Удалить мой профиль» на странице «Онлайн». Не отправляйте чужие фото и неприемлемые снимки: бой это игра между живыми людьми.</p></article>
+    <article class="card"><h2>Рейты, игры и платежи</h2><p>Баланс рейтов, игр и Реты, ежедневные бонусы и прогресс заданий хранятся на сервере (Supabase) и привязаны к вашему аккаунту Google. Если вы покупаете пакет, оплата проходит на странице платёжной системы (Stripe или LiqPay): данные карты вводятся только там, сайт их не видит и не хранит. Сайт сохраняет заказ: пакет, сумму, валюту, способ, статус и время; эти записи видны только вам и владельцу сайта. Рейты и игры это цифровая услуга: они начисляются после подтверждения оплаты и деньгами не возвращаются.</p></article>
     <article class="card"><h2>Сторонние ресурсы</h2><p>При открытии сайт загружает с чужих серверов библиотеку и модели распознавания лица (cdn.jsdelivr.net, storage.googleapis.com) и шрифт Inter (fonts.googleapis.com). Эти сервисы, как любой сервер, видят ваш IP-адрес и обычные технические данные запроса, но не ваши фото.</p></article>
     <article class="card"><h2>Об оценке</h2><p>Оценка получена моделью, обученной на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков). Это развлекательный инструмент: он отражает вкус группы оценщиков и не является мерилом ценности человека.</p></article>
     <div id="privacy-contact"></div>
@@ -1233,7 +1324,7 @@
 </main>
 <footer class="site-foot">
   <span>PSL Rater: развлекательный инструмент. Оценка отражает вкус группы оценщиков и не является мерилом ценности человека.</span>
-  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/privacy">Конфиденциальность</a></nav>
+  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/bonus">Бонусы</a><a href="#/donate">Донат</a><a href="#/privacy">Конфиденциальность</a></nav>
 </footer>
 <dialog id="settings" aria-labelledby="settings-title">
   <form method="dialog" class="set">
@@ -1248,6 +1339,7 @@
   </form>
 </dialog>
 
+<dialog id="paywall" class="paywall" aria-label="Сообщение"></dialog>
 <dialog id="confirm" aria-labelledby="confirm-text">
   <form method="dialog" class="ask">
     <p id="confirm-text"></p>
@@ -2068,6 +2160,8 @@ function makeSlot(root, {title, onResult, rate}) {
     try {
       const r = await analyzeFile(file, q("canvas"));
       if (tok !== slot.tok) return;
+      if (!(await creditGate(slot.isRate ? "rate" : "cmp"))) { msg("Нет рейтов: заберите бонус, выполните задание или пополните баланс."); onResult(slot); return; }   // one rate per rated photo
+      if (tok !== slot.tok) return;
       slot.last = r;
       showAlign(r);
       slot.refresh(settings.roulette);
@@ -2519,7 +2613,7 @@ const ONLINE_ERRORS = {   // codes raised by supabase.sql
 };
 const Online = {
   enabled: /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SB_URL) && SB_KEY.length > 20,
-  _sb: null, eq: {},   // eq: what the signed-in player wears (cosmetics)
+  _sb: null, eq: {}, ready: false, profile: null,   // eq: what the signed-in player wears (cosmetics)
   async sb() {
     if (Online._sb) return Online._sb;
     if (!globalThis.supabase?.createClient) await new Promise((ok, fail) => {
@@ -2534,7 +2628,8 @@ const Online = {
     const {data, error} = await fn(await Online.sb());
     if (error) {
       const code = Object.keys(ONLINE_ERRORS).find(k => String(error.message).includes(k));
-      throw new OnlineError(code ? ONLINE_ERRORS[code] : "Онлайн-режим недоступен: " + error.message);
+      const e = new OnlineError(code ? ONLINE_ERRORS[code] : "Онлайн-режим недоступен: " + error.message); e.code = code ?? "";
+      throw e;
     }
     return data;
   },
@@ -2547,12 +2642,13 @@ const Online = {
     if (!Online.enabled) return;
     try { for (const k of Object.keys(localStorage)) if (/^sb-.*-auth-token/.test(k)) localStorage.removeItem(k); } catch {}
     try { if (Online._sb) await Online._sb.auth.signOut({scope: "local"}); } catch {}
-    Online._sb = null; Online.eq = {}; retaSet(null);
+    Online._sb = null; Online.eq = {}; Online.ready = false; Online.profile = null; retaSet(null);
   },
   async me() {   // my own profile, with the Reta balance and what I wear
     if (!(await Online.user())) return null;
     const p = await Online.call(sb => sb.rpc("my_profile"));
-    if (p) { Online.eq = eqOf(p.equipped); retaSet(p.reta); updateAccountUI(); }
+    if (p) { Online.eq = eqOf(p.equipped); walletSet(p); updateAccountUI(); }
+    Online.ready = !!p;   // a profile exists: the app (rates) and the online pages can open
     return p;
   },
   join: name => Online.call(sb => sb.rpc("join_ladder", {p_name: name})),
@@ -2639,7 +2735,7 @@ async function renderOnline() {
 function renderOnlineConnect(v) {
   v.innerHTML = `<div class="auth card">
     <h1 class="auth-title">Онлайн-бои и магазин</h1>
-    <p class="why">Бои идут между зарегистрированными игроками и дают очки в рейтинге лиц и Рету для магазина. Чтобы никто не играл под чужим именем, онлайн-режим подтверждает аккаунт через Google.</p>
+    <p class="why">Рейты, игры, Рета, магазин, задания и онлайн-бои хранятся на сервере, поэтому нужен аккаунт Google: так баланс и покупки привязаны к вам и никто не играет под чужим именем. Новому игроку дают 10 рейтов и 10 игр.</p>
     <div class="gbox"></div>
     <p class="err" role="alert"></p>
     <p class="fine">В бою соперник увидит маленькую копию вашего лица. Подробности на странице «Конфиденциальность».</p></div>`;
@@ -2779,6 +2875,7 @@ function arenaIdle(note = "") {
     <p class="why">Бой 1 на 1. Вам подбирают игрока вашего ранга и пола, у каждого своё окно: включается камера, вы делаете снимок своего лица (фото из файлов не принимаются), жмёте «Определить рейт», и побеждает тот, у кого рейт выше (даже на 0,1). Победа +${WIN_PTS} очков, поражение −${LOSS_PTS}. Рекрут никогда не встретит Титана.</p>
     <fieldset class="o-sex"><legend>Я</legend><label><input type="radio" name="osex" value="m" ${Arena.sex === "m" ? "checked" : ""}><span>Мужчина</span></label><label><input type="radio" name="osex" value="f" ${Arena.sex === "f" ? "checked" : ""}><span>Женщина</span></label></fieldset>
     <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Я согласен, что в бою включится камера, а соперник увидит маленький снимок моего лица. Видео не записывается и не отправляется, снимок удаляется с сервера через 5 минут после боя.</span></label>
+    <p class="why">Бой стоит 1 игру. У вас ${Online.profile?.games ?? "?"} ${plural(Online.profile?.games ?? 0, ["игра", "игры", "игр"])}: <a href="#/bonus">бесплатные</a> и <a href="#/donate">платные</a> можно получить на сайте.</p>
     ${note ? `<p class="err" role="alert">${esc(note)}</p>` : ""}
     <button class="btn primary o-go" id="o-find" type="button" ${consent ? "" : "disabled"}>Найти соперника</button>`;
   box.querySelectorAll("input[name=osex]").forEach(r => r.addEventListener("change", () => { Arena.sex = r.value; Store.set("psl-online-sex", r.value); }));
@@ -2798,7 +2895,7 @@ async function arenaSearch() {
       const s = Math.floor((Date.now() - t0) / 1000);
       if (s >= SEARCH_MAX_SEC) { Online.queueLeave().catch(() => {}); return arenaIdle("Соперников вашего ранга пока нет. Попробуйте позже или позовите друга."); }
       $("o-wait").textContent = s < 10 ? "Ищем соперника вашего ранга…" : `Ищем соперника… ${s} с. Ищем и в соседнем ранге.`;
-    } catch (ex) { if (arenaOk(tok, otok)) arenaIdle(onlineMsg(ex)); return; }
+    } catch (ex) { if (arenaOk(tok, otok)) { arenaIdle(onlineMsg(ex)); if (ex.code === "no_games") openPaywall("games"); } return; }
     await sleep(2000);
   }
 }
@@ -2817,11 +2914,12 @@ function arenaBattle(view) {
   const box = $("o-arena"), tok = ++Arena.tok, otok = olTok;
   Arena.phase = "battle"; Arena.view = view; Arena.shown = null; Arena.mine = null; Arena.busy = false; Arena.t0 = Date.now();
   if (!Models.ready) preloadModels().then(() => { if (arenaOk(tok, otok)) paintBattle(); }, () => {});
+  Online.me().catch(() => {});   // the battle cost a game: the balance in the header follows
   box.innerHTML = `<div class="o-bhead"><h2>Бой</h2><span class="o-timer" id="o-timer"></span><button class="linkbtn" id="o-quit" type="button">Выйти из боя</button></div>
     <div class="o-battle">${winHTML("me")}<span class="o-x">VS</span>${winHTML("opp")}</div>
     <p class="err" id="o-err" role="alert"></p><div class="o-end" id="o-end" hidden></div>`;
   const me = box.querySelector(".o-win.me"), vid = me.querySelector(".o-cam");
-  const say = t => { $("o-err").textContent = t; };
+  const say = t => { const e = $("o-err"); e.textContent = t; delete e.dataset.net; };
   let counting = false;
   const camOn = async (keepMsg = false) => { if (!keepMsg) say(""); try { await Cam.start(vid); } catch (ex) { say(onlineMsg(ex)); } if (arenaOk(tok, otok)) paintBattle(); };
   async function placeFace(f) {
@@ -2878,10 +2976,10 @@ function arenaBattle(view) {
       try {
         const st = await Online.matchState();
         if (!arenaOk(tok, otok)) return;
-        if (st.state === "match" && st.match.id === Arena.view.id) { Arena.view = st.match; say(""); }
+        if (st.state === "match" && st.match.id === Arena.view.id) { Arena.view = st.match; const e = $("o-err"); if (e.dataset.net) say(""); }   // only the connection message goes away by itself
         else if (st.state !== "match") Arena.view = {...Arena.view, status: "void", result: "void"};
         paintBattle();
-      } catch { if (arenaOk(tok, otok)) say("Нет связи, пробую снова…"); }
+      } catch { if (arenaOk(tok, otok)) { say("Нет связи, пробую снова…"); $("o-err").dataset.net = "1"; } }
     }
   })();
   (function clock() {
@@ -2988,8 +3086,9 @@ const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(nam
 
 // ---------- the balance in the header ----------
 function retaSet(n) {
-  const pill = $("reta-pill"); if (!pill) return;
-  if (n == null) { pill.hidden = true; return; }
+  const pill = $("reta-pill"), wallet = $("wallet"); if (!pill) return;
+  if (n == null) { pill.hidden = true; if (wallet) wallet.hidden = true; return; }
+  if (wallet) wallet.hidden = false;
   if (!pill.firstElementChild) pill.innerHTML = retaIcon("xs2") + "<b>0</b>";
   const b = pill.querySelector("b"), from = +b.dataset.v || 0; b.dataset.v = n;
   const first = pill.hidden; pill.hidden = false;
@@ -3098,6 +3197,191 @@ async function renderShop() {
     SH.items = items.filter(i => shopId(i.id) && SHOP[i.id].kind === i.kind); SH.owned = new Set(mine.map(p => p.item_id)); SH.eq = eqOf(me.equipped); SH.reta = me.reta ?? 0;
     shopPaint();
   } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
+}
+// ---------- wallet: rates (попытки оценки), games (попытки боя), daily bonus, weekly quests, buying packs ----------
+// Balances live on the server (supabase.sql). Rates are spent after a successful analysis, games when an online battle is found.
+// shortcut: the analysis itself runs in the visitor's browser, so a determined cheater can skip the spending; real protection needs the model on a server
+const ICON_RATE = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>`;
+const ICON_GAME = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l9 9M20 4l-9 9M5 15l4 4M19 15l-4 4M3 17l3 3M21 17l-3 3"/></svg>`;
+const ICON_GIFT = `<svg class="wic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>`;
+const DAILY_RATES = 5, DAILY_GAMES = 10;   // keep in sync with daily_claim() in supabase.sql
+const fmtLeft = s => { s = Math.max(0, Math.round(s)); const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return d ? `${d} д ${h} ч` : h ? `${h} ч ${m} мин` : `${Math.max(1, m)} мин`; };
+
+function walletSet(p) {   // p: the profile the server sent (my_profile or any function that returns it)
+  if (!p) return;
+  Online.profile = p; retaSet(p.reta ?? 0);
+  for (const [id, icon, key, tip] of [["rate-pill", ICON_RATE, "rates", "Рейты: попытки оценить фото"], ["game-pill", ICON_GAME, "games", "Игры: попытки онлайн-боя"]]) {
+    const el = $(id); if (!el) continue;
+    if (!el.firstElementChild) { el.innerHTML = icon + "<b>0</b>"; el.title = tip; }
+    const b = el.querySelector("b"), from = +b.dataset.v || 0, to = p[key] ?? 0; b.dataset.v = to;
+    fxCount(b, el.dataset.init ? from : 0, to, 700); el.dataset.init = "1";
+    el.classList.toggle("low", to < 1);
+  }
+  const gift = $("gift-pill"); if (gift) { if (!gift.firstElementChild) gift.innerHTML = ICON_GIFT; gift.hidden = !p.daily_ready; gift.title = `Ежедневный бонус готов: +${DAILY_RATES} рейтов и +${DAILY_GAMES} игр`; }
+}
+
+// ---------- API ----------
+Object.assign(ONLINE_ERRORS, {   // longer codes first: the first one found in the server message wins
+  quest_not_done: "Задание ещё не выполнено.", quest_claimed: "Награда за это задание уже получена.", no_quest: "Такого задания нет.", claimed: "Бонус за сегодня уже получен.",
+  no_rates: "Рейты закончились.", no_games: "Игры закончились.", bad_kind: "Неизвестное действие.", no_pack: "Такого пакета нет.", no_price: "Для этой валюты цены пока нет.",
+});
+const withWallet = p => { walletSet(p); return p; };
+Object.assign(Online, {
+  spend: kind => Online.call(sb => sb.rpc("spend_credit", {p_kind: kind})).then(withWallet),
+  dailyClaim: () => Online.call(sb => sb.rpc("daily_claim")).then(withWallet),
+  quests: () => Online.call(sb => sb.rpc("my_quests")),
+  claimQuest: id => Online.call(sb => sb.rpc("claim_quest", {p_quest: id})).then(withWallet),
+  packs: () => Online.call(sb => sb.from("packs").select("id,kind,amount,sort").order("sort", {ascending: true})),
+  prices: () => Online.call(sb => sb.from("pack_prices").select("pack_id,currency,amount_minor")),
+  orders: () => Online.call(sb => sb.from("orders").select("id,pack_id,currency,amount_minor,provider,status,created_at").order("created_at", {ascending: false}).limit(5)),
+});
+const PAY_PROVIDERS = (Array.isArray(window.PSL_CONFIG?.payProviders) ? window.PSL_CONFIG.payProviders : []).filter(p => p === "stripe" || p === "liqpay");
+const providersFor = cur => PAY_PROVIDERS.filter(p => p === "stripe" || ["UAH", "USD", "EUR"].includes(cur));
+const PAY_ERRORS = {no_token: "Войдите в аккаунт.", bad_token: "Сессия устарела: перезайдите через Google.", not_configured: "Оплата ещё не подключена на этом сайте.", currency_not_supported: "Эта валюта не поддерживается выбранным способом оплаты.",
+  no_price: "Для этой валюты цены пока нет.", no_pack: "Такого пакета нет.", not_joined: "Сначала создайте профиль на странице «Онлайн».", provider_failed: "Платёжная система не ответила. Попробуйте позже."};
+async function startCheckout(pack, currency, provider) {
+  const {data} = await (await Online.sb()).auth.getSession(), token = data?.session?.access_token;
+  if (!token) throw new OnlineError(PAY_ERRORS.bad_token);
+  let r, j = {};
+  try { r = await fetch("/api/checkout", {method: "POST", headers: {"content-type": "application/json", authorization: "Bearer " + token}, body: JSON.stringify({pack, currency, provider})}); j = await r.json().catch(() => ({})); }
+  catch { throw new OnlineError("Нет связи с сервером оплаты. Проверьте интернет."); }
+  if (!r.ok) throw new OnlineError(PAY_ERRORS[j.error] ?? "Не удалось начать оплату. Попробуйте позже.");
+  if (j.provider === "stripe" && /^https:\/\/([\w-]+\.)*stripe\.com\//.test(String(j.url))) { location.href = j.url; return; }
+  if (j.provider === "liqpay" && j.action === "https://www.liqpay.ua/api/3/checkout" && j.data && j.signature) {   // the form is sent to LiqPay only, never to an address the server made up
+    const f = document.createElement("form"); f.method = "POST"; f.action = j.action; f.acceptCharset = "utf-8";
+    for (const [k, v] of [["data", j.data], ["signature", j.signature]]) { const i = document.createElement("input"); i.type = "hidden"; i.name = k; i.value = v; f.append(i); }
+    document.body.append(f); f.submit(); return;
+  }
+  throw new OnlineError("Платёжная система вернула неожиданный ответ.");
+}
+
+// ---------- spending a rate; the paywall ----------
+function openNotice(title, text, actions = []) {   // a small window: title, text and buttons or links
+  const d = $("paywall");
+  d.innerHTML = `<div class="pw-box"><h2>${esc(title)}</h2><p>${text}</p><div class="pw-acts">${actions.map(a => a.href ? `<a class="btn ${a.primary ? "primary" : "ghost"}" href="${a.href}" data-close>${esc(a.label)}</a>` : `<button type="button" class="btn ${a.primary ? "primary" : "ghost"}" data-act="${a.act}">${esc(a.label)}</button>`).join("")}<button type="button" class="linkbtn" data-close>Закрыть</button></div></div>`;
+  d.querySelectorAll("[data-close]").forEach(e => e.addEventListener("click", () => d.close()));
+  d.querySelector("[data-act=daily]")?.addEventListener("click", async e => {
+    e.target.disabled = true;
+    try { const p = await Online.dailyClaim(); d.close(); fxConfetti(innerWidth / 2, innerHeight / 3, {count: 40, spread: 300}); if (location.hash.startsWith("#/bonus")) renderBonus(); return p; }
+    catch (ex) { e.target.disabled = false; d.querySelector("p").textContent = onlineMsg(ex); }
+  });
+  if (!d.open) d.showModal();
+}
+function openPaywall(kind) {   // kind: "rates" | "games"
+  const p = Online.profile ?? {}, what = kind === "rates" ? "Рейты" : "Игры", use = kind === "rates" ? "оценить фото" : "сыграть мог-батл";
+  openNotice(`${what} закончились`, `Чтобы ${use}, нужны ${what.toLowerCase()}. ${p.daily_ready ? `Бесплатный бонус уже ждёт: +${DAILY_RATES} рейтов и +${DAILY_GAMES} игр.` : `Следующий бесплатный бонус через ${fmtLeft(p.next_daily_s ?? 0)}.`} Ещё их дают за задания, а можно купить пакет.`,
+    [...(p.daily_ready ? [{label: `Забрать бонус: +${DAILY_RATES} рейтов, +${DAILY_GAMES} игр`, act: "daily", primary: true}] : []), {label: `Купить ${what.toLowerCase()}`, href: "#/donate", primary: !p.daily_ready}, {label: "Задания", href: "#/bonus"}]);
+}
+async function creditGate(kind) {   // true when one rate was spent (without a server everything is free)
+  if (!Online.enabled) return true;
+  try { await Online.spend(kind); return true; }
+  catch (ex) {
+    if (ex.code === "no_rates") openPaywall("rates");
+    else if (ex.code === "not_signed_in" || ex.code === "not_joined") openNotice("Нужен аккаунт Google", "Рейты хранятся на сервере: подключите аккаунт Google и поставьте ник на странице «Онлайн».", [{label: "Открыть «Онлайн»", href: "#/online", primary: true}]);
+    else openNotice("Не удалось списать рейт", esc(onlineMsg(ex)), []);
+    return false;
+  }
+}
+
+// ---------- bonuses page: daily bonus and weekly quests ----------
+let bnTok = 0, bnTimer = 0;
+async function renderBonus() {
+  const v = $("view-bonus"), tok = ++olTok; bnTok = tok; olAgain = renderBonus; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  try {
+    const q = await Online.quests(); if (tok !== olTok) return;
+    paintBonus(v, Online.profile ?? me, q, tok);
+  } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
+}
+function paintBonus(v, p, q, tok) {
+  clearInterval(bnTimer);
+  const done = q.quests.filter(x => x.claimed).length, ready = q.quests.filter(x => !x.claimed && x.progress >= x.goal).length;
+  v.innerHTML = `<div class="card bn-head"><div><h1>Бонусы и задания</h1><p class="why">Бесплатные рейты и игры каждый день и Рета за еженедельные задания. Рета тратится в магазине.</p></div>
+      <div class="bn-sum"><span>${ICON_RATE}<b>${p.rates ?? 0}</b> рейтов</span><span>${ICON_GAME}<b>${p.games ?? 0}</b> игр</span><span>${retaIcon("xs2")}<b>${p.reta ?? 0}</b> Реты</span></div></div>
+    <p class="err" id="bn-err" role="alert"></p>
+    <div class="card bn-daily ${p.daily_ready ? "ready" : ""}"><span class="bn-gift">${ICON_GIFT}</span>
+      <div class="bn-dtxt"><h2>Ежедневный бонус</h2><p class="why">+${DAILY_RATES} рейтов и +${DAILY_GAMES} игр раз в сутки (новый день начинается в полночь по UTC).</p></div>
+      ${p.daily_ready ? `<button class="btn primary" id="bn-claim" type="button">Забрать бонус</button>` : `<div class="bn-wait"><span>Следующий через</span><b id="bn-left">${fmtLeft(p.next_daily_s ?? 0)}</b></div>`}</div>
+    <section class="bn-quests"><div class="bn-qhead"><h2>Задания недели</h2><span class="why">Выполнено ${done} из ${q.quests.length}${ready ? ` · можно забрать: ${ready}` : ""} · обновятся через ${fmtLeft(q.reset_s)}</span></div>
+      <div class="bn-grid">${q.quests.map((x, i) => { const full = x.progress >= x.goal;
+        return `<article class="qst ${x.claimed ? "claimed" : full ? "full" : ""}" style="--i:${i}" data-id="${esc(x.id)}"><div class="qst-top"><h3>${esc(x.title)}</h3><span class="qst-rw">${retaIcon("xs2")}+${x.reta}</span></div>
+          <div class="qst-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${x.goal}" aria-valuenow="${x.progress}"><i style="width:${Math.round(x.progress / x.goal * 100)}%"></i></div>
+          <footer><span class="why">${x.progress} / ${x.goal}</span>${x.claimed ? `<span class="qst-done">Получено</span>` : full ? `<button class="btn primary" data-claim type="button">Забрать</button>` : ""}</footer></article>`; }).join("")}</div></section>`;
+  fxMark(v, ".bn-daily, .qst");
+  let left = p.next_daily_s ?? 0; const t0 = Date.now();
+  if (!p.daily_ready) bnTimer = setInterval(() => { if (tok !== olTok) return clearInterval(bnTimer); const b = $("bn-left"); if (b) b.textContent = fmtLeft(left - (Date.now() - t0) / 1000); }, 30000);
+  const say = t => { $("bn-err").textContent = t; };
+  $("bn-claim")?.addEventListener("click", async e => {
+    e.target.disabled = true; say("");
+    try { const np = await Online.dailyClaim(); const q2 = await Online.quests(); if (tok !== olTok) return; paintBonus(v, np, q2, tok); const r = $("view-bonus").querySelector(".bn-gift").getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height / 2, {count: 36, spread: 260}); }
+    catch (ex) { say(onlineMsg(ex)); e.target.disabled = false; }
+  });
+  v.querySelectorAll("[data-claim]").forEach(b => b.addEventListener("click", async () => {
+    const card = b.closest(".qst"); b.disabled = true; say("");
+    try { const np = await Online.claimQuest(card.dataset.id); const q2 = await Online.quests(); if (tok !== olTok) return; const r = card.getBoundingClientRect(); paintBonus(v, np, q2, tok); fxConfetti(r.left + r.width / 2, r.top + 30, {count: 30, spread: 240}); }
+    catch (ex) { say(onlineMsg(ex)); b.disabled = false; }
+  }));
+}
+
+// ---------- buying packs (the donate page) ----------
+const CUR_BY_TZ = [[/^Europe\/(Kyiv|Kiev|Uzhgorod|Zaporozhye)$/, "UAH"], [/^Europe\/(Moscow|Samara|Volgograd|Kaliningrad|Saratov|Astrakhan|Ulyanovsk|Kirov|Simferopol)$|^Asia\/(Yekaterinburg|Omsk|Novosibirsk|Krasnoyarsk|Irkutsk|Yakutsk|Vladivostok|Magadan|Kamchatka)$/, "RUB"],
+  [/^Asia\/(Almaty|Aqtobe|Aqtau|Oral|Qostanay|Qyzylorda)$/, "KZT"], [/^Europe\/Warsaw$/, "PLN"], [/^Europe\//, "EUR"]];
+function guessCurrency(have) {
+  const saved = Store.get("psl-currency", ""); if (have.includes(saved)) return saved;
+  let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch {}
+  const byZone = CUR_BY_TZ.find(([re]) => re.test(tz))?.[1], lang = String(navigator.language || "").toLowerCase();
+  const guess = byZone ?? (lang.startsWith("uk") ? "UAH" : lang.endsWith("-ua") ? "UAH" : lang.endsWith("-pl") ? "PLN" : lang.endsWith("-kz") ? "KZT" : "USD");
+  return have.includes(guess) ? guess : have.includes("USD") ? "USD" : have[0];
+}
+const money = (minor, cur) => { try { return new Intl.NumberFormat("ru-RU", {style: "currency", currency: cur, maximumFractionDigits: minor % 100 ? 2 : 0}).format(minor / 100); } catch { return (minor / 100).toFixed(2) + " " + cur; } };
+const DN = {st: null};
+async function renderDonate() {
+  const v = $("view-donate"), tok = ++olTok; olAgain = renderDonate; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  try {
+    const [packs, prices, orders] = await Promise.all([Online.packs(), Online.prices(), Online.orders()]); if (tok !== olTok) return;
+    const have = [...new Set(prices.map(p => p.currency))].sort((a, b) => ["USD", "EUR", "UAH", "RUB", "PLN", "KZT"].indexOf(a) - ["USD", "EUR", "UAH", "RUB", "PLN", "KZT"].indexOf(b));
+    DN.st = {packs, prices, orders, have, cur: guessCurrency(have), me};
+    paintDonate(v, tok);
+    if (new URLSearchParams(location.hash.split("?")[1] ?? "").get("paid")) waitForPayment(v, tok, me);
+  } catch (ex) { if (tok === olTok) onlineFail(v, ex); }
+}
+function paintDonate(v, tok) {
+  const {packs, prices, orders, have, cur, me} = DN.st, p = Online.profile ?? me, provs = providersFor(cur);
+  const price = id => prices.find(x => x.pack_id === id && x.currency === cur)?.amount_minor;
+  const group = (kind, title, lead, icon) => {
+    const its = packs.filter(x => x.kind === kind && price(x.id)); if (!its.length) return "";
+    const base = price(its[0].id) / its[0].amount;
+    return `<section class="dn-sec"><h2>${icon}${title}</h2><p class="why">${lead}</p><div class="dn-grid">${its.map((x, i) => { const pr = price(x.id), save = Math.round((1 - pr / x.amount / base) * 100);
+      return `<article class="dn-pack fx-r" style="--i:${i}"><div class="dn-amt">${x.amount}<small>${kind === "rates" ? plural(x.amount, ["рейт", "рейта", "рейтов"]) : plural(x.amount, ["игра", "игры", "игр"])}</small></div>
+        <div class="dn-price">${money(pr, cur)}</div><div class="why">${money(Math.round(pr / x.amount), cur)} за штуку${save > 0 ? ` · <b class="dn-save">−${save}%</b>` : ""}</div>
+        <div class="dn-buy">${provs.length ? provs.map(pv => `<button class="btn primary" type="button" data-pack="${esc(x.id)}" data-prov="${pv}">${provs.length > 1 ? (pv === "stripe" ? "Картой (Stripe)" : "LiqPay") : "Купить"}</button>`).join("") : `<button class="btn ghost" type="button" disabled>Оплата не подключена</button>`}</div></article>`; }).join("")}</div></section>`;
+  };
+  v.innerHTML = `<div class="card bn-head"><div><h1>Пополнить баланс</h1><p class="why">Рейты нужны, чтобы оценивать фото, игры чтобы играть мог-батлы. Бесплатные рейты и игры дают каждый день и за регистрацию, а здесь их можно докупить и поддержать сайт.</p></div>
+      <div class="bn-sum"><span>${ICON_RATE}<b>${p.rates ?? 0}</b> рейтов</span><span>${ICON_GAME}<b>${p.games ?? 0}</b> игр</span><a class="btn ghost" href="#/bonus">Бесплатно</a></div></div>
+    <div class="dn-cur"><label class="field"><span>Валюта</span><select id="dn-cur">${have.map(c => `<option value="${c}" ${c === cur ? "selected" : ""}>${c}</option>`).join("")}</select></label>
+      <p class="why">Цены подобраны для вашего региона. ${provs.length ? "Оплата проходит на стороне платёжной системы, сайт данных карты не видит." : "Приём платежей на этом сайте ещё не подключён: цены показаны, но купить пока нельзя."}</p></div>
+    <p class="err" id="dn-err" role="alert"></p><p class="dn-note" id="dn-note" hidden></p>
+    ${group("rates", "Рейты", "1 рейт = одна оценка фото (в режиме «Сравнение» каждое из двух фото).", ICON_RATE)}${group("games", "Игры", "1 игра = один онлайн-бой.", ICON_GAME)}
+    ${orders.length ? `<section class="dn-sec"><h2>Последние заказы</h2><ul class="dn-orders">${orders.map(o => `<li class="${o.status}"><time>${dateText(o.created_at)}</time><b>${esc(o.pack_id.replace("_", " "))}</b><span>${money(o.amount_minor, o.currency)}</span><em>${{paid: "оплачен", pending: "ждёт оплаты", failed: "не прошёл"}[o.status] ?? ""}</em></li>`).join("")}</ul></section>` : ""}
+    <p class="why dn-legal">Покупка цифровых услуг: рейты и игры начисляются сразу после подтверждения оплаты и не возвращаются деньгами. Если платёж прошёл, а баланс не изменился, напишите владельцу сайта${window.PSL_CONFIG?.contactEmail ? `: <a href="mailto:${esc(window.PSL_CONFIG.contactEmail)}">${esc(window.PSL_CONFIG.contactEmail)}</a>` : ""}.</p>`;
+  fxObserve(v);
+  $("dn-cur").addEventListener("change", e => { DN.st.cur = e.target.value; Store.set("psl-currency", e.target.value); paintDonate(v, tok); });
+  v.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", async () => {
+    $("dn-err").textContent = ""; b.disabled = true;
+    try { await startCheckout(b.dataset.pack, DN.st.cur, b.dataset.prov); } catch (ex) { $("dn-err").textContent = onlineMsg(ex); b.disabled = false; }
+  }));
+}
+async function waitForPayment(v, tok, before) {   // back from the payment page: the confirmation comes from the payment system, give it a moment
+  const note = $("dn-note"); if (!note) return; note.hidden = false; note.textContent = "Спасибо! Ждём подтверждение оплаты от платёжной системы…";
+  const b0 = (before.rates ?? 0) + (before.games ?? 0);
+  for (let i = 0; i < 20 && tok === olTok; i++) {
+    await sleep(2000);
+    try { const p = await Online.me(); if (tok !== olTok) return; if ((p.rates ?? 0) + (p.games ?? 0) > b0) { note.textContent = "Оплата получена, баланс пополнен. Спасибо за поддержку!"; fxConfetti(innerWidth / 2, innerHeight / 3, {count: 50, spread: 360}); DN.st.orders = await Online.orders(); paintDonate(v, tok); $("dn-note").hidden = false; $("dn-note").textContent = "Оплата получена, баланс пополнен. Спасибо за поддержку!"; return; } } catch {}
+  }
+  if (tok === olTok) note.textContent = "Подтверждение ещё не пришло. Обычно это занимает до минуты: обновите страницу позже. Если баланс не изменится, напишите владельцу сайта.";
 }
 // ---------- site: home page, account screens, router ----------
 const TIER_SHARES = {"m": [9.5, 47.6, 17.1, 10.1, 7.1, 7.2, 1.3, 0.0], "m_median": 3.85, "f": [12.6, 38.9, 17.0, 16.3, 9.1, 6.0, 0.1, 0.0], "f_median": 3.96};   // % of the held-out training faces per tier, by sex (same order as TIERS)
@@ -3319,9 +3603,18 @@ function updateAccountUI() {
   const g = $("guest-note");
   g.innerHTML = u ? `Вы вошли как <b>${esc(u.name)}</b>: каждая оценка сохраняется в истории профиля.` : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
 }
-const GATED = ["app", "online", "shop", "profile"];   // pages that need an account
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", privacy: "Конфиденциальность"};
+const GATED = ["app", "online", "shop", "profile", "bonus", "donate"];   // pages that need an account
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", privacy: "Конфиденциальность"};
+const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-privacy"];
+async function appGate() {   // connect Google and set a nick first (shown in its own page), then open the app
+  const tok = ++olTok; olAgain = render; onlineFileHook = null;
+  for (const v of VIEWS) $(v).hidden = v !== "view-gate";
+  document.title = TITLES.gate; window.scrollTo(0, 0);
+  document.querySelectorAll(".nav a").forEach(a => a.dataset.nav === "app" ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")); fxNav();
+  const me = await onlineEnter($("view-gate"), tok);
+  if (me && tok === olTok) render();
+}
 function navigate(to, replace) { const h = "#/" + to; if (replace) location.replace(h); else if (location.hash === h) render(); else location.hash = h; }
 function render() {
   const raw = location.hash.replace(/^#\/?/, ""), [path, qs] = raw.split("?"), params = new URLSearchParams(qs || "");
@@ -3329,13 +3622,16 @@ function render() {
   const user = Accounts.current();
   if (GATED.includes(name) && !user) { nextRoute = name; return navigate("login", true); }   // without an account nothing but the home page works
   if ((name === "login" || name === "register") && user) return navigate("profile", true);
+  if (name === "app" && Online.enabled && !Online.ready) return appGate();   // the rates live on the server: the app opens once the online profile is known
   const id = ROUTES[name];
-  for (const v of ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-privacy"]) $(v).hidden = v !== id;
+  for (const v of VIEWS) $(v).hidden = v !== id;
   if (name === "home" || name === "tiers") renderHome();
   if (name === "login" || name === "register") renderAuth(name);
   if (name === "profile") renderProfile();
   if (name === "online") renderOnline();
   else if (name === "shop") renderShop();
+  else if (name === "bonus") renderBonus();
+  else if (name === "donate") renderDonate();
   else onlineLeft();   // stops an online request or search that is still running
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
   if (name === "app") setMode(params.get("mode") === "battle" ? "battle" : mode);

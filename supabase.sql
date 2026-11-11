@@ -1,4 +1,4 @@
--- PSL Rater: онлайн-батлы 1 на 1 и магазин за Рету. Выполните целиком: Supabase -> SQL Editor -> New query -> вставить -> Run.
+-- PSL Rater: онлайн-батлы 1 на 1, магазин за Рету, рейты и игры, задания и донат. Выполните целиком: Supabase -> SQL Editor -> New query -> вставить -> Run.
 -- Можно запускать повторно и поверх прошлой версии: лишнее удаляется, нужное создаётся.
 --
 -- Как идёт бой:
@@ -10,6 +10,12 @@
 --   Если соперник за 3 минуты не определил рейт или ушёл, побеждает тот, кто успел (неявка), второй получает поражение.
 -- Рета (местная валюта): +100 за каждую победу в онлайн-бое. В магазине за неё покупают анимации победы (могга) и косметику профиля.
 --   Цены лежат в таблице shop_items ниже: поменяйте число и снова нажмите Run. Баланс и покупки меняются только функциями сервера.
+-- Рейты и игры (расходуемые попытки): новому игроку 10 рейтов и 10 игр, каждый день можно забрать +5 рейтов и +10 игр.
+--   Один рейт тратится на оценку одного фото (в режиме «Сравнение» на каждое из двух фото), одна игра на онлайн-бой
+--   (если бой отменён и никто не определил рейт, игра возвращается). Пакеты рейтов и игр продаются за деньги (таблицы packs и pack_prices).
+-- Недельные задания (quest_defs): за выполнение дают Рету, прогресс считает сервер, неделя сбрасывается в понедельник по UTC.
+-- Оплата: платёж подтверждает только сервер платёжной системы (Vercel-функции в папке api/), которая вызывает credit_order.
+--   Ключ service_role нужен только им и хранится в переменных окружения Vercel, на сайт он не попадает.
 -- Фото: маленькая копия лица (до 60 КБ) лежит только на время боя и стирается через 5 минут после его конца.
 -- Ограничение: PSL считается в браузере игрока, сервер ему верит.
 
@@ -26,6 +32,9 @@ create table if not exists public.players (
 );
 alter table public.players add column if not exists reta integer not null default 0 check (reta >= 0);
 alter table public.players add column if not exists equipped jsonb not null default '{}'::jsonb;
+alter table public.players add column if not exists rates integer not null default 10 check (rates >= 0);   -- рейты: попытки оценить фото
+alter table public.players add column if not exists games integer not null default 10 check (games >= 0);   -- игры: попытки онлайн-боя
+alter table public.players add column if not exists daily_on date;   -- день (UTC) последнего ежедневного бонуса
 
 -- остатки прошлой версии (бои с «претендентом» без соперника онлайн)
 drop function if exists public.fight();
@@ -99,6 +108,75 @@ create table if not exists public.shop_items (
   price integer not null check (price >= 0),
   sort integer not null default 0
 );
+create table if not exists public.quest_defs (
+  id text primary key,
+  title text not null,
+  event text not null check (event in ('win', 'battle', 'rate', 'compare', 'daily', 'shop')),
+  goal integer not null check (goal > 0),
+  reta integer not null check (reta > 0),
+  sort integer not null default 0
+);
+create table if not exists public.quest_progress (
+  player_id uuid not null references public.players (id) on delete cascade,
+  week date not null,
+  quest_id text not null references public.quest_defs (id) on delete cascade,
+  progress integer not null default 0,
+  claimed boolean not null default false,
+  primary key (player_id, week, quest_id)
+);
+create table if not exists public.packs (
+  id text primary key,
+  kind text not null check (kind in ('rates', 'games')),
+  amount integer not null check (amount > 0),
+  sort integer not null default 0
+);
+create table if not exists public.pack_prices (
+  pack_id text not null references public.packs (id) on delete cascade,
+  currency text not null check (currency ~ '^[A-Z]{3}$'),
+  amount_minor integer not null check (amount_minor > 0),   -- в копейках, центах и т. п.
+  primary key (pack_id, currency)
+);
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  player_id uuid references public.players (id) on delete set null,
+  pack_id text not null references public.packs (id),
+  currency text not null,
+  amount_minor integer not null,
+  provider text not null check (provider in ('stripe', 'liqpay')),
+  provider_ref text,
+  status text not null default 'pending' check (status in ('pending', 'paid', 'failed')),
+  created_at timestamptz not null default now(),
+  paid_at timestamptz
+);
+create unique index if not exists orders_provider_ref on public.orders (provider, provider_ref) where provider_ref is not null;
+create index if not exists orders_player on public.orders (player_id, created_at desc);
+
+-- задания (меняйте цифры и снова нажимайте Run)
+insert into public.quest_defs (id, title, event, goal, reta, sort) values
+  ('q_win', 'Выиграй мог-батл', 'win', 1, 200, 1),
+  ('q_win5', 'Выиграй 5 мог-батлов', 'win', 5, 400, 2),
+  ('q_play3', 'Сыграй 3 мог-батла', 'battle', 3, 150, 3),
+  ('q_rate', 'Сделай рейт', 'rate', 1, 50, 4),
+  ('q_rate5', 'Сделай 5 рейтов', 'rate', 5, 150, 5),
+  ('q_cmp', 'Сравни два лица', 'compare', 2, 80, 6),
+  ('q_daily', 'Забери ежедневный бонус 5 раз', 'daily', 5, 100, 7),
+  ('q_shop', 'Купи что-нибудь в магазине', 'shop', 1, 50, 8)
+on conflict (id) do update set title = excluded.title, event = excluded.event, goal = excluded.goal, reta = excluded.reta, sort = excluded.sort;
+
+-- пакеты и цены. Региональные цены подбирайте сами: сумма в минимальных единицах (12000 = 120,00)
+insert into public.packs (id, kind, amount, sort) values
+  ('rates_20', 'rates', 20, 1), ('rates_60', 'rates', 60, 2), ('rates_150', 'rates', 150, 3), ('rates_400', 'rates', 400, 4),
+  ('games_20', 'games', 20, 5), ('games_60', 'games', 60, 6), ('games_150', 'games', 150, 7)
+on conflict (id) do update set kind = excluded.kind, amount = excluded.amount, sort = excluded.sort;
+insert into public.pack_prices (pack_id, currency, amount_minor) values
+  ('rates_20', 'USD', 120), ('rates_60', 'USD', 330), ('rates_150', 'USD', 750), ('rates_400', 'USD', 1800), ('games_20', 'USD', 150), ('games_60', 'USD', 400), ('games_150', 'USD', 900),
+  ('rates_20', 'EUR', 110), ('rates_60', 'EUR', 300), ('rates_150', 'EUR', 690), ('rates_400', 'EUR', 1650), ('games_20', 'EUR', 140), ('games_60', 'EUR', 370), ('games_150', 'EUR', 830),
+  ('rates_20', 'UAH', 4500), ('rates_60', 'UAH', 11900), ('rates_150', 'UAH', 26900), ('rates_400', 'UAH', 64900), ('games_20', 'UAH', 5500), ('games_60', 'UAH', 14900), ('games_150', 'UAH', 32900),
+  ('rates_20', 'RUB', 9900), ('rates_60', 'RUB', 26900), ('rates_150', 'RUB', 59900), ('rates_400', 'RUB', 149000), ('games_20', 'RUB', 12900), ('games_60', 'RUB', 34900), ('games_150', 'RUB', 74900),
+  ('rates_20', 'PLN', 499), ('rates_60', 'PLN', 1399), ('rates_150', 'PLN', 2999), ('rates_400', 'PLN', 6999), ('games_20', 'PLN', 599), ('games_60', 'PLN', 1599), ('games_150', 'PLN', 3499),
+  ('rates_20', 'KZT', 59000), ('rates_60', 'KZT', 159000), ('rates_150', 'KZT', 349000), ('rates_400', 'KZT', 849000), ('games_20', 'KZT', 69000), ('games_60', 'KZT', 189000), ('games_150', 'KZT', 419000)
+on conflict (pack_id, currency) do update set amount_minor = excluded.amount_minor;
+
 create table if not exists public.purchases (
   player_id uuid not null references public.players (id) on delete cascade,
   item_id text not null references public.shop_items (id) on delete cascade,
@@ -127,6 +205,11 @@ alter table public.matches enable row level security;
 alter table public.reports enable row level security;
 alter table public.shop_items enable row level security;
 alter table public.purchases enable row level security;
+alter table public.quest_defs enable row level security;
+alter table public.quest_progress enable row level security;
+alter table public.packs enable row level security;
+alter table public.pack_prices enable row level security;
+alter table public.orders enable row level security;
 drop policy if exists players_read on public.players;
 create policy players_read on public.players for select to authenticated using (true);
 drop policy if exists battles_read on public.battles;
@@ -135,10 +218,18 @@ drop policy if exists shop_read on public.shop_items;
 create policy shop_read on public.shop_items for select to authenticated using (true);
 drop policy if exists purchases_read on public.purchases;
 create policy purchases_read on public.purchases for select to authenticated using (player_id = auth.uid());
-revoke all on public.players, public.battles, public.queue, public.matches, public.reports, public.shop_items, public.purchases from anon, authenticated;
+revoke all on public.players, public.battles, public.queue, public.matches, public.reports, public.shop_items, public.purchases, public.quest_defs, public.quest_progress, public.packs, public.pack_prices, public.orders from anon, authenticated;
 -- баланс Реты (колонка reta) другим игрокам не показывается: свой профиль приходит через my_profile()
 grant select (id, name, picture, points, wins, losses, draws, sex, created_at, equipped) on public.players to authenticated;
-grant select on public.battles, public.shop_items, public.purchases to authenticated;
+grant select on public.battles, public.shop_items, public.purchases, public.packs, public.pack_prices to authenticated;
+drop policy if exists packs_read on public.packs;
+create policy packs_read on public.packs for select to authenticated using (true);
+drop policy if exists pack_prices_read on public.pack_prices;
+create policy pack_prices_read on public.pack_prices for select to authenticated using (true);
+-- свои заказы можно смотреть (без номеров платёжной системы)
+grant select (id, pack_id, currency, amount_minor, provider, status, created_at, paid_at) on public.orders to authenticated;
+drop policy if exists orders_read on public.orders;
+create policy orders_read on public.orders for select to authenticated using (player_id = auth.uid());
 
 -- ---------- внутренние помощники (клиентам недоступны) ----------
 
@@ -154,6 +245,7 @@ begin
   if not found or m.status <> 'live' then return; end if;
   if p_result = 'void' then
     update matches set status = 'void', result = 'void', finished_at = now(), note = p_note where id = p_id;
+    update players set games = games + 1 where id in (m.a, m.b);   -- бой не состоялся: игра возвращается
     return;
   end if;
   select * into pa from players where id = m.a for update;
@@ -171,6 +263,8 @@ begin
     values (pb.id, m.a, m.a_name, m.b_psl, m.a_psl, case p_result when 'b' then 'win' when 'a' then 'loss' else 'draw' end, db, p_note, rb);
   end if;
   update matches set status = 'done', result = p_result, finished_at = now(), a_delta = da, b_delta = db, a_reta = ra, b_reta = rb, note = p_note where id = p_id;
+  if pa.id is not null then perform _quest_progress(pa.id, 'battle', 1); if p_result = 'a' then perform _quest_progress(pa.id, 'win', 1); end if; end if;
+  if pb.id is not null then perform _quest_progress(pb.id, 'battle', 1); if p_result = 'b' then perform _quest_progress(pb.id, 'win', 1); end if; end if;
 end $$;
 
 -- решает бой, если пора: оба определили рейт, либо вышло время (3 минуты)
@@ -279,6 +373,8 @@ begin
   select * into v_m from matches where status = 'live' and (a = v_uid or b = v_uid) limit 1;
   if found then return jsonb_build_object('state', 'match', 'match', _view(v_m.id, v_uid)); end if;
 
+  select * into v_me from players where id = v_uid;
+  if v_me.games < 1 then raise exception 'no_games'; end if;
   v_rank := least(v_me.points / 500, 7);
   update players set sex = p_sex where id = v_uid;
   insert into queue (player_id, sex, rank) values (v_uid, p_sex, v_rank)
@@ -286,7 +382,7 @@ begin
     since = case when queue.sex = excluded.sex then queue.since else now() end, sex = excluded.sex;
   select since into v_since from queue where player_id = v_uid;
 
-  select q.* into v_q from queue q
+  select q.* into v_q from queue q join players pq on pq.id = q.player_id and pq.games >= 1
   where q.player_id <> v_uid and q.sex = p_sex and q.seen > now() - interval '15 seconds'
     and (q.rank = v_rank or (abs(q.rank - v_rank) = 1 and (q.since < now() - interval '10 seconds' or v_since < now() - interval '10 seconds')))
   order by abs(q.rank - v_rank), q.since
@@ -300,6 +396,7 @@ begin
   from players pa where pa.id = v_q.player_id
   returning id into v_id;
   delete from queue where player_id in (v_uid, v_q.player_id);
+  update players set games = games - 1 where id in (v_uid, v_q.player_id);   -- каждый платит одну игру
   return jsonb_build_object('state', 'match', 'match', _view(v_id, v_uid));
 end $$;
 
@@ -392,12 +489,121 @@ begin
   insert into reports (reporter, reported, match_id, photo) values (v_uid, v_opp, p_match, v_photo);
 end $$;
 
+-- прогресс заданий: вызывается самим сервером при событиях (бой, рейт, покупка...)
+create or replace function public._quest_progress(p_uid uuid, p_event text, p_n integer)
+returns void language plpgsql security definer set search_path = public as $$
+declare v_week date := date_trunc('week', now() at time zone 'utc')::date;
+begin
+  insert into quest_progress (player_id, week, quest_id, progress)
+  select p_uid, v_week, d.id, least(d.goal, p_n) from quest_defs d where d.event = p_event
+  on conflict (player_id, week, quest_id) do update
+    set progress = least((select goal from quest_defs where id = quest_progress.quest_id), quest_progress.progress + excluded.progress)
+    where not quest_progress.claimed;
+end $$;
+
+-- задания этой недели с прогрессом
+create or replace function public.my_quests()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_week date := date_trunc('week', now() at time zone 'utc')::date;
+begin
+  if auth.uid() is null then raise exception 'not_signed_in'; end if;
+  return jsonb_build_object(
+    'reset_s', extract(epoch from (v_week + 7)::timestamp - (now() at time zone 'utc'))::int,
+    'quests', coalesce((select jsonb_agg(jsonb_build_object('id', d.id, 'title', d.title, 'goal', d.goal, 'reta', d.reta,
+        'progress', coalesce(p.progress, 0), 'claimed', coalesce(p.claimed, false)) order by d.sort)
+      from quest_defs d left join quest_progress p on p.quest_id = d.id and p.player_id = auth.uid() and p.week = v_week), '[]'::jsonb));
+end $$;
+
+-- забрать награду за выполненное задание
+create or replace function public.claim_quest(p_quest text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_week date := date_trunc('week', now() at time zone 'utc')::date; d quest_defs; pr quest_progress;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  select * into d from quest_defs where id = p_quest;
+  if not found then raise exception 'no_quest'; end if;
+  perform 1 from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  select * into pr from quest_progress where player_id = v_uid and week = v_week and quest_id = p_quest for update;
+  if not found or pr.progress < d.goal then raise exception 'quest_not_done'; end if;
+  if pr.claimed then raise exception 'quest_claimed'; end if;
+  update quest_progress set claimed = true where player_id = v_uid and week = v_week and quest_id = p_quest;
+  update players set reta = reta + d.reta where id = v_uid;
+  return my_profile();
+end $$;
+
+-- ежедневный бонус: +5 рейтов и +10 игр раз в сутки (по UTC)
+create or replace function public.daily_claim()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_today date := (now() at time zone 'utc')::date; v_me players;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  select * into v_me from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  if v_me.daily_on = v_today then raise exception 'claimed'; end if;
+  update players set rates = rates + 5, games = games + 10, daily_on = v_today where id = v_uid;
+  perform _quest_progress(v_uid, 'daily', 1);
+  return my_profile();
+end $$;
+
+-- потратить один рейт ('rate': оценка одного фото, 'cmp': одно фото в режиме «Сравнение»)
+create or replace function public.spend_credit(p_kind text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_me players;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_kind is null or p_kind not in ('rate', 'cmp') then raise exception 'bad_kind'; end if;
+  select * into v_me from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  if v_me.rates < 1 then raise exception 'no_rates'; end if;
+  update players set rates = rates - 1 where id = v_uid;
+  perform _quest_progress(v_uid, case p_kind when 'rate' then 'rate' else 'compare' end, 1);
+  return my_profile();
+end $$;
+
+-- ---------- платежи (вызываются только сервером оплаты с ключом service_role) ----------
+create or replace function public.create_order(p_player uuid, p_pack text, p_currency text, p_provider text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_pack packs; v_price pack_prices; v_id uuid;
+begin
+  if not exists (select 1 from players where id = p_player) then raise exception 'not_joined'; end if;
+  select * into v_pack from packs where id = p_pack;
+  if not found then raise exception 'no_pack'; end if;
+  select * into v_price from pack_prices where pack_id = p_pack and currency = p_currency;
+  if not found then raise exception 'no_price'; end if;
+  insert into orders (player_id, pack_id, currency, amount_minor, provider) values (p_player, p_pack, p_currency, v_price.amount_minor, p_provider) returning id into v_id;
+  return jsonb_build_object('id', v_id, 'amount_minor', v_price.amount_minor, 'currency', p_currency, 'kind', v_pack.kind, 'amount', v_pack.amount, 'pack', p_pack);
+end $$;
+
+-- платёж подтверждён: выдать пакет (один раз, сумма и валюта должны совпасть с заказом)
+create or replace function public.credit_order(p_order uuid, p_provider text, p_ref text, p_amount_minor integer, p_currency text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare o orders; v_pack packs;
+begin
+  select * into o from orders where id = p_order for update;
+  if not found then raise exception 'no_order'; end if;
+  if o.status = 'paid' then return jsonb_build_object('status', 'already'); end if;
+  if o.provider <> p_provider or o.amount_minor <> p_amount_minor or o.currency <> p_currency then
+    update orders set status = 'failed' where id = p_order;
+    return jsonb_build_object('status', 'mismatch');
+  end if;
+  select * into v_pack from packs where id = o.pack_id;
+  update orders set status = 'paid', provider_ref = p_ref, paid_at = now() where id = p_order;
+  if o.player_id is not null then
+    if v_pack.kind = 'rates' then update players set rates = rates + v_pack.amount where id = o.player_id;
+    else update players set games = games + v_pack.amount where id = o.player_id; end if;
+  end if;
+  return jsonb_build_object('status', 'paid', 'kind', v_pack.kind, 'amount', v_pack.amount);
+end $$;
+
 -- свой профиль целиком (с балансом Реты)
 create or replace function public.my_profile()
 returns jsonb language plpgsql security definer set search_path = public as $$
 begin
   if auth.uid() is null then raise exception 'not_signed_in'; end if;
-  return (select to_jsonb(p) from players p where p.id = auth.uid());
+  return (select to_jsonb(p) || jsonb_build_object('daily_ready', p.daily_on is distinct from (now() at time zone 'utc')::date,
+    'next_daily_s', extract(epoch from (date_trunc('day', now() at time zone 'utc') + interval '1 day') - (now() at time zone 'utc'))::int)
+    from players p where p.id = auth.uid());
 end $$;
 
 -- купить предмет за Рету
@@ -414,6 +620,7 @@ begin
   if v_me.reta < v_item.price then raise exception 'poor'; end if;
   update players set reta = reta - v_item.price where id = v_uid;
   insert into purchases (player_id, item_id) values (v_uid, p_item);
+  perform _quest_progress(v_uid, 'shop', 1);
   return jsonb_build_object('reta', v_me.reta - v_item.price, 'item', p_item);
 end $$;
 
@@ -443,8 +650,10 @@ begin
   delete from players where id = auth.uid();
 end $$;
 
-revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid) from public, anon, authenticated;
+revoke all on function public._finish_match(uuid, text, text), public._settle_match(uuid), public._cleanup(), public._view(uuid, uuid), public._quest_progress(uuid, text, integer) from public, anon, authenticated;
+revoke all on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) from public, anon, authenticated;
+grant execute on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) to service_role;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text) from public, anon;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text) from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text) to authenticated;
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text) to authenticated;

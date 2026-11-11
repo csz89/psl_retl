@@ -9,6 +9,10 @@ window.PSL_CONFIG = {
   supabaseUrl: "https://tzqawpsgogcjxqtdicou.supabase.co",
   supabaseAnonKey: "sb_publishable_esleR0YJzJECoHy1Ft7QCA_eHUqDIgG",
 
+  // Как принимать оплату (нужны ключи в переменных окружения Vercel, см. README). Пока список пустой, цены показываются, но купить нельзя.
+  // Допустимые значения: "stripe" (карты, много валют), "liqpay" (гривна, доллар, евро).
+  payProviders: [],
+
   // Почта для вопросов по данным (показывается на странице «Конфиденциальность»). Можно оставить пустой.
   contactEmail: "",
 };
