@@ -111,7 +111,7 @@ insert into public.shop_items (id, kind, name, price, sort) values
   ('mogg_bolt', 'mogg', 'Молния', 300, 1), ('mogg_glitch', 'mogg', 'Глитч', 400, 2), ('mogg_fire', 'mogg', 'Пламя', 500, 3),
   ('mogg_crack', 'mogg', 'Трещины', 600, 4), ('mogg_crown', 'mogg', 'Корона', 800, 5), ('mogg_meteor', 'mogg', 'Метеорит', 1000, 6),
   ('frame_gold', 'frame', 'Золотая рамка', 200, 1), ('frame_neon', 'frame', 'Неон', 300, 2), ('frame_fire', 'frame', 'Огонь', 500, 3), ('frame_ice', 'frame', 'Лёд', 500, 4),
-  ('title_moger', 'title', 'Могер', 150, 1), ('title_reta', 'title', 'Ретаголик', 250, 2), ('title_king', 'title', '175см со стрельками', 500, 3), ('title_eye', 'title', 'Король лтнов', 700, 4),
+  ('title_moger', 'title', 'Могер', 150, 1), ('title_reta', 'title', 'Ретаголик', 250, 2), ('title_king', 'title', '175см со стельками', 500, 3), ('title_eye', 'title', 'Король лтнов', 700, 4),
   ('nick_gold', 'nick', 'Золотой ник', 200, 1), ('nick_aurora', 'nick', 'Северное сияние', 350, 2), ('nick_glow', 'nick', 'Неоновое свечение', 500, 3),
   ('banner_aurora', 'banner', 'Аврора', 300, 1), ('banner_matrix', 'banner', 'Матрица', 400, 2), ('banner_sunset', 'banner', 'Закат', 400, 3)
 on conflict (id) do update set kind = excluded.kind, name = excluded.name, price = excluded.price, sort = excluded.sort;
