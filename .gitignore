@@ -1,0 +1,17 @@
+# Фото людей никогда не должны попадать в публичный репозиторий
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif
+*.bmp
+*.avif
+*.heic
+
+# Служебное
+node_modules/
+.vercel/
+.env
+.env.*
+Thumbs.db
+.DS_Store
