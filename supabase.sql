@@ -243,7 +243,7 @@ insert into public.shop_items (id, kind, name, price, sort, case_only) values
 on conflict (id) do update set kind = excluded.kind, name = excluded.name, price = excluded.price, sort = excluded.sort, case_only = excluded.case_only;
 
 -- кейс «Holy IQ»: цену и шансы можно менять здесь и снова нажимать Run (сумма весов 100, значит вес = шанс в процентах)
-insert into public.cases (id, name, price, sort) values ('holy_iq', 'Holy IQ', 250, 1)
+insert into public.cases (id, name, price, sort) values ('holy_iq', 'Holy IQ', 500, 1)
 on conflict (id) do update set name = excluded.name, price = excluded.price, sort = excluded.sort;
 insert into public.case_items (case_id, item_id, weight, refund) values
   ('holy_iq', 'frame_bw', 40, 40),

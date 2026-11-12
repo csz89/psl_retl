@@ -1213,9 +1213,9 @@
   .ttl.title-larp{color:#38bdf8;border-color:#38bdf8}
   .ttl.title-net{color:#38bdf8;border-color:#38bdf8;letter-spacing:.2em}
   .ttl.title-foid{color:#fff;border-color:#a855f7;background:linear-gradient(90deg,#7e22ce,#be123c);text-shadow:0 0 8px rgba(0,0,0,.5);box-shadow:0 0 12px -2px #a855f7}
-  .nick.nick-black{color:#fff;text-shadow:0 0 2px #000,0 0 7px #000,0 0 16px #000,0 0 30px #000;filter:drop-shadow(0 0 9px rgba(255,255,255,.55));animation:nickBlack 2.2s ease-in-out infinite alternate}
-  @keyframes nickBlack{from{text-shadow:0 0 2px #000,0 0 6px #000,0 0 12px #000,0 0 20px #000}to{text-shadow:0 0 3px #000,0 0 10px #000,0 0 22px #000,0 0 40px #000}}
-  [data-tone=light] .nick.nick-black{color:#0a0a0f;filter:none;text-shadow:0 0 4px #000,0 0 12px rgba(0,0,0,.8),0 0 24px rgba(0,0,0,.55)}
+  .nick.nick-black{color:#000;text-shadow:0 0 3px #000,0 0 9px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.75);filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 5px rgba(255,255,255,.75));animation:nickBlack 2.2s ease-in-out infinite alternate}   /* the text and the glow are black; a thin light edge keeps it readable on a dark page */
+  @keyframes nickBlack{from{text-shadow:0 0 3px #000,0 0 7px rgba(0,0,0,.9),0 0 13px rgba(0,0,0,.6)}to{text-shadow:0 0 4px #000,0 0 12px #000,0 0 26px rgba(0,0,0,.9)}}
+  [data-tone=light] .nick.nick-black{filter:none}
   .scene-apples{background:radial-gradient(ellipse at 50% 20%,#52101f,#1b0710 62%,#0b0409)!important}
   .o-card[class*="scene-"]>.apples{position:absolute}
   .pv-scene>span:not(.apples){position:relative}
@@ -1230,6 +1230,9 @@
   .fx-apples .ap b{--sz:clamp(13px,24cqh,40px)}
   .apple{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));animation:rkSpin 4.5s linear infinite}
   .ap:nth-child(even) .apple{animation-direction:reverse}
+  .apples.still .ap{animation:none;transform:translate(calc(var(--px) * 1cqw),calc(var(--py) * 1cqh))}
+  .apples.still .ap b{animation:none}
+  .apples.still .apple{animation-duration:calc(2.6s + var(--i) * .45s)}
   @keyframes apX{from{transform:translateX(calc(var(--ax) * -1))}to{transform:translateX(var(--ax))}}
   @keyframes apY{from{transform:translateY(calc(var(--ay) * -1))}to{transform:translateY(var(--ay))}}
   [data-motion=off] .ap{animation:none;transform:rotate(calc(var(--i) * 360deg / var(--n))) translateX(calc(var(--ax) * .8))}
@@ -1238,11 +1241,11 @@
 
   /* the Holy IQ win animation: apples and a growing IQ over the winner, a flash drive on the loser */
   .fx-iq{position:absolute;inset:0;container-type:size;pointer-events:none;z-index:3}
-  .fx-iqn{position:absolute;left:50%;top:36%;font-size:15cqw;line-height:1;font-weight:900;white-space:nowrap;color:#fde68a;text-shadow:0 0 12px #f59e0b,0 2px 0 #92400e,0 3px 9px rgba(0,0,0,.7);transform:translateX(-50%);animation:iqPulse .45s ease-in-out infinite alternate,fade .35s backwards}
+  .fx-iqn{position:absolute;left:50%;top:36%;font-size:min(15cqw,calc(150cqw / (var(--len,3) + 3)));line-height:1;font-weight:900;white-space:nowrap;color:#fde68a;text-shadow:0 0 12px #f59e0b,0 2px 0 #92400e,0 3px 9px rgba(0,0,0,.7);transform:translateX(-50%);animation:iqPulse .45s ease-in-out infinite alternate,fade .35s backwards}
   .fx-iqn span{font-variant-numeric:tabular-nums}
   @keyframes iqPulse{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.09)}}
-  .fx-usb{position:absolute;left:50%;bottom:7%;width:62%;transform:translateX(-50%) rotate(-10deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.6));animation:usbDrop .9s .3s cubic-bezier(.3,1.5,.5,1) backwards}
-  @keyframes usbDrop{from{transform:translate(-50%,-330%) rotate(55deg) scale(.5);opacity:0}30%{opacity:1}to{transform:translateX(-50%) rotate(-10deg)}}
+  .fx-iqn.low{top:11%;font-size:14cqw;color:#fca5a5;text-shadow:0 0 10px #ef4444,0 2px 0 #7f1d1d,0 3px 9px rgba(0,0,0,.7);animation:iqDrop .8s .3s cubic-bezier(.3,1.5,.5,1) backwards}
+  @keyframes iqDrop{from{transform:translate(-50%,-260%) scale(.5);opacity:0}30%{opacity:1}to{transform:translateX(-50%)}}
   [data-fx=mogg_holyiq] .o-stamp{color:#fde68a;border-color:#fde68a;text-shadow:0 0 14px #f59e0b}
 
   /* ---------- the cases page ---------- */
@@ -3256,8 +3259,8 @@ const SHOP = {
   title_net: {kind: "title", r: "rare", name: "Нет", desc: "Одно слово, которое говорит всё."},
   title_foid: {kind: "title", r: "epic", name: "Foid Slayer", desc: "Самое редкое звание из кейса Holy IQ."},
   nick_black: {kind: "nick", r: "epic", name: "Чёрное свечение", desc: "Вокруг ника пульсирует чёрное свечение."},
-  banner_apples: {kind: "banner", r: "legendary", name: "Девять яблок", desc: "Девять яблок кружат на фоне профиля."},
-  mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, его IQ взлетает, а у соперника появляется флешка с 70 IQ."},
+  banner_apples: {kind: "banner", r: "legendary", name: "Девять яблок", desc: "Девять яблок на фоне профиля вращаются вокруг своей оси."},
+  mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, а его IQ растёт без остановки. У соперника остаётся только 70 IQ."},
 };
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
 const eqOf = e => e && typeof e === "object" && !Array.isArray(e) ? e : {};
@@ -3290,11 +3293,21 @@ const FX_FIRE = `<div class="fx-fire" aria-hidden="true"><i></i><i></i><i></i><i
 const FX_CROWN = `<svg class="fx-crown" viewBox="0 0 64 44" aria-hidden="true"><path d="M5 38L8 9L22 22L32 4L42 22L56 9L59 38Z" fill="url(#rkM4)" stroke="#a16207" stroke-width="1.6" stroke-linejoin="round"/><circle cx="32" cy="14" r="3.4" fill="url(#rkG5)" stroke="#fff" stroke-width=".8"/><circle cx="9" cy="10" r="2.2" fill="#fde68a"/><circle cx="55" cy="10" r="2.2" fill="#fde68a"/><path d="M8 38H56" stroke="#a16207" stroke-width="2.4"/></svg><i class="fx-spark s1"></i><i class="fx-spark s2"></i><i class="fx-spark s3"></i><i class="fx-spark s4"></i>`;
 const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx-flash late"></i>`;
 const APPLE = `<svg class="apple" viewBox="0 0 48 52" aria-hidden="true"><path d="M24 15C17 8 4 12 4 28c0 12 8 23 15 23 3 0 3.4-1.6 5-1.6s2 1.6 5 1.6c7 0 15-11 15-23C44 12 31 8 24 15Z" fill="#dc2626"/><path d="M24 15C31 8 44 12 44 28c0 12-8 23-15 23-3 0-2-1.6-5-1.6Z" fill="#b91c1c"/><path d="M24 15c-.2-5 1-9 4.5-12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><path d="M26 10c3-5.5 10-6 13-3.4-2.2 5.4-9 6.6-13 3.4Z" fill="#22c55e"/><ellipse cx="13" cy="26" rx="3" ry="7" fill="#fff" opacity=".42" transform="rotate(14 13 26)"/></svg>`;
-const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i}"><b>${APPLE}</b></i>`).join("")}</span>`;
-const sceneFx = id => id === "banner_apples" ? apples(9, "apples") : "";   // the extra elements a background needs
-const FX_USB = `<svg class="fx-usb" viewBox="0 0 120 64" aria-hidden="true"><rect x="1" y="17" width="36" height="30" rx="3" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/><rect x="9" y="25" width="7" height="6" fill="#334155"/><rect x="9" y="35" width="7" height="6" fill="#334155"/><rect x="34" y="6" width="84" height="52" rx="13" fill="#1e3a8a" stroke="#0f172a" stroke-width="2"/><rect x="40" y="11" width="72" height="9" rx="4.5" fill="#fff" opacity=".18"/><circle cx="105" cy="32" r="4.4" fill="#0f172a"/><text x="70" y="41" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="21" font-weight="800" fill="#fff">70 IQ</text></svg>`;
+const APPLE_SPOTS = [[-38, -28], [-2, -34], [36, -26], [-30, 6], [8, 2], [40, 12], [-40, 34], [-6, 32], [30, 34]];   // where the 9 background apples stand: x in % of the width, y in % of the height, from the centre
+const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i};--px:${APPLE_SPOTS[i]?.[0] ?? 0};--py:${APPLE_SPOTS[i]?.[1] ?? 0}"><b>${APPLE}</b></i>`).join("")}</span>`;
+const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : "";   // the extra elements a background needs
 const FX_HIQ_WIN = `<div class="fx-iq" aria-hidden="true">${apples(6, "fx-apples")}<b class="fx-iqn">IQ <span>100</span></b></div>`;
-const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true">${FX_USB}</div>`;
+const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true"><b class="fx-iqn low">70 IQ</b></div>`;
+function iqRun(el) {   // the winner's IQ never stops: it grows faster the longer the animation lasts, until the animation is removed
+  const t0 = performance.now(), box = el.parentNode;
+  (function tick(now) {
+    if (!el.isConnected) return;
+    const s = (now - t0) / 1000;
+    el.textContent = Math.floor(100 + 300 * s + 120 * s * s).toLocaleString("ru-RU");
+    box.style.setProperty("--len", el.textContent.length);   // long numbers get smaller letters so they always fit
+    requestAnimationFrame(tick);
+  })(t0);
+}
 function playMogg(id, won, lost) {   // returns a function that undoes it (the shop previews loop)
   id = shopId(id);
   const lf = lost.querySelector(".o-face"), wf = won.querySelector(".o-face");
@@ -3309,7 +3322,7 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_glitch") put(lf, `<i class="fx-scan"></i><i class="fx-rgb"></i>`);
     if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
     if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
-    if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) fxCount(n, 100, 999, 2400); }, 350); }
+    if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) iqRun(n); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
 }
