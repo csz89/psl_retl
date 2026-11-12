@@ -1473,10 +1473,6 @@
   .cs-art.neon>b{z-index:1;font-size:15px;letter-spacing:.12em;color:#c9faff;text-shadow:0 0 12px #22d3ee;bottom:8%}
 
   /* frame, titles and the nick */
-  .av.frame-glitchring::before{inset:-5px;background:conic-gradient(#fcee09 0 24%,transparent 24% 29%,#ff2d55 29% 58%,transparent 58% 64%,#fcee09 64% 86%,transparent 86% 91%,#ff2d55 91% 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 4.5s linear infinite,glJit 3s steps(1) infinite;filter:drop-shadow(0 0 4px #ff2d55)}
-  .av.frame-glitchring::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;z-index:1;border:3px solid #22d3ee;mix-blend-mode:screen;opacity:0;animation:glSlice 3s steps(1) infinite}   /* every few seconds the ring tears into shifted slices */
-  @keyframes glJit{0%,100%{translate:0 0}90%{translate:3px -1px}93%{translate:-3px 1px}96%{translate:2px 0}}
-  @keyframes glSlice{0%,100%{opacity:0}88%{opacity:.9;clip-path:inset(18% 0 62% 0);translate:-4px 0}91%{opacity:.9;clip-path:inset(60% 0 14% 0);translate:4px 0}94%{opacity:.9;clip-path:inset(38% 0 40% 0);translate:-2px 0}97%{opacity:0}}
   .nick.nick-neonsign{--nc:#fffbd0;--ns:0 0 2px #fff,0 0 7px #fcee09,0 0 16px #fcee09,0 0 34px #ff2d55,0 0 60px rgba(255,45,85,.5);font-weight:900;color:var(--nc);text-shadow:var(--ns);animation:neonFlick 6s steps(1,end) infinite}
   [data-tone=light] .nick.nick-neonsign{--nc:#a16207;--ns:0 0 6px rgba(252,238,9,.7)}
   @keyframes neonFlick{0%{color:var(--nc,#fff);text-shadow:var(--ns)}17%{color:#7a2a55;text-shadow:none}18%{color:var(--nc,#fff);text-shadow:var(--ns)}20%{color:#7a2a55;text-shadow:none}21%{color:var(--nc,#fff);text-shadow:var(--ns)}62%{color:#7a2a55;text-shadow:none}63%{color:var(--nc,#fff);text-shadow:var(--ns)}65%{color:#7a2a55;text-shadow:none}66%{color:var(--nc,#fff);text-shadow:var(--ns)}}   /* a tube that flickers and goes out for a moment */
@@ -1532,21 +1528,32 @@
   @keyframes capriShine{from{background-position:100% 0}to{background-position:0 0}}@keyframes capriStar{0%,100%{opacity:.4;transform:scale(.7)}50%{opacity:1;transform:scale(1.25)}}
   /* ---- Smasher jump (loser) and Sandevistan (winner) ---- */
   .fx-sm{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;container-type:size}
-  .sm-red{position:absolute;inset:0;background:radial-gradient(circle at 50% 70%,rgba(255,45,85,.28),rgba(40,0,10,.86));opacity:0;animation:hkIn .5s .55s forwards}
-  .sm-fig{position:absolute;left:50%;bottom:-8%;width:92%;aspect-ratio:120/140;transform:translateX(-50%);animation:smJump .7s cubic-bezier(.45,0,.85,.5) backwards,smLoom 2.2s .7s ease-in-out infinite alternate}
-  @keyframes smJump{from{transform:translate(-50%,-150%) scale(.3) rotate(-14deg);opacity:.2}}
-  @keyframes smLoom{from{scale:1}to{scale:1.05}}
-  .sm-art{display:block;width:100%;height:100%;filter:drop-shadow(0 0 7px rgba(255,45,85,.65))}
-  .sm-eye{animation:smEye .45s steps(1) infinite alternate}
-  @keyframes smEye{from{opacity:1}to{opacity:.55}}
+  .sm-red{position:absolute;inset:0;background:radial-gradient(circle at 50% 70%,rgba(255,45,85,.3),rgba(40,0,10,.88));opacity:0;animation:hkIn .5s .55s forwards}
+  .sm-fig{position:absolute;left:50%;bottom:-1%;width:80%;aspect-ratio:200/240;transform:translateX(-50%);animation:smJump .72s cubic-bezier(.5,0,.9,.5) backwards,smLoom 2.4s .72s ease-in-out infinite alternate}
+  @keyframes smJump{0%{transform:translate(-50%,-150%) scale(.4) rotate(-9deg);filter:blur(3px)}85%{filter:blur(0)}100%{transform:translateX(-50%)}}
+  @keyframes smLoom{from{scale:1}to{scale:1.035}}
+  .sm-bounce{width:100%;height:100%;animation:smLand .5s .7s ease-out}
+  @keyframes smLand{0%{transform:translateY(0)}30%{transform:translateY(5%) scale(1.04,.95)}100%{transform:none}}
+  .sm-art{display:block;width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(255,45,85,.55)) drop-shadow(0 6px 10px rgba(0,0,0,.7))}
+  .sm-eye{animation:smEye .5s steps(1) infinite alternate}
+  @keyframes smEye{from{opacity:1}to{opacity:.6}}
+  .sm-streaks{position:absolute;inset:0;overflow:hidden}
+  .sm-streaks i{position:absolute;top:-40%;width:2px;height:44%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.7));animation:smStreak .7s cubic-bezier(.5,0,.9,.5) backwards;opacity:0}
+  .sm-streaks i:nth-child(1){left:22%}.sm-streaks i:nth-child(2){left:38%;animation-delay:.04s}.sm-streaks i:nth-child(3){left:52%}.sm-streaks i:nth-child(4){left:66%;animation-delay:.06s}.sm-streaks i:nth-child(5){left:80%;animation-delay:.02s}
+  @keyframes smStreak{0%{transform:translateY(0);opacity:.9}100%{transform:translateY(300%);opacity:0}}
+  .sm-puff{position:absolute;bottom:4%;left:calc(var(--x) * 1%);width:22%;aspect-ratio:1;margin-left:-11%;border-radius:50%;background:radial-gradient(circle,rgba(220,220,230,.6),rgba(120,120,140,.25) 60%,transparent 70%);opacity:0;animation:smPuff 1.2s var(--d) ease-out forwards}
+  @keyframes smPuff{0%{transform:scale(.3);opacity:.9}100%{transform:translateY(-60%) scale(1.8);opacity:0}}
+  .sm-chip{position:absolute;left:50%;top:78%;width:5px;height:5px;background:#9aa3b5;opacity:0;animation:smChip .8s .66s cubic-bezier(.2,.7,.4,1) forwards}
+  @keyframes smChip{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(calc(var(--dx) * 1cqw),calc(var(--dy) * 1cqh)) rotate(var(--r));opacity:0}}
   .sm-crack{position:absolute;inset:0;width:100%;height:100%}
-  .sm-crack polyline{fill:none;stroke:#fff;stroke-width:1.8;vector-effect:non-scaling-stroke;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 3px #ff2d55);animation:crackDraw .45s .62s ease-out forwards}
-  .sm-wave{position:absolute;left:50%;top:70%;width:24%;aspect-ratio:1;border:3px solid #ff2d55;border-radius:50%;transform:translate(-50%,-50%) scale(0);opacity:0;animation:shock .8s .62s ease-out forwards}
-  .sm-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 70%,#fff,#ff6b88 22%,transparent 60%);opacity:0;animation:bhFlash .45s .62s ease-out}
-  .sm-ecg{position:absolute;left:4%;top:8%;width:92%;height:22%;overflow:visible}
+  .sm-crack polyline{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 3px #ff2d55);animation:crackDraw .45s .66s ease-out forwards}
+  .sm-wave{position:absolute;left:50%;top:80%;width:24%;aspect-ratio:1;border:3px solid #ff2d55;border-radius:50%;transform:translate(-50%,-50%) scale(0);opacity:0;animation:shock .8s .66s ease-out forwards}
+  .sm-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 80%,#fff,#ff6b88 22%,transparent 60%);opacity:0;animation:bhFlash .45s .66s ease-out}
+  .sm-ecg{position:absolute;left:4%;top:2%;width:92%;height:11%;overflow:visible}
   .sm-ecg path{fill:none;stroke:#ff2d55;stroke-width:2.2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 4px #ff2d55);animation:hkDraw 1.3s 1s linear forwards}
-  .sm-flat{position:absolute;left:0;right:0;top:34%;text-align:center;font:900 max(11px,10cqw)/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;color:#ff2d55;text-shadow:0 0 10px #ff2d55,0 2px 0 #000;opacity:0;animation:hkIn .15s 2.3s steps(1) forwards,smBlink 1s 2.45s steps(1) infinite}
+  .sm-flat{position:absolute;left:auto;right:4%;bottom:4%;text-align:right;font:900 max(10px,6cqw)/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;color:#ff2d55;text-shadow:0 0 10px #ff2d55,0 2px 0 #000;opacity:0;animation:hkIn .15s 2.3s steps(1) forwards,smBlink 1s 2.45s steps(1) infinite}
   @keyframes smBlink{50%{opacity:.35}}
+  .sm-name{position:absolute;left:4%;bottom:4%;padding:1% 3%;font:900 max(8px,4.6cqw)/1.4 ui-monospace,Consolas,monospace;letter-spacing:.1em;color:#fff;background:#c1122f;border:1px solid #fff;opacity:0;animation:hkIn .1s 1.2s steps(1) forwards,sdJit 1.4s 1.3s steps(1) infinite}
   [data-fx=mogg_smasher] .o-face{background:#12060a}
   [data-fx=mogg_smasher] .o-photo{animation:smSquash 3s forwards}
   @keyframes smSquash{0%,17%{transform:none;filter:grayscale(1) brightness(.8)}19%{transform:scale(1.05,.55) translateY(10%);filter:grayscale(1) brightness(1.6)}30%{transform:scale(1,.8) translateY(4%);filter:grayscale(1) sepia(1) hue-rotate(-30deg) saturate(3) brightness(.55)}100%{transform:scale(1,.84) translateY(3%);filter:grayscale(1) sepia(1) hue-rotate(-30deg) saturate(3) brightness(.5)}}
@@ -1559,6 +1566,45 @@
   @keyframes sandyLine{to{transform:translateX(-340%)}}
   .sd-tag{position:absolute;left:6%;top:5%;font:900 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;color:#9deaff;text-shadow:-1px 0 #ff2d55,1px 0 #22d3ee,0 0 8px #22d3ee;animation:sdJit 1.4s steps(1) infinite}
   @keyframes sdJit{0%,100%{translate:0 0}80%{translate:2px 0}86%{translate:-3px 1px}92%{translate:0 0}}
+
+  /* ---- the "Киберпсихоз" frame: several glitch bursts per cycle; the ring tears, the colours split, the whole avatar jerks and the picture inside slides sideways ---- */
+  .av.frame-glitchring{animation:glAv 2.4s steps(1) infinite}
+  .av.frame-glitchring::before{inset:-5px;background:conic-gradient(#fcee09 0 20%,transparent 20% 24%,#ff2d55 24% 46%,transparent 46% 52%,#fcee09 52% 70%,transparent 70% 75%,#ff2d55 75% 92%,transparent 92% 96%,#fcee09 96%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 3.2s linear infinite,glRing 2.4s steps(1) infinite;filter:drop-shadow(0 0 4px #ff2d55)}
+  .av.frame-glitchring::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;z-index:1;border:3px solid #22d3ee;mix-blend-mode:screen;opacity:0;animation:glSlice 2.4s steps(1) infinite}
+  .av.frame-glitchring img{animation:glImg 2.4s steps(1) infinite}
+  @keyframes glAv{0%,9%,15%,37%,44%,61%,65%,79%,88%,100%{transform:none;filter:none;text-shadow:none}
+    10%{transform:translate(-2px,1px) skewX(-4.2deg);filter:drop-shadow(2px 0 #22d3ee) drop-shadow(-2px 0 #ff2d55);text-shadow:2px 0 #22d3ee,-2px 0 #ff2d55}
+    12%{transform:translate(3px,-1px) skewX(5.4deg);filter:hue-rotate(70deg) drop-shadow(-3px 0 #22d3ee);text-shadow:-3px 0 #22d3ee}
+    14%{transform:translate(-1px,0) skewX(-1.8deg);filter:invert(.25)}
+    38%{transform:translate(3px,0) skewX(6.6deg);filter:drop-shadow(-3px 0 #ff2d55) drop-shadow(3px 0 #22d3ee);text-shadow:3px 0 #ff2d55}
+    40%{transform:translate(-4px,1px) skewX(-7.2deg);filter:hue-rotate(-60deg)}
+    42%{transform:translate(2px,-1px) skewX(2.4deg);filter:contrast(1.6) drop-shadow(2px 0 #22d3ee)}
+    62%{transform:translate(-3px,0) skewX(-4.8deg);filter:drop-shadow(3px 0 #ff2d55);text-shadow:-2px 0 #22d3ee}
+    64%{transform:translate(2px,1px) skewX(3.6deg);filter:hue-rotate(120deg)}
+    80%{transform:translate(4px,-1px) skewX(8.4deg);filter:drop-shadow(-4px 0 #22d3ee) drop-shadow(4px 0 #ff2d55);text-shadow:4px 0 #ff2d55,-4px 0 #22d3ee}
+    82%{transform:translate(-5px,1px) skewX(-8.4deg);filter:invert(.4) hue-rotate(90deg)}
+    84%{transform:translate(3px,0) skewX(3.0deg);filter:hue-rotate(-90deg) drop-shadow(2px 0 #fcee09)}
+    86%{transform:translate(-2px,0) skewX(-2.4deg);filter:none}}
+  @keyframes glRing{0%,9%,15%,37%,44%,61%,65%,79%,88%,100%{translate:0 0;clip-path:none}
+    10%{translate:5px -2px;clip-path:inset(0 0 55% 0)}12%{translate:-7px 2px;clip-path:inset(45% 0 0 0)}14%{translate:3px 0;clip-path:inset(20% 0 35% 0)}
+    38%{translate:-6px 1px;clip-path:inset(0 40% 0 0)}40%{translate:8px -2px;clip-path:inset(0 0 0 50%)}42%{translate:-4px 0;clip-path:inset(30% 0 30% 0)}
+    62%{translate:6px 0;clip-path:inset(0 0 40% 0)}64%{translate:-5px 2px;clip-path:inset(55% 0 0 0)}
+    80%{translate:-9px 0;clip-path:inset(0 55% 0 0)}82%{translate:9px -3px;clip-path:inset(35% 0 25% 0)}84%{translate:-5px 2px;clip-path:inset(0 0 60% 0)}86%{translate:4px 0;clip-path:inset(10% 0 10% 0)}}
+  @keyframes glSlice{0%,9%,15%,37%,44%,61%,65%,79%,88%,100%{opacity:0}
+    10%{opacity:.95;clip-path:inset(18% 0 62% 0);translate:-6px 0}12%{opacity:.95;clip-path:inset(60% 0 14% 0);translate:7px 0}14%{opacity:.9;clip-path:inset(38% 0 40% 0);translate:-3px 0}
+    38%{opacity:.95;clip-path:inset(5% 0 75% 0);translate:8px 0}40%{opacity:.95;clip-path:inset(50% 0 20% 0);translate:-8px 0}42%{opacity:.9;clip-path:inset(75% 0 5% 0);translate:4px 0}
+    62%{opacity:.95;clip-path:inset(30% 0 50% 0);translate:-7px 0}64%{opacity:.9;clip-path:inset(65% 0 10% 0);translate:6px 0}
+    80%{opacity:.95;clip-path:inset(10% 0 70% 0);translate:9px 0}82%{opacity:.95;clip-path:inset(45% 0 35% 0);translate:-10px 0}84%{opacity:.95;clip-path:inset(70% 0 8% 0);translate:6px 0}86%{opacity:.9;clip-path:inset(25% 0 55% 0);translate:-4px 0}}
+  @keyframes glImg{0%,9%,15%,37%,44%,61%,65%,79%,88%,100%{translate:0 0;clip-path:none;filter:none}
+    10%{translate:-3px 0;clip-path:inset(0 0 55% 0);filter:hue-rotate(90deg)}12%{translate:4px 1px;clip-path:inset(40% 0 0 0);filter:saturate(3)}14%{translate:-2px 0;filter:none}
+    38%{translate:5px 0;clip-path:inset(20% 0 50% 0);filter:hue-rotate(-80deg)}40%{translate:-5px 1px;clip-path:inset(55% 0 0 0);filter:invert(.3)}42%{translate:2px 0}
+    62%{translate:-4px 0;clip-path:inset(0 0 45% 0);filter:hue-rotate(140deg)}64%{translate:3px 0;clip-path:inset(50% 0 10% 0)}
+    80%{translate:6px 0;clip-path:inset(0 0 60% 0);filter:hue-rotate(60deg) saturate(3)}82%{translate:-6px 1px;clip-path:inset(35% 0 20% 0);filter:invert(.45)}84%{translate:4px 0;clip-path:inset(65% 0 0 0)}86%{translate:-2px 0;filter:none}}
+
+  /* ---- "Капри": small red lightning bolts flash around the title ---- */
+  .ttl.title-capri{position:relative;overflow:visible!important;text-overflow:clip!important}
+  .ttl.title-capri::after{content:"";position:absolute;inset:-7px -8px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 18'%3E%3Cpath d='M7 0L1 9h4L3 18l8-11H6.5L9 0z' fill='%23ff1f3d'/%3E%3C/svg%3E") left 1px top 0/9px 14px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 18'%3E%3Cpath d='M7 0L1 9h4L3 18l8-11H6.5L9 0z' fill='%23ff1f3d'/%3E%3C/svg%3E") right 2px bottom 0/11px 16px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 18'%3E%3Cpath d='M7 0L1 9h4L3 18l8-11H6.5L9 0z' fill='%23ff1f3d'/%3E%3C/svg%3E") 58% 0/7px 11px no-repeat;filter:drop-shadow(0 0 3px #ff1f3d);opacity:0;animation:capriZap 2.2s steps(1) infinite}
+  @keyframes capriZap{0%,100%{opacity:0}5%{opacity:1;background-position:left 1px top 0,right 2px bottom 0,58% 0}8%{opacity:0}11%{opacity:1;background-position:left 5px bottom 0,right 6px top 0,30% 100%}14%{opacity:0}45%{opacity:0}48%{opacity:1;background-position:left 0 top 2px,right 0 bottom 2px,75% 0}51%{opacity:.0}54%{opacity:1;background-position:left 3px bottom 0,right 4px top 0,48% 100%}57%{opacity:0}}
 
   /* ---------- inventory and the upgrader ---------- */
   .inv-acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -3951,17 +3997,46 @@ const fxHack = () => `<div class="fx-hk" aria-hidden="true"><i class="hk-grid"><
 const fxHackWin = () => `<div class="fx-hkw" aria-hidden="true"><div><span style="--n:17">&gt; sudo take_win</span><span style="--n:18">ACCESS GRANTED ✔</span></div></div>`;
 
 // ----- the Smasher jump: a huge cyborg with a red eye drops on the loser from above, the screen shakes, the pulse goes flat; the winner is sped up (afterimages)
-const SMASHER = `<svg class="sm-art" viewBox="0 0 120 140" aria-hidden="true"><g stroke-linejoin="round" stroke-linecap="round">
-  <path d="M44 100L36 136M76 100L84 136" stroke="#0a0a10" stroke-width="12" fill="none"/><path d="M41 100L33 136M73 100L81 136" stroke="#6b7488" stroke-width="1.6" fill="none"/>
-  <path d="M20 62L9 30M100 62L111 30" stroke="#0a0a10" stroke-width="11" fill="none"/><path d="M17 62L6 30M97 62L108 30" stroke="#6b7488" stroke-width="1.6" fill="none"/>
-  <circle cx="8" cy="25" r="8.5" fill="#12131a" stroke="#8a93a8" stroke-width="1.6"/><circle cx="112" cy="25" r="8.5" fill="#12131a" stroke="#8a93a8" stroke-width="1.6"/>
-  <path d="M38 54L82 54L92 104L28 104Z" fill="#101118" stroke="#8a93a8" stroke-width="1.8"/><path d="M60 58V102M44 70H76M42 84H78" stroke="#3a3f50" stroke-width="1.6" fill="none"/><circle class="sm-eye" cx="60" cy="86" r="4" fill="#ff2d55"/>
-  <path d="M12 76L14 56Q24 42 44 52L42 72Z" fill="#161720" stroke="#a3acc0" stroke-width="2"/><path d="M108 76L106 56Q96 42 76 52L78 72Z" fill="#161720" stroke="#a3acc0" stroke-width="2"/>
-  <path d="M46 20Q60 6 74 20L77 44Q60 56 43 44Z" fill="#171821" stroke="#a3acc0" stroke-width="2"/><path class="sm-eye" d="M50 30H70" stroke="#ff2d55" stroke-width="4"/><circle cx="60" cy="30" r="3.2" fill="#fff"/>
-  <path d="M48 44L72 44L68 54H52Z" fill="#262a38" stroke="#a3acc0" stroke-width="1.6"/><path d="M54 46V52M60 46V52M66 46V52" stroke="#0a0a10" stroke-width="1.4" fill="none"/></g></svg>`;
-const fxSmasher = () => `<div class="fx-sm" aria-hidden="true"><i class="sm-red"></i><div class="sm-fig">${SMASHER}</div>
-  <svg class="sm-crack" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="50,70 38,52 30,30 22,0"/><polyline points="50,70 64,50 74,28 82,0"/><polyline points="50,70 40,86 28,96 14,100"/><polyline points="50,70 62,86 76,94 90,100"/><polyline points="50,70 26,66 10,58 0,60"/><polyline points="50,70 76,66 92,58 100,62"/></svg>
-  <svg class="sm-ecg" viewBox="0 0 100 30" preserveAspectRatio="none"><path pathLength="1" d="M0 15H14L18 15L22 3L27 27L31 15H44L48 15L51 9L54 21L57 15H100"/></svg><b class="sm-flat">FLATLINE</b><i class="sm-wave"></i><i class="sm-flash"></i></div>`;
+// a towering full-borg after the references described on the wiki pages: a huge armoured "tank" body (broad shoulders, thin waist), a skull-like metal faceplate with red optics,
+// a cannon in place of the right forearm, a heavy machine gun on the right shoulder and a missile pod on the left one (drawn by hand, mirrored where the body is symmetric)
+const SM_HALF = `
+  <path d="M60 150L98 150L94 190L56 190Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.2"/><path d="M66 154V186M74 152V188" stroke="#0a0b10" stroke-width="1.4"/>
+  <path d="M52 186L98 186L96 204L54 204Z" fill="url(#smM)" stroke="#a3acc0" stroke-width="1.4"/><path d="M55 195H97" stroke="#0a0b10" stroke-width="1.2"/>
+  <path d="M58 204L96 204L90 228L62 228Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.2"/><path d="M68 206V226" stroke="#05060a" stroke-width="4"/><path d="M70 206V226" stroke="#7a8299" stroke-width="1"/>
+  <path d="M48 226L98 226L104 240L42 240Z" fill="url(#smM)" stroke="#a3acc0" stroke-width="1.5"/><path d="M52 232H100" stroke="#0a0b10" stroke-width="1.2"/>
+  <path d="M78 126L100 126L100 154L74 154Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.2"/><rect x="83" y="128" width="7" height="24" fill="url(#smC)" stroke="#05060a" stroke-width=".8"/>
+  <path d="M46 60L100 58L100 128L60 128Z" fill="url(#smM)" stroke="#a3acc0" stroke-width="1.8"/>
+  <path d="M62 68L100 68L100 104L68 104Z" fill="#0f1118" stroke="#5d667c" stroke-width="1.2"/><path d="M66 76H100M66 84H100M66 92H100" stroke="#2c3140" stroke-width="1.6"/>
+  <path d="M64 112H100M66 118H100M68 124H100" stroke="#3b4254" stroke-width="2"/>
+  <path d="M14 58Q22 30 64 36L68 76L20 86Z" fill="url(#smM)" stroke="#b4bccf" stroke-width="2"/>
+  <path d="M10 76L60 70L64 94L16 104Z" fill="url(#smP)" stroke="#a3acc0" stroke-width="1.6"/><path d="M20 50L60 42" stroke="#c1122f" stroke-width="3.2"/>
+  <g fill="#8892a8"><circle cx="24" cy="62" r="1.8"/><circle cx="40" cy="58" r="1.8"/><circle cx="56" cy="54" r="1.8"/><circle cx="22" cy="86" r="1.6"/><circle cx="38" cy="82" r="1.6"/></g>
+  <path d="M24 102L58 96L56 130L26 134Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.4"/><circle cx="41" cy="134" r="10" fill="url(#smC)" stroke="#a3acc0" stroke-width="1.4"/><path d="M33 134H49" stroke="#05060a" stroke-width="1.4"/>
+  <path d="M88 50L100 50L100 66L90 66Z" fill="#14161d" stroke="#5d667c" stroke-width="1"/>`;
+const SM_ART = `<svg class="sm-art" viewBox="0 0 200 240" aria-hidden="true"><defs>
+  <linearGradient id="smM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a6177"/><stop offset=".45" stop-color="#232733"/><stop offset="1" stop-color="#0c0d13"/></linearGradient>
+  <linearGradient id="smP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f50"/><stop offset="1" stop-color="#14161d"/></linearGradient>
+  <linearGradient id="smC" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b0c11"/><stop offset=".5" stop-color="#4a5167"/><stop offset="1" stop-color="#0b0c11"/></linearGradient>
+  <radialGradient id="smE"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ff5b72"/><stop offset="1" stop-color="#ff2d55" stop-opacity="0"/></radialGradient>
+  <g id="smL" stroke-linejoin="round" stroke-linecap="round">${SM_HALF}</g></defs>
+  <use href="#smL"/><use href="#smL" transform="translate(200 0) scale(-1 1)"/>
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M18 140L58 136L54 182L22 186Z" fill="url(#smM)" stroke="#a3acc0" stroke-width="1.6"/><path d="M20 184L56 180L58 206L24 210Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.6"/><path d="M30 184V208M40 183V208M50 181V206" stroke="#0a0b10" stroke-width="1.4"/>
+    <path d="M142 136L182 140L178 186L146 182Z" fill="url(#smM)" stroke="#a3acc0" stroke-width="1.6"/><path d="M150 144L174 146M150 158L174 160M150 172L174 174" stroke="#0a0b10" stroke-width="1.6"/>
+    <path d="M148 184L178 188L174 226L154 222Z" fill="url(#smC)" stroke="#b4bccf" stroke-width="1.6"/><ellipse cx="164" cy="225" rx="10" ry="4.6" fill="#05060a" stroke="#ff7a2d" stroke-width="1.8"/><circle class="sm-eye" cx="164" cy="225" r="3.4" fill="#ff7a2d"/>
+    <path d="M136 38L160 30L164 44L140 52Z" fill="url(#smM)" stroke="#b4bccf" stroke-width="1.6"/><path d="M156 36L194 10L199 17L162 46Z" fill="url(#smC)" stroke="#b4bccf" stroke-width="1.6"/><path d="M188 9L199 16" stroke="#05060a" stroke-width="5"/><path d="M152 46Q132 66 120 84" stroke="#8a7330" stroke-width="3" stroke-dasharray="3 2" fill="none"/>
+    <path d="M18 28L56 20L60 36L22 44Z" fill="url(#smM)" stroke="#b4bccf" stroke-width="1.6"/><g fill="#05060a" stroke="#8892a8" stroke-width="1"><circle cx="27" cy="36" r="4.2"/><circle cx="39" cy="33" r="4.2"/><circle cx="51" cy="30" r="4.2"/></g><g fill="#ff2d55"><circle cx="27" cy="36" r="2"/><circle cx="39" cy="33" r="2"/><circle cx="51" cy="30" r="2"/></g>
+    <path d="M78 32Q100 6 122 32L124 52Q124 62 114 68L86 68Q76 62 76 52Z" fill="url(#smM)" stroke="#b4bccf" stroke-width="2.2"/><path d="M82 30Q100 16 118 30" fill="none" stroke="#7a8299" stroke-width="1.6"/>
+    <path d="M78 38L122 38L120 47L80 47Z" fill="#07080c"/><path d="M81 40L97 42L95 47L82 46Z" fill="#ff3b5c"/><path d="M119 40L103 42L105 47L118 46Z" fill="#ff3b5c"/>
+    <circle class="sm-eye" cx="89" cy="43" r="10" fill="url(#smE)"/><circle class="sm-eye" cx="111" cy="43" r="10" fill="url(#smE)"/>
+    <path d="M78 50L90 58L86 68L76 58Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.2"/><path d="M122 50L110 58L114 68L124 58Z" fill="url(#smP)" stroke="#8892a8" stroke-width="1.2"/><path d="M97 52H103L100 60Z" fill="#05060a"/>
+    <path d="M86 63L114 63L111 74L89 74Z" fill="#0c0d12" stroke="#8892a8" stroke-width="1.2"/><path d="M91 63V74M96 63V74M100 63V74M104 63V74M109 63V74" stroke="#c7cedd" stroke-width="1.4"/><path d="M89 78Q100 90 111 78" stroke="#c1122f" stroke-width="2.4" fill="none"/>
+    <circle class="sm-eye" cx="100" cy="86" r="14" fill="url(#smE)"/><circle cx="100" cy="86" r="5" fill="#ff2d55" stroke="#fff" stroke-width="1"/></g></svg>`;
+const smPuffs = Array.from({length: 7}, (_, i) => `<i class="sm-puff" style="--x:${8 + i * 14};--d:${(i % 3) * .06 + .66}s"></i>`).join("");
+const smChips = Array.from({length: 10}, (_, i) => `<i class="sm-chip" style="--dx:${[-38, -26, -14, -4, 8, 18, 30, 40, -20, 24][i]};--dy:${[-34, -52, -30, -58, -36, -54, -32, -46, -20, -22][i]};--r:${i * 77 % 360}deg"></i>`).join("");
+const fxSmasher = () => svgUnique(`<div class="fx-sm" aria-hidden="true"><i class="sm-red"></i><span class="sm-streaks"><i></i><i></i><i></i><i></i><i></i></span><div class="sm-fig"><div class="sm-bounce">${SM_ART}</div></div>${smPuffs}${smChips}
+  <svg class="sm-crack" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="50,80 36,60 30,34 22,0"/><polyline points="50,80 66,58 76,30 84,0"/><polyline points="50,80 38,92 26,98 12,100"/><polyline points="50,80 64,92 78,97 92,100"/><polyline points="50,80 24,74 10,64 0,66"/><polyline points="50,80 78,74 92,64 100,68"/><polyline points="30,34 40,30"/><polyline points="76,30 66,36"/></svg>
+  <svg class="sm-ecg" viewBox="0 0 100 30" preserveAspectRatio="none"><path pathLength="1" d="M0 15H14L18 15L22 3L27 27L31 15H44L48 15L51 9L54 21L57 15H100"/></svg><b class="sm-flat">FLATLINE</b><b class="sm-name">АДАМ СМЭШЕР</b><i class="sm-wave"></i><i class="sm-flash"></i></div>`);
 const fxSandy = wf => {   // the winner's photo leaves coloured afterimages, like someone moving at sandevistan speed
   const ph = (wf.querySelector(".o-photo")?.outerHTML ?? "").replace(/\shidden(="")?/, "");
   return `<div class="fx-sandy" aria-hidden="true">${ph}${ph}<i style="--y:14;--w:46;--d:0s;--t:.55s"></i><i style="--y:30;--w:62;--d:-.2s;--t:.7s"></i><i style="--y:48;--w:38;--d:-.4s;--t:.5s"></i><i style="--y:64;--w:70;--d:-.1s;--t:.65s"></i><i style="--y:82;--w:52;--d:-.3s;--t:.6s"></i><b class="sd-tag">SANDEVISTAN</b></div>`;
