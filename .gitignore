@@ -15,3 +15,9 @@ node_modules/
 .env.*
 Thumbs.db
 .DS_Store
+
+# reference pictures for the TikTok philosophy case (not ours, not published)
+/Сизиф.jpg
+/жук.jpg
+/макс штирнер.png
+/уроборос.png
