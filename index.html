@@ -1218,8 +1218,8 @@
   [data-tone=light] .nick.nick-black{filter:none}
   .scene-apples{background:radial-gradient(ellipse at 50% 20%,#52101f,#1b0710 62%,#0b0409)!important}
   .o-card[class*="scene-"]>.apples{position:absolute}
-  .pv-scene>span:not(.apples):not(.sisy){position:relative}
-  .o-card[class*="scene-"]>:not(.apples):not(.sisy){z-index:1}
+  .pv-scene>span:not(.apples):not(.sisy):not(.scn){position:relative}
+  .o-card[class*="scene-"]>:not(.apples):not(.sisy):not(.scn){z-index:1}
   .o-card[class*="scene-"]>.sisy{position:absolute}
 
   /* the apples: each one runs along an ellipse (x and y swing with the same period, a quarter apart) */
@@ -1373,6 +1373,159 @@
   .cs-ring{position:absolute;width:76%;aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-6%20-6%20112%20112%22%20fill%3D%22none%22%3E%3Cstyle%3E%0A.fl1%7Banimation%3Afl1%201.1s%20linear%20infinite%7D.fl2%7Banimation%3Afl2%201.1s%20linear%20infinite%7D.fl3%7Banimation%3Afl1%201.1s%20linear%20infinite%7D%0A%40keyframes%20fl1%7Bfrom%7Bstroke-dashoffset%3A0%7Dto%7Bstroke-dashoffset%3A8.8%7D%7D%40keyframes%20fl2%7Bfrom%7Bstroke-dashoffset%3A2.2%7Dto%7Bstroke-dashoffset%3A11%7D%7D%0A.jaw%7Btransform-origin%3A44px%2017px%3Banimation%3Ajaw%20.5s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20jaw%7Bfrom%7Btransform%3Arotate%28-2deg%29%7Dto%7Btransform%3Arotate%2816deg%29%7D%7D%0A.hd%7Btransform-origin%3A40px%2014px%3Banimation%3Ahd%201s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20hd%7Bfrom%7Btransform%3Arotate%28-1.5deg%29%7Dto%7Btransform%3Arotate%282deg%29%7D%7D%0A.tg%7Btransform-origin%3A70px%2017px%3Banimation%3Atg%20.28s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20tg%7Bfrom%7Btransform%3Arotate%28-7deg%29%7Dto%7Btransform%3Arotate%289deg%29%7D%7D%0A.lump%7Btransform-origin%3A50px%2050px%3Banimation%3Alump%202.2s%20ease-in%20infinite%7D%0A%40keyframes%20lump%7B0%25%7Btransform%3Arotate%2895deg%29%3Bopacity%3A0%7D12%25%7Bopacity%3A1%7D86%25%7Btransform%3Arotate%28-56deg%29%3Bopacity%3A1%7D100%25%7Btransform%3Arotate%28-64deg%29%3Bopacity%3A0%7D%7D%0A%3C%2Fstyle%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%2212.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23efe9d8%22%20stroke-width%3D%229.6%22%2F%3E%0A%3Ccircle%20class%3D%22fl1%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2244%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%3Ccircle%20class%3D%22fl2%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%20stroke-dashoffset%3D%222.2%22%2F%3E%3Ccircle%20class%3D%22fl3%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2238%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2236.4%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20opacity%3D%22.85%22%2F%3E%0A%3Cg%20class%3D%22lump%22%3E%3Cellipse%20cx%3D%2291%22%20cy%3D%2250%22%20rx%3D%226.8%22%20ry%3D%225.6%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.6%22%2F%3E%3Cpath%20d%3D%22M88%2046Q91%2050%2088%2054M93%2046Q96%2050%2093%2054%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%2F%3E%3C%2Fg%3E%0A%3Cg%20class%3D%22hd%22%3E%0A%3Cpath%20d%3D%22M44%2014L70%2011L84%2017L82%2021L62%2022L46%2020Z%22%20fill%3D%22%23111%22%2F%3E%0A%3Cg%20class%3D%22jaw%22%3E%3Cpath%20d%3D%22M44%2017L60%2020L78%2021L86%2027L72%2031L52%2030L42%2024Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M62%2021L65%2027L68%2021ZM72%2022L74%2027L77%2022Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%0A%3Cpath%20class%3D%22tg%22%20d%3D%22M70%2020L86%2021L94%2016M86%2021L94%2025%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M24%2020L32%207L46%20-1L64%20-3L80%203L88%2012L82%2015L74%2011L58%2012L40%2018Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M40%204L50%20-1M52%208L60%203M62%207L70%203%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%20opacity%3D%22.7%22%2F%3E%0A%3Cpath%20d%3D%22M50%200L62%206L60%209L49%205Z%22%20fill%3D%22%23111%22%2F%3E%3Cpath%20d%3D%22M45%20-2L64%205%22%20stroke%3D%22%23111%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%226%22%20r%3D%221.1%22%20fill%3D%22%23f3efe5%22%2F%3E%0A%3Cpath%20d%3D%22M66%2012L70%2012L68%2020ZM76%2012L79%2012L78%2018Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2282%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23111%22%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;animation:rkSpin 10s linear infinite}
   .cs-rock{position:relative;width:26%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6));animation:csFloat 3s ease-in-out infinite alternate}
   .cs-art.phil>b{font-size:13px;letter-spacing:.1em;color:#efe9d8;text-shadow:0 0 10px rgba(0,0,0,.8);bottom:7%}
+
+  /* ---------- the cases "Чёрная дыра" and "Неон-Токио" ---------- */
+  .scn{position:absolute;inset:0;pointer-events:none;container-type:size;overflow:hidden;z-index:0}
+  .o-card[class*="scene-"]>.scn{position:absolute}
+
+  /* ===== Чёрная дыра ===== */
+  /* the hole: a halo of bent light, the shadow with a thin bright edge, a tilted disk; --s is the width of the whole disk */
+  .bh-hole{position:absolute;left:50%;top:50%;width:var(--s);height:var(--s);margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2);pointer-events:none}
+  .bh-halo{position:absolute;left:27%;top:27%;width:46%;height:46%;border-radius:50%;background:conic-gradient(from 90deg,#ffe9b0,#ff9a2e,#9c2a06,#ff9a2e,#ffe9b0);-webkit-mask:radial-gradient(circle closest-side,transparent 78%,#000 84%,transparent 100%);mask:radial-gradient(circle closest-side,transparent 78%,#000 84%,transparent 100%);animation:bhHalo 3.4s ease-in-out infinite alternate}
+  @keyframes bhHalo{from{transform:rotate(-8deg) scale(1);opacity:.85}to{transform:rotate(8deg) scale(1.06);opacity:1}}
+  .bh-core{position:absolute;left:31%;top:31%;width:38%;height:38%;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #ffe3a3,0 0 10px 1px #ff8a1f,0 0 26px 5px rgba(255,110,20,.45)}
+  .bh-tilt{position:absolute;inset:0;transform:scaleY(.3)}
+  .bh-tilt.back{clip-path:inset(0 0 50% 0)}
+  .bh-tilt.front{clip-path:inset(50% 0 0 0)}
+  .bh-disk{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#fff6d0,#ffb84a,#ff6a13,#7a1d02,#ff6a13,#ffd27a,#fff6d0,#ffb84a,#ff6a13,#7a1d02,#ff6a13,#fff6d0);-webkit-mask:radial-gradient(circle closest-side,transparent 44%,#000 50%,rgba(0,0,0,.72) 72%,transparent 100%);mask:radial-gradient(circle closest-side,transparent 44%,#000 50%,rgba(0,0,0,.72) 72%,transparent 100%);animation:rkSpin 5s linear infinite;filter:saturate(1.25)}
+  .bh-tilt i:not(.bh-disk){position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:#fff1c9;box-shadow:0 0 6px 1px #ffb347;opacity:0;animation:bhSpiral 3.2s linear infinite;animation-delay:calc(var(--i) * -.36s)}   /* matter spirals into the hole */
+  @keyframes bhSpiral{0%{transform:rotate(0) translateX(calc(var(--s) * .5)) scale(.6);opacity:0}12%{opacity:1}100%{transform:rotate(-520deg) translateX(calc(var(--s) * .1)) scale(.15);opacity:0}}
+
+  .scene-singularity{background:#05030c!important}
+  .bh{background:radial-gradient(ellipse 56% 130% at 80% 50%,rgba(255,110,20,.28),transparent 70%),linear-gradient(90deg,#05030c,#0b0720 70%,#150a28)}
+  .bh-stars{position:absolute;inset:0;--w:300px;background-repeat:repeat;background-size:var(--w) 150px;animation:bhDrift 80s linear infinite}
+  .bh-stars.a{background-image:radial-gradient(1.3px 1.3px at 10% 20%,#fff,transparent 70%),radial-gradient(1px 1px at 34% 70%,#cfe3ff,transparent 70%),radial-gradient(1.2px 1.2px at 58% 30%,#fff,transparent 70%),radial-gradient(1px 1px at 82% 78%,#ffe9c9,transparent 70%),radial-gradient(1.4px 1.4px at 92% 14%,#fff,transparent 70%),radial-gradient(1px 1px at 22% 88%,#fff,transparent 70%)}
+  .bh-stars.b{--w:210px;background-size:var(--w) 120px;background-image:radial-gradient(1px 1px at 18% 52%,#fff,transparent 70%),radial-gradient(1.5px 1.5px at 46% 12%,#bcd7ff,transparent 70%),radial-gradient(1px 1px at 70% 60%,#fff,transparent 70%),radial-gradient(1.2px 1.2px at 90% 36%,#ffd9b0,transparent 70%);animation:bhDrift 46s linear infinite,bhTwinkle 2.6s ease-in-out infinite alternate}
+  @keyframes bhDrift{to{background-position:var(--w) 0}}
+  @keyframes bhTwinkle{from{opacity:.35}to{opacity:1}}
+  .bh-main{--s:min(170cqh,58cqw);left:80%}
+  .bh-streak{position:absolute;left:42%;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,206,130,.6) 78%,transparent);filter:blur(.6px)}
+
+  /* the case picture */
+  .cs-art.space{background:#05030c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #ff7a18}
+  .cs-bhart .bh-main{--s:min(104cqw,104cqh);left:50%;top:46%;animation:csFloat 4s ease-in-out infinite alternate}
+  .cs-art.space>b{font-size:15px;letter-spacing:.14em;color:#ffe9c9;text-shadow:0 0 12px #f97316;bottom:8%}
+
+  /* frame, titles and the nick */
+  .av.frame-accretion::before{inset:-6px;background:repeating-conic-gradient(from 0deg,#fff2c4 0 6deg,#ffb84a 6deg 14deg,#ff6a13 14deg 24deg,#8a2204 24deg 34deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 2.6s linear infinite;filter:drop-shadow(0 0 4px #ff7a18) drop-shadow(0 0 9px rgba(255,100,20,.55))}
+  .av.frame-accretion::after{content:"";position:absolute;inset:-11px;border-radius:50%;pointer-events:none;z-index:2;background:radial-gradient(circle at 50% 4%,#fff 0 1.6px,#9be7ff 2.6px,transparent 4px);animation:rkSpin 1.9s linear infinite reverse}   /* a small star circles the disk */
+  .ttl.title-dust{color:#e0e7ff;border-color:#818cf8;text-transform:none;background:radial-gradient(1px 1px at 12% 30%,#fff,transparent),radial-gradient(1px 1px at 38% 72%,#c7d2fe,transparent),radial-gradient(1.2px 1.2px at 64% 24%,#fff,transparent),radial-gradient(1px 1px at 86% 66%,#ddd6fe,transparent),linear-gradient(90deg,#1e1b4b,#312e81,#1e1b4b);background-size:34px 100%,34px 100%,34px 100%,34px 100%,100% 100%;animation:dustDrift 5s linear infinite;text-shadow:0 0 6px rgba(165,180,252,.8)}
+  @keyframes dustDrift{to{background-position:34px 0,34px 0,34px 0,34px 0,0 0}}
+  .ttl.title-horizon{color:#fdba74;border-color:#fb923c;background:#000;text-transform:none;letter-spacing:.03em;animation:horizonPulse 3s ease-in-out infinite alternate}
+  .ttl.title-horizon::before{content:"";display:inline-block;width:11px;height:11px;margin-right:6px;border-radius:50%;vertical-align:-2px;background:radial-gradient(circle,#000 0 46%,transparent 48%),conic-gradient(#fb923c,#fde68a,#ea580c,#fb923c);animation:rkSpin 1.6s linear infinite}
+  @keyframes horizonPulse{from{box-shadow:0 0 0 0 rgba(249,115,22,0),inset 0 0 6px rgba(249,115,22,.25);color:#fdba74}to{box-shadow:0 0 12px -1px rgba(249,115,22,.7),inset 0 0 10px rgba(249,115,22,.5);color:#fff7ed}}
+  .ttl.title-quasar{color:#fff;border-color:#38bdf8;text-transform:none;background:linear-gradient(100deg,#0a1230 0 35%,#1d6fb8 47%,#e0f7ff 50%,#1d6fb8 53%,#0a1230 65% 100%);background-size:300% 100%;text-shadow:0 0 6px #0ea5e9,0 1px 2px #000;box-shadow:0 0 10px -2px #38bdf8;animation:quasarSweep 3.4s ease-in-out infinite}
+  @keyframes quasarSweep{from{background-position:100% 0}to{background-position:0 0}}
+  .nick.nick-nova{color:#c7d2fe;text-shadow:0 0 3px #6366f1,0 0 9px #4f46e5;animation:novaBurst 4.2s ease-in-out infinite}
+  .nick.nick-nova::after{content:"✦";display:inline-block;margin-left:.2em;font-size:.8em;color:#fff;text-shadow:0 0 6px #fde68a,0 0 14px #fb923c;animation:novaStar 4.2s ease-in-out infinite}
+  @keyframes novaBurst{0%,100%{color:#c7d2fe;text-shadow:0 0 3px #6366f1,0 0 9px #4f46e5}6%{color:#fff;text-shadow:0 0 4px #fff,0 0 12px #fff2c0,0 0 28px #fb923c,0 0 54px #ef4444}16%{color:#fde68a;text-shadow:0 0 5px #fb923c,0 0 16px #ef4444,0 0 34px rgba(239,68,68,.6)}36%{color:#bae6fd;text-shadow:0 0 4px #38bdf8,0 0 14px #6366f1}}   /* a flash, then it cools from white to red to blue */
+  @keyframes novaStar{0%,100%{transform:scale(.55) rotate(0);opacity:.5}6%{transform:scale(1.7) rotate(60deg);opacity:1}16%{transform:scale(1) rotate(120deg);opacity:.9}}
+  [data-tone=light] .nick.nick-nova{animation-name:novaBurstL}[data-tone=light] .nick.nick-nova::after{color:#ea580c;text-shadow:0 0 6px #fdba74}
+  @keyframes novaBurstL{0%,100%{color:#4338ca;text-shadow:0 0 6px rgba(99,102,241,.35)}6%{color:#c2410c;text-shadow:0 0 8px rgba(251,146,60,.8),0 0 18px rgba(239,68,68,.45)}16%{color:#b91c1c;text-shadow:0 0 8px rgba(239,68,68,.5)}36%{color:#0369a1;text-shadow:0 0 6px rgba(56,189,248,.5)}}
+
+  /* the win animation: the loser's photo is pulled into a black hole */
+  .fx-bh{position:absolute;inset:0;z-index:3;pointer-events:none;container-type:size;overflow:hidden}
+  .fx-bh::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(5,3,12,.15),rgba(5,3,12,.8));opacity:0;animation:bhDim .6s .1s ease-out forwards}
+  @keyframes bhDim{to{opacity:1}}
+  .fx-bh .bh-hole{--s:100cqmin;animation:bhOpen .8s .1s cubic-bezier(.2,1.25,.4,1) backwards}
+  @keyframes bhOpen{from{transform:scale(0) rotate(-90deg)}}
+  [data-fx=mogg_blackhole] .o-face{background:#05030c}
+  [data-fx=mogg_blackhole] .o-photo{animation:bhSuck 1.9s .6s cubic-bezier(.55,.05,.9,.45) forwards}
+  @keyframes bhSuck{0%{transform:none;border-radius:0;opacity:1}25%{transform:rotate(30deg) scale(.88,.95);border-radius:18%}60%{transform:rotate(240deg) scale(.5,.64) skewY(12deg);border-radius:50%}100%{transform:rotate(620deg) scale(.02);border-radius:50%;opacity:.2}}
+  .bh-wave{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;border:3px solid #ffd9a0;border-radius:50%;transform:translate(-50%,-50%) scale(0);opacity:0;animation:shock .9s 2.25s ease-out forwards}
+  .bh-flash{position:absolute;inset:0;background:radial-gradient(circle,#fff,#ffb347 18%,transparent 52%);opacity:0;animation:bhFlash .5s 2.3s ease-out}
+  @keyframes bhFlash{30%{opacity:.85}100%{opacity:0}}
+  [data-fx=mogg_blackhole] .o-stamp{color:#ffb347;border-color:#ffb347;text-shadow:0 0 14px #f97316;z-index:4}
+  .fx-bhw{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+  .fx-bhw i{position:absolute;top:78%;left:calc(var(--i) * 10.5% + 4%);font-style:normal;color:#fde68a;text-shadow:0 0 8px #fb923c;animation:bhRise 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * -.27s)}
+  .fx-bhw i::before{content:"✦"}
+  @keyframes bhRise{from{transform:translateY(0) scale(.4) rotate(0);opacity:0}20%{opacity:1}to{transform:translateY(-190px) scale(1.1) rotate(120deg);opacity:0}}
+
+  /* ===== Неон-Токио ===== */
+  .scene-neoncity{background:linear-gradient(180deg,#0a0424,#2b0b52 55%,#7a1a6e)!important}
+  .cty{background:radial-gradient(circle at 80% 30%,rgba(255,45,149,.38),transparent 46%),linear-gradient(180deg,#0a0424 0%,#2b0b52 52%,#8b1f7a 100%)}
+  .cty-sun{position:absolute;right:14%;top:8%;width:62cqh;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,#ffe27a 0%,#ff7a59 45%,#ff2d95 75%,#8a2be2 100%);-webkit-mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);animation:ctySun 5s ease-in-out infinite alternate}
+  @keyframes ctySun{from{opacity:.85}to{opacity:1}}
+  .cty-row{position:absolute;left:0;bottom:0;width:max-content;animation:ctyScroll var(--sp) linear infinite}
+  .cty-row.far{height:72%;--sp:140s}
+  .cty-row.near{height:100%;--sp:70s}
+  .cty-row svg{display:block;height:100%;width:auto;aspect-ratio:24/1}
+  @keyframes ctyScroll{to{transform:translateX(-25%)}}   /* the strip holds 4 equal copies: moving by one copy looks like an endless street */
+  .wn{opacity:.85}.wn.wp{fill:#ff6ec7}.wn.wc{fill:#5eead4}.wn.wa{fill:#ffc857}   /* inside a <use> copy a selector cannot look at ancestors outside the copied part, so no .cty here */
+  .bk{animation:ctyBlink 3.2s steps(1) infinite;animation-delay:var(--d)}
+  @keyframes ctyBlink{0%,46%{opacity:1}50%,70%{opacity:.08}74%,100%{opacity:1}}
+  .ed.ep{fill:#ff2d95;filter:drop-shadow(0 0 1.5px #ff2d95)}.ed.ec{fill:#22d3ee;filter:drop-shadow(0 0 1.5px #22d3ee)}
+  .sg{font:800 7px/1 system-ui,sans-serif;letter-spacing:.5px;animation:ctySign 4.4s steps(1) infinite;animation-delay:var(--d)}
+  .sg.sp{fill:#fff;filter:drop-shadow(0 0 1px #ff2d95) drop-shadow(0 0 3px #ff2d95)}.sg.sc{fill:#fff;filter:drop-shadow(0 0 1px #22d3ee) drop-shadow(0 0 3px #22d3ee)}.sg.sa{fill:#fff7d6;filter:drop-shadow(0 0 1px #fbbf24) drop-shadow(0 0 3px #f59e0b)}
+  @keyframes ctySign{0%,38%,42%,100%{opacity:1}39%,41%{opacity:.2}}
+  .cty-rain{position:absolute;inset:0}
+  .cty-rain i{position:absolute;top:-16%;left:calc(var(--x) * 1%);width:1px;height:14cqh;background:linear-gradient(180deg,transparent,rgba(180,215,255,.65));transform:rotate(12deg);animation:ctyRain var(--t) linear infinite;animation-delay:var(--d)}
+  @keyframes ctyRain{to{transform:translate(-25cqh,118cqh) rotate(12deg)}}
+  .cty-car{position:absolute;top:22%;left:0;width:11cqh;height:3.4cqh;border-radius:60% 40% 40% 60%;background:linear-gradient(90deg,#1a1030,#3a2a66);animation:ctyCar 9s linear infinite;animation-delay:-3s}
+  .cty-car::before{content:"";position:absolute;left:0;top:30%;width:2cqh;height:1.2cqh;border-radius:50%;background:#fff;box-shadow:0 0 6px 2px #ffe9a8}
+  .cty-car::after{content:"";position:absolute;right:0;top:30%;width:1.2cqh;height:1.2cqh;border-radius:50%;background:#ff2d55;box-shadow:0 0 8px 3px #ff2d55,10cqh 0 10px 2px rgba(255,45,85,.4)}
+  @keyframes ctyCar{from{transform:translateX(calc(100cqw + 12cqh))}to{transform:translateX(-14cqh)}}
+  .cty::after{content:"";position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(180deg,transparent,rgba(255,45,149,.24)),linear-gradient(90deg,rgba(34,211,238,.2),rgba(255,45,149,.2),rgba(34,211,238,.2));mix-blend-mode:screen;animation:ctyShimmer 4s ease-in-out infinite alternate}
+  @keyframes ctyShimmer{from{opacity:.5}to{opacity:1}}
+  .cs-art.neon{background:#0a0424;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #ff2d95}
+  .cs-art.neon .cty-sun{right:18%;top:14%}
+  .cs-neon{position:relative;z-index:1;font:900 38px/1 system-ui,sans-serif;letter-spacing:.14em;color:#fff;--ns:0 0 2px #fff,0 0 7px #ff2d95,0 0 16px #ff2d95,0 0 34px #ff2d95;text-shadow:var(--ns);transform:rotate(-6deg);animation:neonFlick 6s steps(1,end) infinite}
+  .cs-art.neon>b{z-index:1;font-size:15px;letter-spacing:.12em;color:#c9faff;text-shadow:0 0 12px #22d3ee;bottom:8%}
+
+  /* frame, titles and the nick */
+  .av.frame-glitchring::before{inset:-5px;background:conic-gradient(#22d3ee 0 24%,transparent 24% 29%,#ff2d95 29% 58%,transparent 58% 64%,#22d3ee 64% 86%,transparent 86% 91%,#ff2d95 91% 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 4.5s linear infinite,glJit 3s steps(1) infinite;filter:drop-shadow(0 0 4px #22d3ee)}
+  .av.frame-glitchring::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;z-index:1;border:3px solid #ff2d95;mix-blend-mode:screen;opacity:0;animation:glSlice 3s steps(1) infinite}   /* every few seconds the ring tears into shifted slices */
+  @keyframes glJit{0%,100%{translate:0 0}90%{translate:3px -1px}93%{translate:-3px 1px}96%{translate:2px 0}}
+  @keyframes glSlice{0%,100%{opacity:0}88%{opacity:.9;clip-path:inset(18% 0 62% 0);translate:-4px 0}91%{opacity:.9;clip-path:inset(60% 0 14% 0);translate:4px 0}94%{opacity:.9;clip-path:inset(38% 0 40% 0);translate:-2px 0}97%{opacity:0}}
+  .nick.nick-neonsign{--nc:#fff;--ns:0 0 2px #fff,0 0 7px #ff2d95,0 0 16px #ff2d95,0 0 34px #ff2d95,0 0 60px rgba(255,45,149,.55);font-weight:900;color:var(--nc);text-shadow:var(--ns);animation:neonFlick 6s steps(1,end) infinite}
+  [data-tone=light] .nick.nick-neonsign{--nc:#be185d;--ns:0 0 6px rgba(255,45,149,.55)}
+  @keyframes neonFlick{0%{color:var(--nc,#fff);text-shadow:var(--ns)}17%{color:#7a2a55;text-shadow:none}18%{color:var(--nc,#fff);text-shadow:var(--ns)}20%{color:#7a2a55;text-shadow:none}21%{color:var(--nc,#fff);text-shadow:var(--ns)}62%{color:#7a2a55;text-shadow:none}63%{color:var(--nc,#fff);text-shadow:var(--ns)}65%{color:#7a2a55;text-shadow:none}66%{color:var(--nc,#fff);text-shadow:var(--ns)}}   /* a tube that flickers and goes out for a moment */
+  .ttl.title-netrunner{font-family:ui-monospace,Consolas,monospace;color:#4ade80;background:#04100a;border:1px solid #16a34a;text-transform:none;letter-spacing:.02em;text-shadow:0 0 6px rgba(74,222,128,.7);box-shadow:inset 0 0 8px rgba(34,197,94,.25)}
+  .ttl.title-netrunner::before{content:"> "}
+  .ttl.title-netrunner::after{content:"_";animation:cursorBlink 1s steps(1) infinite}
+  @keyframes cursorBlink{50%{opacity:0}}
+  .ttl.title-ping{color:#67e8f9;border-color:#22d3ee;background:#06202b;text-transform:none}
+  .ttl.title-ping::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#22d3ee;vertical-align:1px;animation:pingDot 1.4s ease-out infinite}
+  @keyframes pingDot{0%{box-shadow:0 0 0 0 rgba(34,211,238,.8)}100%{box-shadow:0 0 0 8px rgba(34,211,238,0)}}
+  .ttl.title-zeroday{color:#fff;background:#0b0b14;border:1px solid #ff2d95;text-transform:none;letter-spacing:.04em;text-shadow:-1px 0 #ff2d95,1px 0 #22d3ee;animation:zdJit 2.6s steps(1) infinite}
+  @keyframes zdJit{0%,100%{text-shadow:-1px 0 #ff2d95,1px 0 #22d3ee;translate:0 0}90%{text-shadow:-3px 0 #ff2d95,3px 0 #22d3ee;translate:1px 0}94%{text-shadow:3px 0 #ff2d95,-3px 0 #22d3ee;translate:-1px 0}97%{text-shadow:-2px 0 #ff2d95,2px 0 #22d3ee;translate:0 0}}
+
+  /* the win animation: a wireframe scan of the loser's face, a break-in, ACCESS DENIED; the winner gets a terminal */
+  @property --hkp{syntax:"<integer>";initial-value:0;inherits:false}
+  .fx-hk{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;container-type:size;font-family:ui-monospace,Consolas,monospace}
+  .hk-grid{position:absolute;inset:0;background:linear-gradient(rgba(34,211,238,.26) 1px,transparent 1px) 0 0/10% 10%,linear-gradient(90deg,rgba(34,211,238,.26) 1px,transparent 1px) 0 0/10% 10%,rgba(2,18,30,.42);opacity:0;animation:hkIn .4s forwards}
+  @keyframes hkIn{to{opacity:1}}
+  @keyframes hkOut{to{opacity:0}}
+  .hk-hex{position:absolute;inset:0;animation:hkOut .3s 1.9s forwards}
+  .hk-hex b{position:absolute;top:-30%;left:calc(var(--x) * 1%);width:1ch;font-size:max(8px,5.5cqw);font-weight:700;line-height:1.05;word-break:break-all;color:#22d3ee;text-shadow:0 0 4px #22d3ee;opacity:.75;animation:hkFall var(--t) linear infinite;animation-delay:var(--d)}
+  @keyframes hkFall{to{transform:translateY(160cqh)}}
+  .hk-scan{position:absolute;left:0;right:0;height:14%;top:-14%;background:linear-gradient(180deg,transparent,rgba(34,211,238,.5) 94%,rgba(201,250,255,.9));border-bottom:2px solid #c9faff;box-shadow:0 8px 14px rgba(34,211,238,.6);animation:hkScan 1.3s .15s ease-in-out forwards}
+  @keyframes hkScan{0%{top:-14%}50%{top:100%}100%{top:-14%}}
+  .hk-mesh{position:absolute;inset:6%;width:88%;height:88%;animation:hkOut .25s 1.9s forwards}
+  .hk-mesh g:first-child *{stroke:#5ff3ff;stroke-width:.8;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 1.5px #22d3ee);animation:hkDraw .9s .25s ease-out forwards}
+  @keyframes hkDraw{to{stroke-dashoffset:0}}
+  .hk-mesh .nd circle{fill:#fff;transform-box:fill-box;transform-origin:center;transform:scale(0);animation:hkPop .25s calc(.5s + var(--i) * .05s) forwards}
+  @keyframes hkPop{to{transform:scale(1)}}
+  .hk-br{position:absolute;inset:8%;background:linear-gradient(#22d3ee,#22d3ee) 0 0/22% 2px,linear-gradient(#22d3ee,#22d3ee) 0 0/2px 22%,linear-gradient(#22d3ee,#22d3ee) 100% 0/22% 2px,linear-gradient(#22d3ee,#22d3ee) 100% 0/2px 22%,linear-gradient(#22d3ee,#22d3ee) 0 100%/22% 2px,linear-gradient(#22d3ee,#22d3ee) 0 100%/2px 22%,linear-gradient(#22d3ee,#22d3ee) 100% 100%/22% 2px,linear-gradient(#22d3ee,#22d3ee) 100% 100%/2px 22%;background-repeat:no-repeat;animation:hkBr .5s ease-out backwards,hkOut .2s 1.9s forwards}
+  @keyframes hkBr{from{transform:scale(1.35);opacity:0}}
+  .hk-red{position:absolute;inset:0;opacity:0;background:repeating-linear-gradient(45deg,rgba(255,30,70,.22) 0 9px,transparent 9px 18px),rgba(80,0,16,.35);box-shadow:inset 0 0 0 3px rgba(255,45,85,.9),inset 0 0 30px rgba(255,0,60,.6);animation:hkRed 1.3s 1.9s steps(1) forwards}
+  @keyframes hkRed{0%{opacity:1}12%{opacity:.4}24%{opacity:1}36%{opacity:.55}48%,100%{opacity:1}}
+  .hk-pct{position:absolute;left:6%;bottom:6%;font-size:max(9px,5.6cqw);color:#c9faff;text-shadow:0 0 6px #22d3ee;animation:hkOut .2s 1.85s forwards}
+  .hk-pct b{font-weight:700;animation:hkPct 1.5s .2s steps(25,end) forwards}
+  .hk-pct b::after{content:counter(hkp) "%";counter-reset:hkp var(--hkp)}
+  @keyframes hkPct{from{--hkp:0}to{--hkp:100}}
+  .hk-deny{position:absolute;left:-4%;right:-4%;top:42%;padding:3% 0;text-align:center;font-size:max(10px,8.4cqw);font-weight:900;letter-spacing:.06em;color:#fff;background:#e11d48;transform:rotate(-8deg) scale(0);opacity:0;box-shadow:0 0 0 2px #000,0 0 24px #ff2d55;text-shadow:0 2px 0 rgba(0,0,0,.4);animation:hkDeny .35s 1.9s cubic-bezier(.2,1.6,.4,1) forwards}
+  @keyframes hkDeny{from{transform:rotate(-8deg) scale(2.4);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+  [data-fx=mogg_hack] .o-photo{animation:hkPhoto 3s steps(1,end) forwards}
+  @keyframes hkPhoto{0%{filter:grayscale(1) brightness(.8);translate:0 0}38%{filter:hue-rotate(160deg) saturate(3) brightness(1.1);translate:5px 0}41%{filter:hue-rotate(-60deg) saturate(2.5);translate:-6px 2px}44%{filter:invert(1) hue-rotate(180deg);translate:3px 0}47%{filter:hue-rotate(90deg) saturate(3);translate:-4px -1px}50%{filter:grayscale(1) brightness(.8);translate:0 0}62%,100%{filter:sepia(1) hue-rotate(-50deg) saturate(5) brightness(.55);translate:0 0}}
+  [data-fx=mogg_hack] .o-stamp{color:#22d3ee;border-color:#22d3ee;text-shadow:0 0 14px #22d3ee;z-index:4}
+  .fx-hkw{position:absolute;inset:0;z-index:3;pointer-events:none;container-type:size}
+  .fx-hkw div{position:absolute;left:6%;right:6%;bottom:6%;display:grid;gap:2px;padding:4% 5%;background:rgba(2,12,6,.84);border:1px solid #22c55e;border-radius:6px;font:700 max(8px,5.4cqw)/1.25 ui-monospace,Consolas,monospace;color:#4ade80;text-shadow:0 0 6px rgba(74,222,128,.7);animation:fade .3s backwards}
+  .fx-hkw span{display:block;width:0;overflow:hidden;white-space:nowrap;border-right:2px solid #4ade80;animation:hkType .9s .3s steps(16,end) forwards}
+  .fx-hkw span+span{animation-delay:1.3s;color:#bbf7d0}
+  @keyframes hkType{to{width:calc(var(--n) * 1ch);border-color:transparent}}
+  .cty::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(90deg,rgba(6,2,20,.6),rgba(6,2,20,.25) 55%,transparent)}   /* the card text on the left stays readable */
+  @media(max-width:560px){.cs-tile b{font-size:11.5px;overflow-wrap:break-word}}   /* long names such as "Спагеттификация" fit a phone tile */
 
   /* ---------- inventory and the upgrader ---------- */
   .inv-acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -3483,6 +3636,20 @@ const SHOP = {
   nick_stirner: {kind: "nick", r: "epic", name: "Штирнер", desc: "Штирнер рядом с ником качает головой и говорит «Нет!», а вокруг колеблются призраки."},
   banner_sisyphus: {kind: "banner", r: "legendary", name: "Вечный подъём", desc: "Сизиф шагает вверх по склону под огромным валуном, наверху тот скатывается, и всё сначала."},
   mogg_samsa: {kind: "mogg", r: "mythic", name: "Превращение", desc: "Соперник оказывается чёрным жуком: он лежит на спине среди простыней и сучит лапками, как на гравюре."},
+  title_dust: {kind: "title", r: "common", name: "Звёздная пыль", desc: "Мерцающая пыль дрейфует по подписи."},
+  title_horizon: {kind: "title", r: "common", name: "За горизонтом", desc: "Крошечная чёрная дыра вращается рядом с надписью."},
+  title_quasar: {kind: "title", r: "rare", name: "Квазар", desc: "По подписи пробегает яркий луч далёкого квазара."},
+  frame_accretion: {kind: "frame", r: "rare", name: "Аккреционный диск", desc: "Раскалённое кольцо вещества вращается вокруг аватара, а по его орбите летит звезда."},
+  nick_nova: {kind: "nick", r: "epic", name: "Сверхновая", desc: "Ник вспыхивает белым, остывает до красного и синего, рядом мерцает звезда."},
+  banner_singularity: {kind: "banner", r: "legendary", name: "Сингулярность", desc: "Чёрная дыра с вращающимся диском втягивает вещество, звёзды плывут к ней."},
+  mogg_blackhole: {kind: "mogg", r: "mythic", name: "Спагеттификация", desc: "Над соперником раскрывается чёрная дыра: фото закручивается, растягивается и исчезает в ней, а победителя окружают звёзды."},
+  title_netrunner: {kind: "title", r: "common", name: "Нетраннер", desc: "Строка терминала с мигающим курсором."},
+  title_ping: {kind: "title", r: "common", name: "Пинг 1 мс", desc: "Сигнал расходится кругами, как радар."},
+  title_zeroday: {kind: "title", r: "rare", name: "Zero-Day", desc: "Уязвимость, о которой ещё никто не знает: буквы дрожат и расщепляются."},
+  frame_glitchring: {kind: "frame", r: "rare", name: "Глитч-кольцо", desc: "Неоновое кольцо вращается и раз в несколько секунд рвётся на смещённые полосы."},
+  nick_neonsign: {kind: "nick", r: "epic", name: "Неоновая вывеска", desc: "Ник горит розовым неоном, мигает и на миг гаснет, как лампа на ночной улице."},
+  banner_neoncity: {kind: "banner", r: "legendary", name: "Дождливый неон", desc: "Ночной город под дождём: плывут два ряда зданий, мигают окна и вывески, над крышами летит машина."},
+  mogg_hack: {kind: "mogg", r: "mythic", name: "Взлом", desc: "Лицо соперника сканируют сеткой, взламывают и ставят «Доступ запрещён». У победителя в терминале: доступ получен."},
   mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, а его IQ растёт без остановки. У соперника остаётся только 70 IQ."},
 };
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
@@ -3518,7 +3685,7 @@ const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx
 const APPLE = `<svg class="apple" viewBox="0 0 48 52" aria-hidden="true"><path d="M24 15C17 8 4 12 4 28c0 12 8 23 15 23 3 0 3.4-1.6 5-1.6s2 1.6 5 1.6c7 0 15-11 15-23C44 12 31 8 24 15Z" fill="#dc2626"/><path d="M24 15C31 8 44 12 44 28c0 12-8 23-15 23-3 0-2-1.6-5-1.6Z" fill="#b91c1c"/><path d="M24 15c-.2-5 1-9 4.5-12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><path d="M26 10c3-5.5 10-6 13-3.4-2.2 5.4-9 6.6-13 3.4Z" fill="#22c55e"/><ellipse cx="13" cy="26" rx="3" ry="7" fill="#fff" opacity=".42" transform="rotate(14 13 26)"/></svg>`;
 const APPLE_SPOTS = [[-38, -28], [-2, -34], [36, -26], [-30, 6], [8, 2], [40, 12], [-40, 34], [-6, 32], [30, 34]];   // where the 9 background apples stand: x in % of the width, y in % of the height, from the centre
 const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i};--px:${APPLE_SPOTS[i]?.[0] ?? 0};--py:${APPLE_SPOTS[i]?.[1] ?? 0}"><b>${APPLE}</b></i>`).join("")}</span>`;
-const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : id === "banner_sisyphus" ? sisyScene() : "";   // the extra elements a background needs
+const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : id === "banner_sisyphus" ? sisyScene() : id === "banner_singularity" ? bhScene() : id === "banner_neoncity" ? cityScene() : "";   // the extra elements a background needs
 const FX_HIQ_WIN = `<div class="fx-iq" aria-hidden="true">${apples(6, "fx-apples")}<b class="fx-iqn">IQ <span>100</span></b></div>`;
 const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true"><b class="fx-iqn low">70 IQ</b></div>`;
 function iqRun(el) {   // the winner's IQ never stops: it grows faster the longer the animation lasts, until the animation is removed
@@ -3546,6 +3713,8 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
     if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
     if (id === "mogg_samsa") put(lf, fxSamsa());
+    if (id === "mogg_blackhole") { put(lf, fxBlackhole()); put(wf, fxBlackholeWin()); }
+    if (id === "mogg_hack") { put(lf, fxHack()); put(wf, fxHackWin()); }
     if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) iqRun(n); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
@@ -3639,7 +3808,7 @@ async function renderShop() {
   } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
 }
 let svgSeq = 0;
-const svgUnique = svg => { const n = ++svgSeq; return svg.replace(/\bid="([\w-]+)"/g, (m, id) => `id="${id}-${n}"`).replace(/url\(#([\w-]+)\)/g, (m, id) => `url(#${id}-${n})`); };   // every copy gets its own ids
+const svgUnique = svg => { const n = ++svgSeq; return svg.replace(/\bid="([\w-]+)"/g, (m, id) => `id="${id}-${n}"`).replace(/url\(#([\w-]+)\)/g, (m, id) => `url(#${id}-${n})`).replace(/href="#([\w-]+)"/g, (m, id) => `href="#${id}-${n}"`); };   // every copy gets its own ids
 // ---------- art of the "TikTok philosophy" case: drawn by hand as SVG after the reference pictures (Sisyphus, the beetle in the bed), nothing is copied ----------
 const sg = (d, w) => `<path d="${d}" stroke="#1a0d06" stroke-width="${w}"/><path d="${d}" stroke="#c07b3a" stroke-width="${(w * .32).toFixed(1)}" opacity=".7" transform="translate(-.9 -1)"/>`;   // a limb: dark, with a bronze highlight on top
 const sisyScene = () => svgUnique(`<span class="sisy" aria-hidden="true">
@@ -3695,6 +3864,55 @@ const samArt = () => svgUnique(`<svg class="sam-art" viewBox="0 0 416 480" prese
   <polygon points="48,300 250,314 266,352 54,344" fill="#fbf9f3" stroke="#161616" stroke-width="2.2"/><path d="M256 332L352 372L318 412L250 384z" fill="#f4f0e6" stroke="#161616" stroke-width="2.2"/><path d="M262 350L330 380M268 366L318 392M280 378L306 396" stroke="#161616" stroke-width="1.2" opacity=".7"/>
 </svg>`);
 const fxSamsa = () => `<div class="fx-sam" aria-hidden="true">${samArt()}</div>`;
+// ---------- art of the cases "Чёрная дыра" and "Неон-Токио": all drawn in code (SVG, CSS), nothing is copied ----------
+const rng = seed => () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;   // a tiny seeded random: the city looks the same every time
+
+// ----- a black hole: halo, shadow, and a tilted accretion disk (its back half is behind the hole, its front half in front of it) with matter falling in
+const BH_DUST = Array.from({length: 9}, (_, i) => `<i style="--i:${i}"></i>`).join("");
+const bhHole = cls => `<span class="bh-hole ${cls}"><i class="bh-halo"></i><span class="bh-tilt back"><i class="bh-disk"></i>${BH_DUST}</span><i class="bh-core"></i><span class="bh-tilt front"><i class="bh-disk"></i>${BH_DUST}</span></span>`;
+const bhScene = () => `<div class="scn bh" aria-hidden="true"><i class="bh-stars a"></i><i class="bh-stars b"></i>${bhHole("bh-main")}<i class="bh-streak"></i></div>`;
+// the win animation: the loser is pulled into a black hole (his photo swirls, stretches and disappears), the winner is lit by the stars
+const fxBlackhole = () => `<div class="fx-bh" aria-hidden="true"><i class="bh-wave"></i>${bhHole("")}<i class="bh-flash"></i></div>`;
+const fxBlackholeWin = () => `<div class="fx-bhw" aria-hidden="true">${Array.from({length: 9}, (_, i) => `<i style="--i:${i}"></i>`).join("")}</div>`;
+
+// ----- a rainy neon city: two skylines that slide past, blinking windows and signs, a synthwave sun, rain, a flying car
+const CITY_SIGNS = ["BAR", "24H", "HOTEL", "VR", "RAMEN", "NEON", "CLUB", "MOGG"];
+function cityLayer(seed, o) {
+  const r = rng(seed); let x = 0, k = 0, out = "";
+  while (x < 600) {
+    let w = o.wMin + r() * (o.wMax - o.wMin); if (600 - x - w < o.wMin) w = 600 - x;
+    const h = o.hMin + r() * (o.hMax - o.hMin), y = 100 - h, f = n => n.toFixed(1);
+    out += `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="${o.fill}"/>`;
+    if (o.edge) out += `<rect class="ed ${r() > .5 ? "ep" : "ec"}" x="${f(x)}" y="${f(y)}" width="1" height="${f(h)}"/>`;
+    if (r() > .55) out += `<path d="M${f(x + w / 2)} ${f(y)}v-${f(3 + r() * 6)}" stroke="${o.fill}" stroke-width="1"/><circle class="bk" style="--d:${f(r() * 2)}s" cx="${f(x + w / 2)}" cy="${f(y - 4)}" r="1" fill="#ff3b6b"/>`;
+    const cols = Math.floor((w - 4) / 5), rows = Math.floor((h - 8) / 7);
+    for (let a = 0; a < cols; a++) for (let b = 0; b < rows; b++) {
+      const q = r(); if (q > o.lit) continue;
+      out += `<rect class="wn ${["wp", "wc", "wa"][Math.floor(r() * 3)]}${q < o.lit * .22 ? " bk" : ""}" style="--d:${f(r() * 4)}s" x="${f(x + 3 + a * 5)}" y="${f(y + 5 + b * 7)}" width="2" height="2.6"/>`;
+    }
+    if (o.signs && w > 26 && r() > .45) {
+      const t = CITY_SIGNS[k++ % CITY_SIGNS.length], c = ["sp", "sc", "sa"][k % 3];
+      out += r() > .5 ? `<text class="sg ${c}" style="--d:${f(r() * 5)}s" x="${f(x + w / 2)}" y="${f(y + h * .3)}" text-anchor="middle">${t}</text>` : `<text class="sg ${c}" style="--d:${f(r() * 5)}s" transform="translate(${f(x + w - 4)} ${f(y + 6)}) rotate(90)">${t}</text>`;
+    }
+    x += w;
+  }
+  return out;
+}
+const CITY_FAR = cityLayer(7, {wMin: 16, wMax: 34, hMin: 26, hMax: 58, fill: "#22104a", lit: .3});
+const CITY_NEAR = cityLayer(31, {wMin: 24, wMax: 48, hMin: 44, hMax: 86, fill: "#080214", lit: .42, edge: true, signs: true});
+const CITY_RAIN = (() => { const r = rng(5); return Array.from({length: 26}, () => `<i style="--x:${(r() * 100).toFixed(1)};--t:${(.5 + r() * .45).toFixed(2)}s;--d:${(-r()).toFixed(2)}s"></i>`).join(""); })();
+const cityRow = (id, cls, body) => `<div class="cty-row ${cls}"><svg viewBox="0 0 2400 100" preserveAspectRatio="xMinYMax slice"><defs><g id="${id}">${body}</g></defs>${[0, 1, 2, 3].map(k => `<use href="#${id}" x="${k * 600}"/>`).join("")}</svg></div>`;
+const cityScene = () => svgUnique(`<div class="scn cty" aria-hidden="true"><i class="cty-sun"></i>${cityRow("ctyF", "far", CITY_FAR)}${cityRow("ctyN", "near", CITY_NEAR)}<i class="cty-car"></i><span class="cty-rain">${CITY_RAIN}</span></div>`);
+
+// ----- the hack: a wireframe scan of the loser's face, then ACCESS DENIED; the winner gets a terminal line
+const HK_NODES = [[50, 12], [32, 22], [68, 22], [24, 44], [76, 44], [38, 44], [62, 44], [50, 52], [30, 64], [70, 64], [50, 74], [38, 80], [62, 80], [50, 84]];
+const HK_MESH = `<svg class="hk-mesh" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="50" cy="48" rx="27" ry="37" pathLength="1"/><path pathLength="1" d="M26 38Q50 30 74 38"/><path pathLength="1" d="M24 44Q50 50 76 44"/><path pathLength="1" d="M50 11V85"/><path pathLength="1" d="M33 66Q50 76 67 66"/>
+  <path pathLength="1" d="M32 22L50 52L68 22M24 44L50 52L76 44M30 64L50 52L70 64M38 80L50 52L62 80"/><circle cx="38" cy="44" r="4.2" pathLength="1"/><circle cx="62" cy="44" r="4.2" pathLength="1"/></g>
+  <g class="nd">${HK_NODES.map(([x, y], i) => `<circle style="--i:${i}" cx="${x}" cy="${y}" r="1.5"/>`).join("")}</g></svg>`;
+const HK_HEX = Array.from({length: 7}, (_, i) => { const r = rng(40 + i); return `<b style="--x:${i * 15 + 4};--t:${(1.6 + r() * 1.3).toFixed(2)}s;--d:${(-r() * 2).toFixed(2)}s">${Array.from({length: 22}, () => "0123456789ABCDEF"[Math.floor(r() * 16)]).join("")}</b>`; }).join("");
+const fxHack = () => `<div class="fx-hk" aria-hidden="true"><i class="hk-grid"></i><span class="hk-hex">${HK_HEX}</span>${HK_MESH}<i class="hk-scan"></i><i class="hk-br"></i><i class="hk-red"></i><small class="hk-pct">ВЗЛОМ <b></b></small><b class="hk-deny">ДОСТУП ЗАПРЕЩЁН</b></div>`;
+const fxHackWin = () => `<div class="fx-hkw" aria-hidden="true"><div><span style="--n:17">&gt; sudo take_win</span><span style="--n:18">ACCESS GRANTED ✔</span></div></div>`;
 // ---------- cases: Рета buys one roll; the server picks the item (open_case in supabase.sql), the browser only plays the roulette ----------
 const CS = {tok: 0, cases: [], items: [], owned: new Map(), val: new Map(), eq: {}, reta: 0, admin: false, busy: false, stage: null};
 const CS_LEN = 40, CS_T = 32;   // like the rating roulette: the real tile sits on CS_T, the tiles next to it are decoys
@@ -3708,6 +3926,8 @@ const MOGG_MINI = {   // a picture for every win animation in the roulette (no i
   mogg_fire: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3C26 14 38 18 38 31c0 9-6 15-14 15S10 40 10 31c0-6 3-10 6-13 0 5 2 7 4 8 0-9 1-17 4-23z" fill="#f97316" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/><path d="M24 26c3 4 7 6 7 11 0 4-3 7-7 7s-7-3-7-7c0-3 3-5 7-11z" fill="#fde047"/></svg>`,
   mogg_crack: `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="5" width="38" height="38" rx="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/><path d="M24 24L14 9M24 24L38 12M24 24L40 30M24 24L22 42M24 24L8 34M14 9l4 6M38 12l-6 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`,
   mogg_crown: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 38L8 12l11 11 5-16 5 16 11-11 3 26z" fill="#fbbf24" stroke="#a16207" stroke-width="2.2" stroke-linejoin="round"/><circle cx="24" cy="30" r="3.4" fill="#fff"/></svg>`,
+  mogg_blackhole: `<svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="26" rx="21" ry="6.5" fill="none" stroke="#ff9a2e" stroke-width="3.2" opacity=".9"/><circle cx="24" cy="24" r="11" fill="#000" stroke="#ffd9a0" stroke-width="1.6"/><path d="M3 26Q24 36 45 26" fill="none" stroke="#ffe3a3" stroke-width="3.2" stroke-linecap="round"/></svg>`,
+  mogg_hack: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4L40 10V23C40 34 33 41 24 45C15 41 8 34 8 23V10Z" fill="#06202b" stroke="#22d3ee" stroke-width="2.4" stroke-linejoin="round"/><rect x="16" y="22" width="16" height="12" rx="2" fill="#22d3ee"/><path d="M19 22v-4a5 5 0 0 1 10 0v4" fill="none" stroke="#22d3ee" stroke-width="2.6"/><path d="M6 30h12M30 16h12" stroke="#ff2d95" stroke-width="2.2"/></svg>`,
   mogg_meteor: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M44 4L26 20" stroke="#fb923c" stroke-width="6" stroke-linecap="round" opacity=".6"/><circle cx="21" cy="27" r="14" fill="#fb923c" stroke="#b91c1c" stroke-width="2.4"/><circle cx="16" cy="22" r="4" fill="#fff7c2"/></svg>`,
 };
 function csMini(id) {   // a small picture of an item for a roulette tile
@@ -3806,6 +4026,8 @@ const ROCK = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="
 const CASE_ART = {   // the picture on the case: [css class, html]
   holy_iq: ["", () => `${apples(5, "apples")}<span class="cs-big">${APPLE}</span>`],
   tt_philosophy: ["phil", () => `<span class="cs-ring"></span><span class="cs-rock">${ROCK}</span>`],
+  black_hole: ["space", () => `<div class="scn bh cs-bhart">${`<i class="bh-stars a"></i><i class="bh-stars b"></i>`}${bhHole("bh-main")}</div>`],
+  neon_city: ["neon", () => `${cityScene()}<span class="cs-neon">NEON</span>`],
 };
 function csCard(it, total) {
   const id = it.item_id, d = SHOP[id], r = rarOf(id) || "common", owned = CS.owned.has(id), worn = cosId(CS.eq, d.kind) === id;
