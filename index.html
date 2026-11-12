@@ -1442,6 +1442,11 @@
   .fold-note>summary:hover{color:var(--txt)}
   @media(max-width:520px){.nav a{padding:8px 9px;font-size:13.5px}.subtabs a{padding:9px 14px}}
 
+  /* ---------- changing the avatar ---------- */
+  .av-pick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
+  .av-pick[hidden]{display:none}
+  .av-pick .btn{padding:7px 12px;font-size:13px;border-radius:10px;cursor:pointer}
+
   /* ---------- phones ---------- */
   @media(max-width:719px){
     .top{gap:8px;padding:12px 14px 0;align-items:center}
@@ -2983,7 +2988,7 @@ class OnlineError extends Error {}
 const ONLINE_ERRORS = {   // codes raised by supabase.sql
   not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала поставьте ник.", too_fast: "Слишком часто. Подождите немного.",
   bad_name: "Ник: от 2 до 30 символов.", bad_psl: "Некорректный рейт.", bad_sex: "Выберите пол.", bad_photo: "Не удалось отправить фото. Попробуйте другое.",
-  not_owned: "Сначала купите этот предмет.", owned: "Это уже куплено.", poor: "Не хватает Реты.", no_item: "Такого предмета нет.", bad_slot: "Неизвестная ячейка.", case_only: "Этот предмет выпадает только из кейса.", bad_inputs: "Выберите, что отдать.", not_higher: "Выберите предмет дороже, чем отдаёте.", chance_low: "Шанс слишком мал: отдайте больше или выберите цель попроще.", bad_amount: "Некорректное количество.", no_case: "Такого кейса нет.",
+  not_owned: "Сначала купите этот предмет.", owned: "Это уже куплено.", poor: "Не хватает Реты.", no_item: "Такого предмета нет.", bad_slot: "Неизвестная ячейка.", case_only: "Этот предмет выпадает только из кейса.", bad_inputs: "Выберите, что отдать.", not_higher: "Выберите предмет дороже, чем отдаёте.", chance_low: "Шанс слишком мал: отдайте больше или выберите цель попроще.", bad_amount: "Некорректное количество.", no_case: "Такого кейса нет.", bad_avatar: "Не получилось поставить это фото на аватарку. Выберите другое.",
   no_photo: "Сначала поставьте своё лицо.", already_rated: "Рейт уже определён.", no_match: "Бой не найден: возможно, он уже закончился.",
 };
 const Online = {
@@ -3037,6 +3042,7 @@ const Online = {
   ladder: () => Online.call(sb => sb.from("players").select("id,name,picture,points,wins,losses,draws,equipped").or("wins.gt.0,losses.gt.0,draws.gt.0").order("points", {ascending: false}).order("wins", {ascending: false}).limit(20)),
   history: () => Online.call(sb => sb.from("battles").select("*").order("at", {ascending: false}).limit(10)),
   leave: () => Online.call(sb => sb.rpc("leave_ladder")),
+  setAvatar: pic => Online.call(sb => sb.rpc("set_avatar", {p_pic: pic})),
   shopItems: () => Online.call(sb => sb.from("shop_items").select("id,kind,name,price,case_only,value").order("sort", {ascending: true})),
   cases: () => Online.call(sb => sb.from("cases").select("id,name,price").order("sort", {ascending: true})),
   caseItems: () => Online.call(sb => sb.from("case_items").select("case_id,item_id,weight,refund")),
@@ -3054,6 +3060,12 @@ const rankChip = i => `<span class="chip" style="--c:${RANKS[i][1]}">${rankIcon(
 const emblem = (i, cls = "") => rankIcon(i, cls);
 const sleep = ms => new Promise(ok => setTimeout(ok, ms));
 const FACE_ICON = `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 22v-8a4 4 0 0 1 4-4h8M42 10h8a4 4 0 0 1 4 4v8M54 42v8a4 4 0 0 1-4 4h-8M22 54h-8a4 4 0 0 1-4-4v-8"/><circle cx="32" cy="30" r="12"/><path d="M27 29h.01M37 29h.01M28 35c2.5 2 5.5 2 8 0"/></svg>`;
+// the chosen picture, cropped to a centred square of 96 px (about 4 KB): this is what everybody sees as the avatar
+async function avatarThumb(file) {
+  const img = await loadImage(file), s = Math.min(img.naturalWidth, img.naturalHeight), c = document.createElement("canvas"); c.width = c.height = 96;
+  c.getContext("2d").drawImage(img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s, s, 0, 0, 96, 96);
+  return c.toDataURL("image/jpeg", 0.8);
+}
 // a small square copy of the face (this is what the opponent sees): cropped around the landmarks, JPEG, well under the 60 KB the server accepts
 async function faceThumb(file, lm) {
   const img = await loadImage(file), W = img.naturalWidth, H = img.naturalHeight;
@@ -4518,8 +4530,9 @@ function renderProfile() {
     ? `<li><time>${dateText(e.at)}</time><span class="kind">Оценка · ${e.sex === "m" ? "М" : "Ж"}</span>${chip(e.tier, e.psl)}<span class="sub">${e.sub ?? ""}</span><button class="del" data-id="${e.id}" aria-label="Удалить запись">×</button></li>`
     : `<li><time>${dateText(e.at)}</time><span class="kind">Сравнение</span><span class="battle">A ${chip(e.a.tier, e.a.psl)} против B ${chip(e.b.tier, e.b.psl)}</span><span class="sub">${e.winner === "=" ? "ничья" : "победил " + e.winner}</span><button class="del" data-id="${e.id}" aria-label="Удалить запись">×</button></li>`;
   $("view-profile").innerHTML = `
-    <div class="prof-head card"><span class="av big" aria-hidden="true">${avatarHTML(u)}</span>
-      <div><h1>${esc(u.name)}</h1><p class="why">${esc(u.email)} · аккаунт создан ${new Date(u.created).toLocaleDateString("ru-RU")}${u.googleSub ? ` · <span class="gbadge">вход через Google</span>` : ""}</p></div>
+    <div class="prof-head card"><span class="av big ${avCls(Online.eq)}" id="p-av" aria-hidden="true">${avatarHTML(myPic(u))}</span>
+      <div><h1>${esc(u.name)}</h1><p class="why">${esc(u.email)} · аккаунт создан ${new Date(u.created).toLocaleDateString("ru-RU")}${u.googleSub ? ` · <span class="gbadge">вход через Google</span>` : ""}</p>
+        <p class="av-pick" id="p-avpick" hidden><label class="btn ghost">Сменить аватарку<input type="file" id="p-avfile" accept="image/*" hidden></label> <button class="btn ghost" id="p-avreset" type="button">Вернуть прежнюю</button> <span class="err" id="p-averr" role="alert"></span></p></div>
       <div class="prof-actions"><button id="p-logout" class="btn ghost">Выйти</button></div></div>
     <div class="stats">
       <div class="card stat"><b>${rated.length}</b><span>${plural(rated.length, ["оценка", "оценки", "оценок"])}</span></div>
@@ -4534,6 +4547,12 @@ function renderProfile() {
       <div class="prof-actions wrap"><button id="p-export" class="btn ghost">Скачать данные (JSON)</button><button id="p-clear" class="btn ghost" ${hist.length ? "" : "disabled"}>Очистить историю</button><button id="p-delete" class="btn danger">Удалить аккаунт</button></div></div>`;
   const v = $("view-profile");
   v.querySelectorAll(".stat b").forEach(b => { const t = b.textContent.trim(), n = parseFloat(t); if (Number.isFinite(n) && t !== "—") fxCount(b, 0, n, 900, (t.split(".")[1] ?? "").length); });
+  if (Online.ready) {   // the avatar lives on the server, so it can be changed once the online profile exists
+    const pick = v.querySelector("#p-avpick"), err = v.querySelector("#p-averr"); pick.hidden = false;
+    const save = async pic => { err.textContent = ""; try { walletSet(await Online.setAvatar(pic)); updateAccountUI(); renderProfile(); } catch (ex) { err.textContent = onlineMsg(ex); } };
+    v.querySelector("#p-avfile").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; try { await save(await avatarThumb(f)); } catch (ex) { err.textContent = onlineMsg(ex); } });
+    v.querySelector("#p-avreset").addEventListener("click", () => save(null));
+  } else if (Online.enabled) Online.me().then(p => { if (p && /^#\/profile/.test(location.hash)) renderProfile(); }).catch(() => {});
   v.querySelector("#p-logout").addEventListener("click", () => { Accounts.logout(); updateAccountUI(); navigate("", false); });
   v.querySelector("#p-export").addEventListener("click", () => {
     const data = {exported: new Date().toISOString(), user: {name: u.name, email: u.email, created: new Date(u.created).toISOString()}, history: hist};
@@ -4546,11 +4565,12 @@ function renderProfile() {
 }
 
 // ---------- header and router ----------
+const myPic = u => ({...u, picture: Online.profile?.picture || u.picture});   // the picture chosen on the site beats the Google one
 const avatarHTML = u => u.picture ? `<img src="${esc(u.picture)}" alt="" referrerpolicy="no-referrer">` : esc([...u.name][0].toUpperCase());
 function updateAccountUI() {
   const u = Accounts.current(), a = $("account-link");
   a.href = u ? "#/profile" : "#/login";
-  const av = a.querySelector(".av"); av.innerHTML = u ? avatarHTML(u) : "";
+  const av = a.querySelector(".av"); av.innerHTML = u ? avatarHTML(myPic(u)) : "";
   av.className = "av " + (u ? avCls(Online.eq) : "");
   av.querySelector("img")?.addEventListener("error", e => { e.target.remove(); av.textContent = [...u.name][0].toUpperCase(); }, {once: true});
   a.classList.toggle("in", !!u);

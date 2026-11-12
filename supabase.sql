@@ -38,6 +38,10 @@ alter table public.players add column if not exists equipped jsonb not null defa
 alter table public.players add column if not exists rates integer not null default 10 check (rates >= 0);   -- рейты: попытки оценить фото
 alter table public.players add column if not exists games integer not null default 10 check (games >= 0);   -- игры: попытки онлайн-боя
 alter table public.players add column if not exists daily_on date;   -- день (UTC) последнего ежедневного бонуса
+alter table public.players add column if not exists pic_custom boolean not null default false;   -- аватарку выбрал сам игрок (маленькая картинка в picture), её не заменяет аватар Google
+alter table public.players drop constraint if exists players_picture_check;
+alter table public.players drop constraint if exists players_picture_len;
+alter table public.players add constraint players_picture_len check (picture is null or char_length(picture) <= 20000);
 
 -- остатки прошлой версии (бои с «претендентом» без соперника онлайн)
 drop function if exists public.fight();
@@ -464,11 +468,29 @@ begin
   if v_pic is not null and v_pic !~ '^https://[a-z0-9.-]+\.googleusercontent\.com/' then v_pic := null; end if;
   if p_name is null then
     if not exists (select 1 from players where id = v_uid) then raise exception 'bad_name'; end if;
-    update players set picture = v_pic where id = v_uid;
+    update players set picture = v_pic where id = v_uid and not pic_custom;
   else
     insert into players (id, name, picture) values (v_uid, v_name, v_pic)
-    on conflict (id) do update set name = excluded.name, picture = excluded.picture;
+    on conflict (id) do update set name = excluded.name, picture = case when players.pic_custom then players.picture else excluded.picture end;
   end if;
+end $$;
+
+-- своя аватарка: маленькая картинка jpeg/png/webp в виде data-ссылки (браузер сжимает её до 96x96); null возвращает аватар Google
+create or replace function public.set_avatar(p_pic text default null)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_pic text;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if not exists (select 1 from players where id = v_uid) then raise exception 'not_joined'; end if;
+  if p_pic is null then
+    select u.raw_user_meta_data ->> 'picture' into v_pic from auth.users u where u.id = v_uid;
+    if v_pic is not null and v_pic !~ '^https://[a-z0-9.-]+\.googleusercontent\.com/' then v_pic := null; end if;
+    update players set picture = v_pic, pic_custom = false where id = v_uid;
+  else
+    if char_length(p_pic) > 20000 or p_pic !~ '^data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$' then raise exception 'bad_avatar'; end if;
+    update players set picture = p_pic, pic_custom = true where id = v_uid;
+  end if;
+  return my_profile();
 end $$;
 
 -- поиск соперника; вызывать каждые пару секунд, пока идёт поиск (это и есть «я ещё здесь»)
@@ -961,8 +983,8 @@ revoke all on function public._finish_match(uuid, text, text), public._settle_ma
 revoke all on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) from public, anon, authenticated;
 grant execute on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) to service_role;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() to authenticated;
