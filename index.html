@@ -3465,6 +3465,7 @@ Object.assign(Online, {
 });
 const AD = {list: [], sel: null, log: [], q: "", wired: false, seq: 0};
 const adAlive = () => location.hash.startsWith("#/admin");
+const adUse = d => { const o = Array.isArray(d) ? d[0] : d; return o && typeof o === "object" && o.id ? o : null; };   // anything else is not a player card
 const adItemName = id => SHOP[shopId(id)]?.name ?? id;
 const adAction = {grant: "выдача", give_item: "выдан предмет", take_item: "забран предмет"};
 const adErr = ex => { console.error("admin:", ex); return ex instanceof OnlineError || ex instanceof AuthError ? ex.message : `Ошибка: ${ex?.message ?? ex}`; };
@@ -3516,16 +3517,25 @@ async function adOpen(id) {   // the card shows at once from the list row; the i
   AD.sel = {...row, items: null, orders: null, equipped: {}, wins: 0, losses: 0};
   adList(); adDetail(); adSay("");
   try {
-    const d = await Online.adminPlayer(id);
-    if (seq === AD.seq && adAlive()) { AD.sel = d; adDetail(); }
+    const raw = await Online.adminPlayer(id), d = adUse(raw);
+    if (seq !== AD.seq || !adAlive()) return;
+    if (d) { AD.sel = {...AD.sel, ...d}; adDetail(); }   // the details join the card; an empty or odd answer never replaces it
+    else { console.warn("admin_player gave no card:", raw); adSay("Сервер не прислал подробности игрока (пустой ответ), но выдавать валюту и украшения можно."); }
   } catch (ex) { if (seq === AD.seq) adSay(adErr(ex)); }
 }
 async function adDo(fn, note) {   // grant, give or take: the card, the list row and the log follow what the server answered
   const seq = AD.seq; adSay("Выполняю…", true);
   try {
-    const d = await fn(); if (!adAlive()) return;
-    if (seq === AD.seq) AD.sel = d;
-    AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x);
+    const raw = await fn(); if (!adAlive()) return;
+    const d = adUse(raw), id = AD.sel?.id;
+    if (d) {
+      if (seq === AD.seq) AD.sel = {...AD.sel, ...d};
+      AD.list = AD.list.map(x => x.id === d.id ? {...x, name: d.name, points: d.points, reta: d.reta, rates: d.rates, games: d.games} : x);
+    } else if (id) {   // the change was made, but the server sent no details: ask the list again
+      console.warn("admin action gave no card:", raw);
+      const fresh = (await Online.adminSearch(AD.q)).find(x => x.id === id);
+      if (fresh) { AD.list = AD.list.map(x => x.id === id ? fresh : x); if (seq === AD.seq) AD.sel = {...AD.sel, ...fresh}; }
+    }
     adList(); adDetail(); adSay(note, true);
     Online.adminRecent().then(l => { AD.log = l; adLog(); }, () => {});
   } catch (ex) { adSay(adErr(ex)); }
