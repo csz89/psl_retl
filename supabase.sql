@@ -112,6 +112,7 @@ create table if not exists public.shop_items (
   sort integer not null default 0
 );
 alter table public.shop_items add column if not exists case_only boolean not null default false;   -- выпадает только из кейса
+alter table public.shop_items add column if not exists value integer not null default 0;   -- стоимость в Рете: от неё зависят продажа (половина) и шанс апгрейдера
 create table if not exists public.quest_defs (
   id text primary key,
   title text not null,
@@ -199,6 +200,9 @@ create table if not exists public.purchases (
   primary key (player_id, item_id)
 );
 
+-- инвентарь: повторные предметы не пропадают, а копятся (qty)
+alter table public.purchases add column if not exists qty integer not null default 1 check (qty >= 1);
+
 -- кейсы: цена в Рете, что внутри и вес каждого предмета (шанс = вес / сумма весов); refund: сколько Реты вернуть, если такой предмет уже есть
 create table if not exists public.cases (
   id text primary key,
@@ -220,6 +224,17 @@ create table if not exists public.case_opens (
   item_id text not null,
   dup boolean not null,
   refund integer not null,
+  at timestamptz not null default now()
+);
+
+create table if not exists public.upgrade_log (
+  id bigint generated always as identity primary key,
+  player_id uuid not null references public.players (id) on delete cascade,
+  inputs jsonb not null,
+  target text not null,
+  chance numeric not null,
+  roll numeric not null,
+  win boolean not null,
   at timestamptz not null default now()
 );
 
@@ -272,6 +287,13 @@ insert into public.case_items (case_id, item_id, weight, refund) values
   ('tt_philosophy', 'mogg_samsa', 1, 1800)
 on conflict (case_id, item_id) do update set weight = excluded.weight, refund = excluded.refund;
 
+-- стоимость предметов (Рета): предметы магазина стоят свою цену, предметы из кейсов указаны здесь. Продать можно за половину стоимости
+update public.shop_items set value = price where not case_only;
+update public.shop_items s set value = v.value from (values
+  ('frame_bw', 80), ('title_larp', 200), ('title_net', 200), ('title_foid', 500), ('nick_black', 600), ('banner_apples', 1200), ('mogg_holyiq', 3000),
+  ('title_sisyphus', 100), ('title_stirner', 100), ('title_samsa', 240), ('frame_uroboros', 240), ('nick_stirner', 600), ('banner_sisyphus', 1400), ('mogg_samsa', 3600)
+) v (id, value) where s.id = v.id;
+
 create index if not exists battles_player_at on public.battles (player_id, at desc);
 create index if not exists players_points on public.players (points desc);
 
@@ -293,6 +315,7 @@ alter table public.orders enable row level security;
 alter table public.cases enable row level security;
 alter table public.case_items enable row level security;
 alter table public.case_opens enable row level security;
+alter table public.upgrade_log enable row level security;
 drop policy if exists players_read on public.players;
 create policy players_read on public.players for select to authenticated using (true);
 drop policy if exists battles_read on public.battles;
@@ -314,6 +337,10 @@ drop policy if exists case_items_read on public.case_items;
 create policy case_items_read on public.case_items for select to authenticated using (true);
 drop policy if exists case_opens_read on public.case_opens;
 create policy case_opens_read on public.case_opens for select to authenticated using (player_id = auth.uid());
+revoke all on public.upgrade_log from anon, authenticated;
+grant select on public.upgrade_log to authenticated;
+drop policy if exists upgrade_log_read on public.upgrade_log;
+create policy upgrade_log_read on public.upgrade_log for select to authenticated using (player_id = auth.uid());
 drop policy if exists packs_read on public.packs;
 create policy packs_read on public.packs for select to authenticated using (true);
 drop policy if exists pack_prices_read on public.pack_prices;
@@ -730,10 +757,10 @@ begin
   return jsonb_build_object('reta', v_me.reta, 'item', p_item);
 end $$;
 
--- открыть кейс: списывает цену, по весам выбирает предмет на сервере; если предмет уже есть, возвращает часть Реты (refund)
+-- открыть кейс: списывает цену, по весам выбирает предмет на сервере; если предмет уже есть, копия попадает в инвентарь (qty + 1)
 create or replace function public.open_case(p_case text)
 returns jsonb language plpgsql security definer set search_path = public as $$
-declare v_uid uuid := auth.uid(); v_case cases; v_me players; v_admin boolean; v_total integer; v_roll numeric; v_pick case_items; r case_items; v_dup boolean; v_refund integer := 0;
+declare v_uid uuid := auth.uid(); v_case cases; v_me players; v_admin boolean; v_total integer; v_roll numeric; v_pick case_items; r case_items; v_dup boolean; v_refund integer := 0; v_qty integer;
 begin
   if v_uid is null then raise exception 'not_signed_in'; end if;
   select * into v_case from cases where id = p_case;
@@ -753,14 +780,86 @@ begin
   v_dup := exists (select 1 from purchases where player_id = v_uid and item_id = v_pick.item_id);
   if not v_admin then v_me.reta := v_me.reta - v_case.price; end if;
   if v_dup then
-    if not v_admin then v_refund := v_pick.refund; v_me.reta := v_me.reta + v_refund; end if;
+    update purchases set qty = qty + 1 where player_id = v_uid and item_id = v_pick.item_id returning qty into v_qty;
   else
     insert into purchases (player_id, item_id) values (v_uid, v_pick.item_id);
+    v_qty := 1;
   end if;
   update players set reta = v_me.reta where id = v_uid;
   insert into case_opens (player_id, case_id, item_id, dup, refund) values (v_uid, p_case, v_pick.item_id, v_dup, v_refund);
   perform _quest_progress(v_uid, 'shop', 1);
-  return jsonb_build_object('case', p_case, 'item', v_pick.item_id, 'dup', v_dup, 'refund', v_refund, 'reta', v_me.reta);
+  return jsonb_build_object('case', p_case, 'item', v_pick.item_id, 'dup', v_dup, 'refund', v_refund, 'qty', v_qty, 'reta', v_me.reta);
+end $$;
+
+-- продать копии предмета из инвентаря за половину стоимости; последняя копия снимается с игрока
+create or replace function public.sell_item(p_item text, p_qty integer default 1)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_item shop_items; v_have integer; v_gain integer; v_reta integer;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_qty is null or p_qty < 1 or p_qty > 1000 then raise exception 'bad_amount'; end if;
+  select * into v_item from shop_items where id = p_item;
+  if not found then raise exception 'no_item'; end if;
+  perform 1 from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  select qty into v_have from purchases where player_id = v_uid and item_id = p_item;
+  if v_have is null or v_have < p_qty then raise exception 'not_owned'; end if;
+  v_gain := (v_item.value / 2) * p_qty;
+  if v_have = p_qty then
+    delete from purchases where player_id = v_uid and item_id = p_item;
+    update players set equipped = equipped - v_item.kind where id = v_uid and equipped ->> v_item.kind = p_item;
+  else
+    update purchases set qty = qty - p_qty where player_id = v_uid and item_id = p_item;
+  end if;
+  update players set reta = reta + v_gain where id = v_uid returning reta into v_reta;
+  return jsonb_build_object('item', p_item, 'gained', v_gain, 'left', v_have - p_qty, 'reta', v_reta);
+end $$;
+
+-- апгрейдер: отдаёте свои предметы (p_inputs = [{"item": "...", "qty": 1}, ...]) ради более дорогого p_target.
+-- Шанс = стоимость отданного / стоимость цели * 95 % (не больше 90 %, не меньше 2 %). Сервер бросает число roll от 0 до 100: выигрыш, если roll < chance.
+-- Не повезло: отданное пропадает. Повезло: цель попадает в инвентарь.
+create or replace function public.upgrade_item(p_inputs jsonb, p_target text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_uid uuid := auth.uid(); v_target shop_items; v_item shop_items; v_items jsonb; e jsonb; v_in integer := 0; v_chance numeric; v_roll numeric; v_win boolean; v_have integer;
+begin
+  if v_uid is null then raise exception 'not_signed_in'; end if;
+  if p_inputs is null or jsonb_typeof(p_inputs) <> 'array' or jsonb_array_length(p_inputs) > 30 then raise exception 'bad_inputs'; end if;
+  select * into v_target from shop_items where id = p_target;
+  if not found or v_target.value <= 0 then raise exception 'no_item'; end if;
+  perform 1 from players where id = v_uid for update;
+  if not found then raise exception 'not_joined'; end if;
+  select coalesce(jsonb_agg(jsonb_build_object('item', q.item, 'qty', q.n)), '[]'::jsonb) into v_items from (
+    select x ->> 'item' as item, sum(case when jsonb_typeof(x -> 'qty') = 'number' then floor((x ->> 'qty')::numeric)::integer else 1 end)::integer as n
+    from jsonb_array_elements(p_inputs) x where jsonb_typeof(x) = 'object' group by 1) q;
+  if jsonb_array_length(v_items) = 0 then raise exception 'bad_inputs'; end if;
+  for e in select * from jsonb_array_elements(v_items) loop
+    if e ->> 'item' is null or (e ->> 'qty')::integer < 1 or (e ->> 'qty')::integer > 100 then raise exception 'bad_inputs'; end if;
+    select * into v_item from shop_items where id = e ->> 'item';
+    if not found then raise exception 'no_item'; end if;
+    select qty into v_have from purchases where player_id = v_uid and item_id = v_item.id;
+    if v_have is null or v_have < (e ->> 'qty')::integer then raise exception 'not_owned'; end if;
+    v_in := v_in + v_item.value * (e ->> 'qty')::integer;
+  end loop;
+  if v_in >= v_target.value then raise exception 'not_higher'; end if;
+  v_chance := least(90, round(v_in::numeric / v_target.value * 95, 2));
+  if v_chance < 2 then raise exception 'chance_low'; end if;
+  v_roll := round((random() * 100)::numeric, 2);
+  v_win := v_roll < v_chance;
+  for e in select * from jsonb_array_elements(v_items) loop
+    select * into v_item from shop_items where id = e ->> 'item';
+    select qty into v_have from purchases where player_id = v_uid and item_id = v_item.id;
+    if v_have = (e ->> 'qty')::integer then
+      delete from purchases where player_id = v_uid and item_id = v_item.id;
+      update players set equipped = equipped - v_item.kind where id = v_uid and equipped ->> v_item.kind = v_item.id;
+    else
+      update purchases set qty = qty - (e ->> 'qty')::integer where player_id = v_uid and item_id = v_item.id;
+    end if;
+  end loop;
+  if v_win then
+    insert into purchases (player_id, item_id) values (v_uid, p_target) on conflict (player_id, item_id) do update set qty = purchases.qty + 1;
+  end if;
+  insert into upgrade_log (player_id, inputs, target, chance, roll, win) values (v_uid, v_items, p_target, v_chance, v_roll, v_win);
+  return jsonb_build_object('win', v_win, 'chance', v_chance, 'roll', v_roll, 'target', p_target, 'spent', v_in, 'inputs', v_items);
 end $$;
 
 -- надеть купленное (p_item = null снимает предмет из этой ячейки)
@@ -862,8 +961,8 @@ revoke all on function public._finish_match(uuid, text, text), public._settle_ma
 revoke all on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) from public, anon, authenticated;
 grant execute on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) to service_role;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() to authenticated;
