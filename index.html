@@ -1444,7 +1444,7 @@
   /* ===== Неон-Токио ===== */
   .scene-neoncity{background:linear-gradient(180deg,#0a0424,#2b0b52 55%,#7a1a6e)!important}
   .cty{background:radial-gradient(circle at 80% 30%,rgba(255,45,149,.38),transparent 46%),linear-gradient(180deg,#0a0424 0%,#2b0b52 52%,#8b1f7a 100%)}
-  .cty-sun{position:absolute;right:14%;top:8%;width:62cqh;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,#ffe27a 0%,#ff7a59 45%,#ff2d95 75%,#8a2be2 100%);-webkit-mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);animation:ctySun 5s ease-in-out infinite alternate}
+  .cty-sun{position:absolute;right:14%;top:8%;width:62cqh;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,#fcee09 0%,#ff7a2f 42%,#ff2d55 76%,#7a1fff 100%);-webkit-mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);mask:linear-gradient(180deg,#000 0 46%,transparent 46% 52%,#000 52% 64%,transparent 64% 71%,#000 71% 80%,transparent 80% 87%,#000 87%);animation:ctySun 5s ease-in-out infinite alternate}
   @keyframes ctySun{from{opacity:.85}to{opacity:1}}
   .cty-row{position:absolute;left:0;bottom:0;width:max-content;animation:ctyScroll var(--sp) linear infinite}
   .cty-row.far{height:72%;--sp:140s}
@@ -1467,28 +1467,28 @@
   @keyframes ctyCar{from{transform:translateX(calc(100cqw + 12cqh))}to{transform:translateX(-14cqh)}}
   .cty::after{content:"";position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(180deg,transparent,rgba(255,45,149,.24)),linear-gradient(90deg,rgba(34,211,238,.2),rgba(255,45,149,.2),rgba(34,211,238,.2));mix-blend-mode:screen;animation:ctyShimmer 4s ease-in-out infinite alternate}
   @keyframes ctyShimmer{from{opacity:.5}to{opacity:1}}
-  .cs-art.neon{background:#0a0424;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #ff2d95}
+  .cs-art.neon{background:#0a0424;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #fcee09}
   .cs-art.neon .cty-sun{right:18%;top:14%}
-  .cs-neon{position:relative;z-index:1;font:900 38px/1 system-ui,sans-serif;letter-spacing:.14em;color:#fff;--ns:0 0 2px #fff,0 0 7px #ff2d95,0 0 16px #ff2d95,0 0 34px #ff2d95;text-shadow:var(--ns);transform:rotate(-6deg);animation:neonFlick 6s steps(1,end) infinite}
+  .cs-neon{position:relative;z-index:1;font:900 38px/1 system-ui,sans-serif;letter-spacing:.14em;color:#fff;--ns:0 0 2px #fff,0 0 7px #fcee09,0 0 16px #fcee09,0 0 34px #ff2d55;text-shadow:var(--ns);transform:rotate(-6deg);animation:neonFlick 6s steps(1,end) infinite}
   .cs-art.neon>b{z-index:1;font-size:15px;letter-spacing:.12em;color:#c9faff;text-shadow:0 0 12px #22d3ee;bottom:8%}
 
   /* frame, titles and the nick */
-  .av.frame-glitchring::before{inset:-5px;background:conic-gradient(#22d3ee 0 24%,transparent 24% 29%,#ff2d95 29% 58%,transparent 58% 64%,#22d3ee 64% 86%,transparent 86% 91%,#ff2d95 91% 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 4.5s linear infinite,glJit 3s steps(1) infinite;filter:drop-shadow(0 0 4px #22d3ee)}
-  .av.frame-glitchring::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;z-index:1;border:3px solid #ff2d95;mix-blend-mode:screen;opacity:0;animation:glSlice 3s steps(1) infinite}   /* every few seconds the ring tears into shifted slices */
+  .av.frame-glitchring::before{inset:-5px;background:conic-gradient(#fcee09 0 24%,transparent 24% 29%,#ff2d55 29% 58%,transparent 58% 64%,#fcee09 64% 86%,transparent 86% 91%,#ff2d55 91% 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px));animation:rkSpin 4.5s linear infinite,glJit 3s steps(1) infinite;filter:drop-shadow(0 0 4px #ff2d55)}
+  .av.frame-glitchring::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;z-index:1;border:3px solid #22d3ee;mix-blend-mode:screen;opacity:0;animation:glSlice 3s steps(1) infinite}   /* every few seconds the ring tears into shifted slices */
   @keyframes glJit{0%,100%{translate:0 0}90%{translate:3px -1px}93%{translate:-3px 1px}96%{translate:2px 0}}
   @keyframes glSlice{0%,100%{opacity:0}88%{opacity:.9;clip-path:inset(18% 0 62% 0);translate:-4px 0}91%{opacity:.9;clip-path:inset(60% 0 14% 0);translate:4px 0}94%{opacity:.9;clip-path:inset(38% 0 40% 0);translate:-2px 0}97%{opacity:0}}
-  .nick.nick-neonsign{--nc:#fff;--ns:0 0 2px #fff,0 0 7px #ff2d95,0 0 16px #ff2d95,0 0 34px #ff2d95,0 0 60px rgba(255,45,149,.55);font-weight:900;color:var(--nc);text-shadow:var(--ns);animation:neonFlick 6s steps(1,end) infinite}
-  [data-tone=light] .nick.nick-neonsign{--nc:#be185d;--ns:0 0 6px rgba(255,45,149,.55)}
+  .nick.nick-neonsign{--nc:#fffbd0;--ns:0 0 2px #fff,0 0 7px #fcee09,0 0 16px #fcee09,0 0 34px #ff2d55,0 0 60px rgba(255,45,85,.5);font-weight:900;color:var(--nc);text-shadow:var(--ns);animation:neonFlick 6s steps(1,end) infinite}
+  [data-tone=light] .nick.nick-neonsign{--nc:#a16207;--ns:0 0 6px rgba(252,238,9,.7)}
   @keyframes neonFlick{0%{color:var(--nc,#fff);text-shadow:var(--ns)}17%{color:#7a2a55;text-shadow:none}18%{color:var(--nc,#fff);text-shadow:var(--ns)}20%{color:#7a2a55;text-shadow:none}21%{color:var(--nc,#fff);text-shadow:var(--ns)}62%{color:#7a2a55;text-shadow:none}63%{color:var(--nc,#fff);text-shadow:var(--ns)}65%{color:#7a2a55;text-shadow:none}66%{color:var(--nc,#fff);text-shadow:var(--ns)}}   /* a tube that flickers and goes out for a moment */
   .ttl.title-netrunner{font-family:ui-monospace,Consolas,monospace;color:#4ade80;background:#04100a;border:1px solid #16a34a;text-transform:none;letter-spacing:.02em;text-shadow:0 0 6px rgba(74,222,128,.7);box-shadow:inset 0 0 8px rgba(34,197,94,.25)}
   .ttl.title-netrunner::before{content:"> "}
   .ttl.title-netrunner::after{content:"_";animation:cursorBlink 1s steps(1) infinite}
   @keyframes cursorBlink{50%{opacity:0}}
-  .ttl.title-ping{color:#67e8f9;border-color:#22d3ee;background:#06202b;text-transform:none}
-  .ttl.title-ping::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#22d3ee;vertical-align:1px;animation:pingDot 1.4s ease-out infinite}
-  @keyframes pingDot{0%{box-shadow:0 0 0 0 rgba(34,211,238,.8)}100%{box-shadow:0 0 0 8px rgba(34,211,238,0)}}
-  .ttl.title-zeroday{color:#fff;background:#0b0b14;border:1px solid #ff2d95;text-transform:none;letter-spacing:.04em;text-shadow:-1px 0 #ff2d95,1px 0 #22d3ee;animation:zdJit 2.6s steps(1) infinite}
-  @keyframes zdJit{0%,100%{text-shadow:-1px 0 #ff2d95,1px 0 #22d3ee;translate:0 0}90%{text-shadow:-3px 0 #ff2d95,3px 0 #22d3ee;translate:1px 0}94%{text-shadow:3px 0 #ff2d95,-3px 0 #22d3ee;translate:-1px 0}97%{text-shadow:-2px 0 #ff2d95,2px 0 #22d3ee;translate:0 0}}
+  .ttl.title-ping{color:#111;background:#fcee09;border:1px solid #111;text-transform:none;font-weight:900;box-shadow:2px 2px 0 #ff2d55;animation:choomJit 4s steps(1) infinite}
+  .ttl.title-ping::before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;background:repeating-linear-gradient(45deg,#111 0 2px,#fcee09 2px 4px)}
+  @keyframes choomJit{0%,100%{translate:0 0}92%{translate:2px 0}95%{translate:-2px 1px}98%{translate:0 0}}
+  .ttl.title-zeroday{color:#fff;background:#0b0b14;border:1px solid #ff2d55;text-transform:none;letter-spacing:.04em;font-style:italic;animation:sandyTrail 1.9s ease-in-out infinite}   /* time slows down: a red and a blue trail stretch behind the letters and snap back */
+  @keyframes sandyTrail{0%,100%{text-shadow:-1px 0 rgba(255,45,85,.9),1px 0 rgba(34,211,238,.9);letter-spacing:.04em}45%,60%{text-shadow:-6px 0 rgba(255,45,85,.85),-12px 0 rgba(255,45,85,.45),-18px 0 rgba(255,45,85,.18),5px 0 rgba(34,211,238,.7);letter-spacing:.1em}}
 
   /* the win animation: a wireframe scan of the loser's face, a break-in, ACCESS DENIED; the winner gets a terminal */
   @property --hkp{syntax:"<integer>";initial-value:0;inherits:false}
@@ -1526,6 +1526,39 @@
   @keyframes hkType{to{width:calc(var(--n) * 1ch);border-color:transparent}}
   .cty::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(90deg,rgba(6,2,20,.6),rgba(6,2,20,.25) 55%,transparent)}   /* the card text on the left stays readable */
   @media(max-width:560px){.cs-tile b{font-size:11.5px;overflow-wrap:break-word}}   /* long names such as "Спагеттификация" fit a phone tile */
+
+  .ttl.title-capri{color:#3a0f4a;border-color:#ff8ad8;text-transform:none;font-weight:900;background:linear-gradient(100deg,#ffb3e6 0 30%,#fff 45%,#9deaff 60% 100%);background-size:260% 100%;box-shadow:0 0 12px -2px #ff8ad8;animation:capriShine 3.4s ease-in-out infinite alternate}
+  .ttl.title-capri::before{content:"✦";display:inline-block;margin-right:5px;color:#ff2d95;animation:capriStar 1.6s ease-in-out infinite}
+  @keyframes capriShine{from{background-position:100% 0}to{background-position:0 0}}@keyframes capriStar{0%,100%{opacity:.4;transform:scale(.7)}50%{opacity:1;transform:scale(1.25)}}
+  /* ---- Smasher jump (loser) and Sandevistan (winner) ---- */
+  .fx-sm{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;container-type:size}
+  .sm-red{position:absolute;inset:0;background:radial-gradient(circle at 50% 70%,rgba(255,45,85,.28),rgba(40,0,10,.86));opacity:0;animation:hkIn .5s .55s forwards}
+  .sm-fig{position:absolute;left:50%;bottom:-8%;width:92%;aspect-ratio:120/140;transform:translateX(-50%);animation:smJump .7s cubic-bezier(.45,0,.85,.5) backwards,smLoom 2.2s .7s ease-in-out infinite alternate}
+  @keyframes smJump{from{transform:translate(-50%,-150%) scale(.3) rotate(-14deg);opacity:.2}}
+  @keyframes smLoom{from{scale:1}to{scale:1.05}}
+  .sm-art{display:block;width:100%;height:100%;filter:drop-shadow(0 0 7px rgba(255,45,85,.65))}
+  .sm-eye{animation:smEye .45s steps(1) infinite alternate}
+  @keyframes smEye{from{opacity:1}to{opacity:.55}}
+  .sm-crack{position:absolute;inset:0;width:100%;height:100%}
+  .sm-crack polyline{fill:none;stroke:#fff;stroke-width:1.8;vector-effect:non-scaling-stroke;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 3px #ff2d55);animation:crackDraw .45s .62s ease-out forwards}
+  .sm-wave{position:absolute;left:50%;top:70%;width:24%;aspect-ratio:1;border:3px solid #ff2d55;border-radius:50%;transform:translate(-50%,-50%) scale(0);opacity:0;animation:shock .8s .62s ease-out forwards}
+  .sm-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 70%,#fff,#ff6b88 22%,transparent 60%);opacity:0;animation:bhFlash .45s .62s ease-out}
+  .sm-ecg{position:absolute;left:4%;top:8%;width:92%;height:22%;overflow:visible}
+  .sm-ecg path{fill:none;stroke:#ff2d55;stroke-width:2.2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 4px #ff2d55);animation:hkDraw 1.3s 1s linear forwards}
+  .sm-flat{position:absolute;left:0;right:0;top:34%;text-align:center;font:900 max(11px,10cqw)/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;color:#ff2d55;text-shadow:0 0 10px #ff2d55,0 2px 0 #000;opacity:0;animation:hkIn .15s 2.3s steps(1) forwards,smBlink 1s 2.45s steps(1) infinite}
+  @keyframes smBlink{50%{opacity:.35}}
+  [data-fx=mogg_smasher] .o-face{background:#12060a}
+  [data-fx=mogg_smasher] .o-photo{animation:smSquash 3s forwards}
+  @keyframes smSquash{0%,17%{transform:none;filter:grayscale(1) brightness(.8)}19%{transform:scale(1.05,.55) translateY(10%);filter:grayscale(1) brightness(1.6)}30%{transform:scale(1,.8) translateY(4%);filter:grayscale(1) sepia(1) hue-rotate(-30deg) saturate(3) brightness(.55)}100%{transform:scale(1,.84) translateY(3%);filter:grayscale(1) sepia(1) hue-rotate(-30deg) saturate(3) brightness(.5)}}
+  [data-fx=mogg_smasher] .o-stamp{color:#ff2d55;border-color:#ff2d55;text-shadow:0 0 14px #ff2d55;z-index:4}
+  .fx-sandy{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;box-shadow:inset 0 0 36px rgba(34,211,238,.5)}
+  .fx-sandy .o-photo{opacity:.6;mix-blend-mode:screen;filter:hue-rotate(160deg) saturate(3);animation:sandyGhost 1.2s ease-out infinite}
+  .fx-sandy .o-photo+.o-photo{filter:hue-rotate(-70deg) saturate(3);animation-delay:-.6s}
+  @keyframes sandyGhost{0%{translate:0 0;opacity:.7}100%{translate:-24% 0;opacity:0}}
+  .fx-sandy i{position:absolute;top:calc(var(--y) * 1%);right:-60%;width:calc(var(--w) * 1%);height:2px;background:linear-gradient(90deg,transparent,#9deaff 60%,#fff);box-shadow:0 0 6px #22d3ee;animation:sandyLine var(--t) linear infinite;animation-delay:var(--d)}
+  @keyframes sandyLine{to{transform:translateX(-340%)}}
+  .sd-tag{position:absolute;left:6%;top:5%;font:900 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;color:#9deaff;text-shadow:-1px 0 #ff2d55,1px 0 #22d3ee,0 0 8px #22d3ee;animation:sdJit 1.4s steps(1) infinite}
+  @keyframes sdJit{0%,100%{translate:0 0}80%{translate:2px 0}86%{translate:-3px 1px}92%{translate:0 0}}
 
   /* ---------- inventory and the upgrader ---------- */
   .inv-acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -3643,13 +3676,15 @@ const SHOP = {
   nick_nova: {kind: "nick", r: "epic", name: "Сверхновая", desc: "Ник вспыхивает белым, остывает до красного и синего, рядом мерцает звезда."},
   banner_singularity: {kind: "banner", r: "legendary", name: "Сингулярность", desc: "Чёрная дыра с вращающимся диском втягивает вещество, звёзды плывут к ней."},
   mogg_blackhole: {kind: "mogg", r: "mythic", name: "Спагеттификация", desc: "Над соперником раскрывается чёрная дыра: фото закручивается, растягивается и исчезает в ней, а победителя окружают звёзды."},
-  title_netrunner: {kind: "title", r: "common", name: "Нетраннер", desc: "Строка терминала с мигающим курсором."},
-  title_ping: {kind: "title", r: "common", name: "Пинг 1 мс", desc: "Сигнал расходится кругами, как радар."},
-  title_zeroday: {kind: "title", r: "rare", name: "Zero-Day", desc: "Уязвимость, о которой ещё никто не знает: буквы дрожат и расщепляются."},
-  frame_glitchring: {kind: "frame", r: "rare", name: "Глитч-кольцо", desc: "Неоновое кольцо вращается и раз в несколько секунд рвётся на смещённые полосы."},
-  nick_neonsign: {kind: "nick", r: "epic", name: "Неоновая вывеска", desc: "Ник горит розовым неоном, мигает и на миг гаснет, как лампа на ночной улице."},
-  banner_neoncity: {kind: "banner", r: "legendary", name: "Дождливый неон", desc: "Ночной город под дождём: плывут два ряда зданий, мигают окна и вывески, над крышами летит машина."},
-  mogg_hack: {kind: "mogg", r: "mythic", name: "Взлом", desc: "Лицо соперника сканируют сеткой, взламывают и ставят «Доступ запрещён». У победителя в терминале: доступ получен."},
+  title_netrunner: {kind: "title", r: "common", name: "Нетраннер", desc: "Строка терминала с мигающим курсором: тот, кто живёт в Сети."},
+  title_ping: {kind: "title", r: "common", name: "Чумба", desc: "Жёлтая плашка в стиле Найт-Сити: так друг друга называют свои."},
+  title_zeroday: {kind: "title", r: "rare", name: "Сандевистан", desc: "Время замедляется: за подписью тянется красный и голубой шлейф, как у бегущего на сандевистане."},
+  title_capri: {kind: "title", r: "rare", name: "Капри", desc: "Отсылка на Капри из второго сезона аниме «Киберпанк: Бегущие по краю»: нежный розово-голубой неон с блёстками."},
+  frame_glitchring: {kind: "frame", r: "rare", name: "Киберпсихоз", desc: "Жёлто-красное кольцо вращается и раз в несколько секунд рвётся на смещённые полосы: имплантаты берут верх."},
+  nick_neonsign: {kind: "nick", r: "epic", name: "Эджраннер", desc: "Ник горит жёлтым неоном, мигает и на миг гаснет, как вывеска над баром в Найт-Сити."},
+  banner_neoncity: {kind: "banner", r: "legendary", name: "Найт-Сити", desc: "Дождливая ночь в Найт-Сити: плывут два ряда зданий с вывесками корпораций, мигают окна, над крышами летит аэрокар."},
+  mogg_hack: {kind: "mogg", r: "legendary", name: "Квикхак", desc: "Нетраннер взламывает соперника: лицо сканируют сеткой, потом «Доступ запрещён». У победителя в терминале: доступ получен."},
+  mogg_smasher: {kind: "mogg", r: "mythic", name: "Прыжок Смэшера", desc: "Огромный киборг с красным глазом прыгает на соперника сверху, экран трясётся, пульс уходит в прямую. Победитель в это время ускорен сандевистаном."},
   mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, а его IQ растёт без остановки. У соперника остаётся только 70 IQ."},
 };
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
@@ -3715,6 +3750,7 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_samsa") put(lf, fxSamsa());
     if (id === "mogg_blackhole") { put(lf, fxBlackhole()); put(wf, fxBlackholeWin()); }
     if (id === "mogg_hack") { put(lf, fxHack()); put(wf, fxHackWin()); }
+    if (id === "mogg_smasher") { put(lf, fxSmasher()); put(wf, fxSandy(wf)); root?.classList.add("fx-quake"); }
     if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) iqRun(n); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
@@ -3876,7 +3912,7 @@ const fxBlackhole = () => `<div class="fx-bh" aria-hidden="true"><i class="bh-wa
 const fxBlackholeWin = () => `<div class="fx-bhw" aria-hidden="true">${Array.from({length: 9}, (_, i) => `<i style="--i:${i}"></i>`).join("")}</div>`;
 
 // ----- a rainy neon city: two skylines that slide past, blinking windows and signs, a synthwave sun, rain, a flying car
-const CITY_SIGNS = ["BAR", "24H", "HOTEL", "VR", "RAMEN", "NEON", "CLUB", "MOGG"];
+const CITY_SIGNS = ["ARASAKA", "AFTERLIFE", "MILITECH", "RIPPER", "KANG TAO", "NET", "BAR", "24H"];
 function cityLayer(seed, o) {
   const r = rng(seed); let x = 0, k = 0, out = "";
   while (x < 600) {
@@ -3911,8 +3947,25 @@ const HK_MESH = `<svg class="hk-mesh" viewBox="0 0 100 100" aria-hidden="true"><
   <path pathLength="1" d="M32 22L50 52L68 22M24 44L50 52L76 44M30 64L50 52L70 64M38 80L50 52L62 80"/><circle cx="38" cy="44" r="4.2" pathLength="1"/><circle cx="62" cy="44" r="4.2" pathLength="1"/></g>
   <g class="nd">${HK_NODES.map(([x, y], i) => `<circle style="--i:${i}" cx="${x}" cy="${y}" r="1.5"/>`).join("")}</g></svg>`;
 const HK_HEX = Array.from({length: 7}, (_, i) => { const r = rng(40 + i); return `<b style="--x:${i * 15 + 4};--t:${(1.6 + r() * 1.3).toFixed(2)}s;--d:${(-r() * 2).toFixed(2)}s">${Array.from({length: 22}, () => "0123456789ABCDEF"[Math.floor(r() * 16)]).join("")}</b>`; }).join("");
-const fxHack = () => `<div class="fx-hk" aria-hidden="true"><i class="hk-grid"></i><span class="hk-hex">${HK_HEX}</span>${HK_MESH}<i class="hk-scan"></i><i class="hk-br"></i><i class="hk-red"></i><small class="hk-pct">ВЗЛОМ <b></b></small><b class="hk-deny">ДОСТУП ЗАПРЕЩЁН</b></div>`;
+const fxHack = () => `<div class="fx-hk" aria-hidden="true"><i class="hk-grid"></i><span class="hk-hex">${HK_HEX}</span>${HK_MESH}<i class="hk-scan"></i><i class="hk-br"></i><i class="hk-red"></i><small class="hk-pct">КВИКХАК <b></b></small><b class="hk-deny">ДОСТУП ЗАПРЕЩЁН</b></div>`;
 const fxHackWin = () => `<div class="fx-hkw" aria-hidden="true"><div><span style="--n:17">&gt; sudo take_win</span><span style="--n:18">ACCESS GRANTED ✔</span></div></div>`;
+
+// ----- the Smasher jump: a huge cyborg with a red eye drops on the loser from above, the screen shakes, the pulse goes flat; the winner is sped up (afterimages)
+const SMASHER = `<svg class="sm-art" viewBox="0 0 120 140" aria-hidden="true"><g stroke-linejoin="round" stroke-linecap="round">
+  <path d="M44 100L36 136M76 100L84 136" stroke="#0a0a10" stroke-width="12" fill="none"/><path d="M41 100L33 136M73 100L81 136" stroke="#6b7488" stroke-width="1.6" fill="none"/>
+  <path d="M20 62L9 30M100 62L111 30" stroke="#0a0a10" stroke-width="11" fill="none"/><path d="M17 62L6 30M97 62L108 30" stroke="#6b7488" stroke-width="1.6" fill="none"/>
+  <circle cx="8" cy="25" r="8.5" fill="#12131a" stroke="#8a93a8" stroke-width="1.6"/><circle cx="112" cy="25" r="8.5" fill="#12131a" stroke="#8a93a8" stroke-width="1.6"/>
+  <path d="M38 54L82 54L92 104L28 104Z" fill="#101118" stroke="#8a93a8" stroke-width="1.8"/><path d="M60 58V102M44 70H76M42 84H78" stroke="#3a3f50" stroke-width="1.6" fill="none"/><circle class="sm-eye" cx="60" cy="86" r="4" fill="#ff2d55"/>
+  <path d="M12 76L14 56Q24 42 44 52L42 72Z" fill="#161720" stroke="#a3acc0" stroke-width="2"/><path d="M108 76L106 56Q96 42 76 52L78 72Z" fill="#161720" stroke="#a3acc0" stroke-width="2"/>
+  <path d="M46 20Q60 6 74 20L77 44Q60 56 43 44Z" fill="#171821" stroke="#a3acc0" stroke-width="2"/><path class="sm-eye" d="M50 30H70" stroke="#ff2d55" stroke-width="4"/><circle cx="60" cy="30" r="3.2" fill="#fff"/>
+  <path d="M48 44L72 44L68 54H52Z" fill="#262a38" stroke="#a3acc0" stroke-width="1.6"/><path d="M54 46V52M60 46V52M66 46V52" stroke="#0a0a10" stroke-width="1.4" fill="none"/></g></svg>`;
+const fxSmasher = () => `<div class="fx-sm" aria-hidden="true"><i class="sm-red"></i><div class="sm-fig">${SMASHER}</div>
+  <svg class="sm-crack" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="50,70 38,52 30,30 22,0"/><polyline points="50,70 64,50 74,28 82,0"/><polyline points="50,70 40,86 28,96 14,100"/><polyline points="50,70 62,86 76,94 90,100"/><polyline points="50,70 26,66 10,58 0,60"/><polyline points="50,70 76,66 92,58 100,62"/></svg>
+  <svg class="sm-ecg" viewBox="0 0 100 30" preserveAspectRatio="none"><path pathLength="1" d="M0 15H14L18 15L22 3L27 27L31 15H44L48 15L51 9L54 21L57 15H100"/></svg><b class="sm-flat">FLATLINE</b><i class="sm-wave"></i><i class="sm-flash"></i></div>`;
+const fxSandy = wf => {   // the winner's photo leaves coloured afterimages, like someone moving at sandevistan speed
+  const ph = (wf.querySelector(".o-photo")?.outerHTML ?? "").replace(/\shidden(="")?/, "");
+  return `<div class="fx-sandy" aria-hidden="true">${ph}${ph}<i style="--y:14;--w:46;--d:0s;--t:.55s"></i><i style="--y:30;--w:62;--d:-.2s;--t:.7s"></i><i style="--y:48;--w:38;--d:-.4s;--t:.5s"></i><i style="--y:64;--w:70;--d:-.1s;--t:.65s"></i><i style="--y:82;--w:52;--d:-.3s;--t:.6s"></i><b class="sd-tag">SANDEVISTAN</b></div>`;
+};
 // ---------- cases: Рета buys one roll; the server picks the item (open_case in supabase.sql), the browser only plays the roulette ----------
 const CS = {tok: 0, cases: [], items: [], owned: new Map(), val: new Map(), eq: {}, reta: 0, admin: false, busy: false, stage: null};
 const CS_LEN = 40, CS_T = 32;   // like the rating roulette: the real tile sits on CS_T, the tiles next to it are decoys
@@ -3928,6 +3981,7 @@ const MOGG_MINI = {   // a picture for every win animation in the roulette (no i
   mogg_crown: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 38L8 12l11 11 5-16 5 16 11-11 3 26z" fill="#fbbf24" stroke="#a16207" stroke-width="2.2" stroke-linejoin="round"/><circle cx="24" cy="30" r="3.4" fill="#fff"/></svg>`,
   mogg_blackhole: `<svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="26" rx="21" ry="6.5" fill="none" stroke="#ff9a2e" stroke-width="3.2" opacity=".9"/><circle cx="24" cy="24" r="11" fill="#000" stroke="#ffd9a0" stroke-width="1.6"/><path d="M3 26Q24 36 45 26" fill="none" stroke="#ffe3a3" stroke-width="3.2" stroke-linecap="round"/></svg>`,
   mogg_hack: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4L40 10V23C40 34 33 41 24 45C15 41 8 34 8 23V10Z" fill="#06202b" stroke="#22d3ee" stroke-width="2.4" stroke-linejoin="round"/><rect x="16" y="22" width="16" height="12" rx="2" fill="#22d3ee"/><path d="M19 22v-4a5 5 0 0 1 10 0v4" fill="none" stroke="#22d3ee" stroke-width="2.6"/><path d="M6 30h12M30 16h12" stroke="#ff2d95" stroke-width="2.2"/></svg>`,
+  mogg_smasher: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 20Q24 6 34 20L35 34Q24 42 13 34Z" fill="#16171f" stroke="#9aa3b5" stroke-width="2"/><path d="M17 24H31" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="24" r="3" fill="#fff"/><path d="M18 34h12l-2 6H20Z" fill="#2a2d3a" stroke="#9aa3b5" stroke-width="1.6"/></svg>`,
   mogg_meteor: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M44 4L26 20" stroke="#fb923c" stroke-width="6" stroke-linecap="round" opacity=".6"/><circle cx="21" cy="27" r="14" fill="#fb923c" stroke="#b91c1c" stroke-width="2.4"/><circle cx="16" cy="22" r="4" fill="#fff7c2"/></svg>`,
 };
 function csMini(id) {   // a small picture of an item for a roulette tile
@@ -4027,7 +4081,7 @@ const CASE_ART = {   // the picture on the case: [css class, html]
   holy_iq: ["", () => `${apples(5, "apples")}<span class="cs-big">${APPLE}</span>`],
   tt_philosophy: ["phil", () => `<span class="cs-ring"></span><span class="cs-rock">${ROCK}</span>`],
   black_hole: ["space", () => `<div class="scn bh cs-bhart">${`<i class="bh-stars a"></i><i class="bh-stars b"></i>`}${bhHole("bh-main")}</div>`],
-  neon_city: ["neon", () => `${cityScene()}<span class="cs-neon">NEON</span>`],
+  neon_city: ["neon", () => `${cityScene()}<span class="cs-neon">CYBER</span>`],
 };
 function csCard(it, total) {
   const id = it.item_id, d = SHOP[id], r = rarOf(id) || "common", owned = CS.owned.has(id), worn = cosId(CS.eq, d.kind) === id;

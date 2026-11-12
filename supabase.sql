@@ -309,22 +309,22 @@ insert into public.case_items (case_id, item_id, weight, refund) values
   ('black_hole', 'mogg_blackhole', 1, 1800)
 on conflict (case_id, item_id) do update set weight = excluded.weight, refund = excluded.refund;
 
--- кейс «Неон-Токио»: киберпанк
+-- кейс «Киберпанк» (раньше «Неон-Токио»; id предметов и кейса не менялись, чтобы ничьи предметы не пропали)
 insert into public.shop_items (id, kind, name, price, sort, case_only) values
-  ('title_netrunner', 'title', 'Нетраннер', 0, 40, true), ('title_ping', 'title', 'Пинг 1 мс', 0, 41, true), ('title_zeroday', 'title', 'Zero-Day', 0, 42, true),
-  ('frame_glitchring', 'frame', 'Глитч-кольцо', 0, 40, true),
-  ('nick_neonsign', 'nick', 'Неоновая вывеска', 0, 40, true),
-  ('banner_neoncity', 'banner', 'Дождливый неон', 0, 40, true),
-  ('mogg_hack', 'mogg', 'Взлом', 0, 40, true)
+  ('title_netrunner', 'title', 'Нетраннер', 0, 40, true), ('title_ping', 'title', 'Чумба', 0, 41, true), ('title_zeroday', 'title', 'Сандевистан', 0, 42, true), ('title_capri', 'title', 'Капри', 0, 43, true),
+  ('frame_glitchring', 'frame', 'Киберпсихоз', 0, 40, true),
+  ('nick_neonsign', 'nick', 'Эджраннер', 0, 40, true),
+  ('banner_neoncity', 'banner', 'Найт-Сити', 0, 40, true),
+  ('mogg_hack', 'mogg', 'Квикхак', 0, 40, true), ('mogg_smasher', 'mogg', 'Прыжок Смэшера', 0, 41, true)
 on conflict (id) do update set kind = excluded.kind, name = excluded.name, price = excluded.price, sort = excluded.sort, case_only = excluded.case_only;
-insert into public.cases (id, name, price, sort) values ('neon_city', 'Неон-Токио', 500, 4)
+insert into public.cases (id, name, price, sort) values ('neon_city', 'Киберпанк', 500, 4)
 on conflict (id) do update set name = excluded.name, price = excluded.price, sort = excluded.sort;
 insert into public.case_items (case_id, item_id, weight, refund) values
-  ('neon_city', 'title_netrunner', 31, 50), ('neon_city', 'title_ping', 26, 50),
-  ('neon_city', 'title_zeroday', 14, 120), ('neon_city', 'frame_glitchring', 15, 120),
-  ('neon_city', 'nick_neonsign', 8, 300),
-  ('neon_city', 'banner_neoncity', 5, 700),
-  ('neon_city', 'mogg_hack', 1, 1800)
+  ('neon_city', 'title_netrunner', 25, 50), ('neon_city', 'title_ping', 22, 50),
+  ('neon_city', 'title_zeroday', 14, 120), ('neon_city', 'frame_glitchring', 12, 120), ('neon_city', 'title_capri', 12, 120),
+  ('neon_city', 'nick_neonsign', 7, 300),
+  ('neon_city', 'banner_neoncity', 4, 700), ('neon_city', 'mogg_hack', 3, 800),
+  ('neon_city', 'mogg_smasher', 1, 1800)
 on conflict (case_id, item_id) do update set weight = excluded.weight, refund = excluded.refund;
 
 -- стоимость предметов (Рета): предметы магазина стоят свою цену, предметы из кейсов указаны здесь. Продать можно за половину стоимости
@@ -333,7 +333,7 @@ update public.shop_items s set value = v.value from (values
   ('frame_bw', 80), ('title_larp', 200), ('title_net', 200), ('title_foid', 500), ('nick_black', 600), ('banner_apples', 1200), ('mogg_holyiq', 3000),
   ('title_sisyphus', 100), ('title_stirner', 100), ('title_samsa', 240), ('frame_uroboros', 240), ('nick_stirner', 600), ('banner_sisyphus', 1400), ('mogg_samsa', 3600),
   ('title_dust', 100), ('title_horizon', 100), ('title_quasar', 240), ('frame_accretion', 240), ('nick_nova', 600), ('banner_singularity', 1400), ('mogg_blackhole', 3600),
-  ('title_netrunner', 100), ('title_ping', 100), ('title_zeroday', 240), ('frame_glitchring', 240), ('nick_neonsign', 600), ('banner_neoncity', 1400), ('mogg_hack', 3600)
+  ('title_netrunner', 100), ('title_ping', 100), ('title_zeroday', 240), ('frame_glitchring', 240), ('nick_neonsign', 600), ('banner_neoncity', 1400), ('mogg_hack', 1600), ('title_capri', 240), ('mogg_smasher', 3600)
 ) v (id, value) where s.id = v.id;
 
 create index if not exists battles_player_at on public.battles (player_id, at desc);
