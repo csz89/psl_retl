@@ -460,8 +460,8 @@
   .view{animation:fadeUp .35s ease backwards}
   .site-foot{position:relative;z-index:1;max-width:1360px;margin:0 auto;padding:0 16px 40px;display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;color:var(--dim2);font-size:12px;line-height:1.5}
   .site-foot span{max-width:760px}
-  .site-foot nav{display:flex;gap:16px}
-  .site-foot a{color:var(--dim);text-decoration:none}
+  .site-foot nav{display:flex;flex-wrap:wrap;gap:2px 16px;min-width:0}
+  .site-foot a{color:var(--dim);text-decoration:none;padding:5px 0}
   .site-foot a:hover{color:var(--strong)}
   .app-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px}
   .app-bar .tabs{min-width:260px}
@@ -1313,6 +1313,7 @@
   /* an effect on a nick (glow, shadows) must not be cut to the text box: the containers of such nicks stop clipping, and a long name wraps instead of getting an ellipsis */
   .o-who h1:has(.nick[class*="nick-"]),.o-list b:has(.nick[class*="nick-"]),.o-win .nm:has(.nick[class*="nick-"]){overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:anywhere}
   .nick[class*="nick-"]{padding:.1em 0}
+  .cs-mg{display:grid;place-items:center;width:100%;height:100%}.cs-mg svg{width:46px;height:46px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
 
   /* ---------- the TikTok philosophy case ---------- */
   .av.frame-uroboros::before{inset:-26%;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-6%20-6%20112%20112%22%20fill%3D%22none%22%3E%3Cstyle%3E%0A.fl1%7Banimation%3Afl1%201.1s%20linear%20infinite%7D.fl2%7Banimation%3Afl2%201.1s%20linear%20infinite%7D.fl3%7Banimation%3Afl1%201.1s%20linear%20infinite%7D%0A%40keyframes%20fl1%7Bfrom%7Bstroke-dashoffset%3A0%7Dto%7Bstroke-dashoffset%3A8.8%7D%7D%40keyframes%20fl2%7Bfrom%7Bstroke-dashoffset%3A2.2%7Dto%7Bstroke-dashoffset%3A11%7D%7D%0A.jaw%7Btransform-origin%3A44px%2017px%3Banimation%3Ajaw%20.5s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20jaw%7Bfrom%7Btransform%3Arotate%28-2deg%29%7Dto%7Btransform%3Arotate%2816deg%29%7D%7D%0A.hd%7Btransform-origin%3A40px%2014px%3Banimation%3Ahd%201s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20hd%7Bfrom%7Btransform%3Arotate%28-1.5deg%29%7Dto%7Btransform%3Arotate%282deg%29%7D%7D%0A.tg%7Btransform-origin%3A70px%2017px%3Banimation%3Atg%20.28s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20tg%7Bfrom%7Btransform%3Arotate%28-7deg%29%7Dto%7Btransform%3Arotate%289deg%29%7D%7D%0A.lump%7Btransform-origin%3A50px%2050px%3Banimation%3Alump%202.2s%20ease-in%20infinite%7D%0A%40keyframes%20lump%7B0%25%7Btransform%3Arotate%2895deg%29%3Bopacity%3A0%7D12%25%7Bopacity%3A1%7D86%25%7Btransform%3Arotate%28-56deg%29%3Bopacity%3A1%7D100%25%7Btransform%3Arotate%28-64deg%29%3Bopacity%3A0%7D%7D%0A%3C%2Fstyle%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%2212.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23efe9d8%22%20stroke-width%3D%229.6%22%2F%3E%0A%3Ccircle%20class%3D%22fl1%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2244%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%3Ccircle%20class%3D%22fl2%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%20stroke-dashoffset%3D%222.2%22%2F%3E%3Ccircle%20class%3D%22fl3%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2238%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2236.4%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20opacity%3D%22.85%22%2F%3E%0A%3Cg%20class%3D%22lump%22%3E%3Cellipse%20cx%3D%2291%22%20cy%3D%2250%22%20rx%3D%226.8%22%20ry%3D%225.6%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.6%22%2F%3E%3Cpath%20d%3D%22M88%2046Q91%2050%2088%2054M93%2046Q96%2050%2093%2054%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%2F%3E%3C%2Fg%3E%0A%3Cg%20class%3D%22hd%22%3E%0A%3Cpath%20d%3D%22M44%2014L70%2011L84%2017L82%2021L62%2022L46%2020Z%22%20fill%3D%22%23111%22%2F%3E%0A%3Cg%20class%3D%22jaw%22%3E%3Cpath%20d%3D%22M44%2017L60%2020L78%2021L86%2027L72%2031L52%2030L42%2024Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M62%2021L65%2027L68%2021ZM72%2022L74%2027L77%2022Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%0A%3Cpath%20class%3D%22tg%22%20d%3D%22M70%2020L86%2021L94%2016M86%2021L94%2025%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M24%2020L32%207L46%20-1L64%20-3L80%203L88%2012L82%2015L74%2011L58%2012L40%2018Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M40%204L50%20-1M52%208L60%203M62%207L70%203%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%20opacity%3D%22.7%22%2F%3E%0A%3Cpath%20d%3D%22M50%200L62%206L60%209L49%205Z%22%20fill%3D%22%23111%22%2F%3E%3Cpath%20d%3D%22M45%20-2L64%205%22%20stroke%3D%22%23111%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%226%22%20r%3D%221.1%22%20fill%3D%22%23f3efe5%22%2F%3E%0A%3Cpath%20d%3D%22M66%2012L70%2012L68%2020ZM76%2012L79%2012L78%2018Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2282%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23111%22%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;-webkit-mask:none;mask:none;animation:rkSpin 7s linear infinite}   /* the whole snake runs around the ring (the head chases its tail), and inside the picture the scales flow into the mouth and the jaws chew */
@@ -1440,6 +1441,74 @@
   .fold-note>summary{cursor:pointer;color:var(--soft);font-size:13px;font-weight:600;padding:6px 0}
   .fold-note>summary:hover{color:var(--txt)}
   @media(max-width:520px){.nav a{padding:8px 9px;font-size:13.5px}.subtabs a{padding:9px 14px}}
+
+  /* ---------- phones ---------- */
+  @media(max-width:719px){
+    .top{gap:8px;padding:12px 14px 0;align-items:center}
+    .top-actions{display:contents}
+    .brand{order:1;margin-right:auto;min-width:0;gap:10px}
+    .brand-text small{display:none}
+    .gear{order:2}
+    .acc{order:3}
+    .acc.in{width:44px;padding:0;justify-content:center;border-radius:50%}
+    .acc.in .acc-name{display:none}
+    .wallet{order:4;width:100%;gap:6px}
+    .wallet .reta,.wallet .wal{flex:1 1 0;justify-content:center;min-width:0}
+    .wallet .wal.gift{flex:0 0 44px;padding:0}
+    .nav{order:5;width:100%;margin:0}
+    .subtabs{width:100%;justify-content:space-between;margin-bottom:14px}
+    .subtabs a{flex:1 1 auto;text-align:center;padding:9px 8px;font-size:13px}
+    .shop-head{grid-template-columns:56px 1fr;justify-items:start;text-align:left;gap:10px 14px;padding:16px}
+    .shop-head .sh-ico svg{width:56px;height:56px}
+    .sh-txt h1{font-size:24px}
+    .sh-txt .why{font-size:13px;grid-column:1/-1}
+    .shop-head .sh-txt{display:contents}
+    .shop-head .sh-txt h1{align-self:center}
+    .shop-head .sh-txt .why{grid-column:1/-1;order:3}
+    .sh-bal{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;justify-items:unset;order:4}
+    .sh-bal b{font-size:30px}.sh-bal span{margin:0}
+    .sh-bal{flex-wrap:wrap}
+    .cs-art{width:min(170px,54%)}
+    .cs-hero{gap:14px}
+    .up-grid{gap:12px}
+    .card{padding:18px 16px}
+  }
+  @media(hover:none){.si:hover,.up-it:hover,.wal:hover,.reta:hover{transform:none}}
+  @media(pointer:coarse){.up-minus{width:34px;height:34px;font-size:22px}.up-it{min-height:124px}.inv-acts .btn,.cs-acts .btn{min-height:42px}}
+  @media(max-width:560px){
+    .sh-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .si{padding:10px;gap:6px;border-radius:16px}
+    .si-pv{min-height:104px;padding:6px;border-radius:12px}
+    .si h3{font-size:14px;gap:4px}
+    .si p{font-size:12px;min-height:0;line-height:1.35}
+    .si footer{flex-wrap:wrap;gap:6px}
+    .si .btn{padding:8px 10px;font-size:13px;border-radius:10px}
+    .si .price{font-size:14px}
+    .si-tag{font-size:10px;padding:1px 6px}
+    .pvav{width:60px;height:60px;font-size:24px}
+    .pv-nick{font-size:17px}
+    .pv-scene{height:84px}
+    .inv-acts{gap:6px}.inv-acts .btn{padding:7px 8px;font-size:12px;flex:1 1 auto}
+    .sh-sec h2{font-size:18px}
+  }
+  @media(max-width:720px){
+    .up-mid{position:static;order:-1;grid-template-columns:132px 1fr;justify-items:stretch;text-align:left;gap:6px 14px;padding:14px;align-items:center}
+    .up-wheel{width:132px;margin:0;grid-row:1/4}
+    .up-ring{-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 15px),#000 calc(100% - 15px));mask:radial-gradient(farthest-side,transparent calc(100% - 15px),#000 calc(100% - 15px))}
+    .up-center b{font-size:24px}.up-center span{font-size:11px}
+    .up-needle i{top:-7px;margin-left:-7px;border-width:7px;border-top-width:15px}
+    .up-needle::after{top:8px;height:14px}
+    .up-sum{justify-content:flex-start;font-size:13px;gap:4px 8px}
+    .up-mid .btn{min-width:0;width:100%}
+    .up-hint{font-size:12px;min-height:0}
+    .up-list{max-height:none}
+  }
+  @media(max-width:560px){
+    #view-inventory .sh-grid{grid-template-columns:1fr}
+    #view-inventory .si{padding:12px}
+    #view-inventory .inv-acts .btn{flex:1 1 auto}
+  }
+  @media(max-width:400px){.nav{gap:2px}.nav a{padding:8px 6px;font-size:13px}}
 </style>
 </head>
 <body>
@@ -3437,7 +3506,7 @@ const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx
 const APPLE = `<svg class="apple" viewBox="0 0 48 52" aria-hidden="true"><path d="M24 15C17 8 4 12 4 28c0 12 8 23 15 23 3 0 3.4-1.6 5-1.6s2 1.6 5 1.6c7 0 15-11 15-23C44 12 31 8 24 15Z" fill="#dc2626"/><path d="M24 15C31 8 44 12 44 28c0 12-8 23-15 23-3 0-2-1.6-5-1.6Z" fill="#b91c1c"/><path d="M24 15c-.2-5 1-9 4.5-12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><path d="M26 10c3-5.5 10-6 13-3.4-2.2 5.4-9 6.6-13 3.4Z" fill="#22c55e"/><ellipse cx="13" cy="26" rx="3" ry="7" fill="#fff" opacity=".42" transform="rotate(14 13 26)"/></svg>`;
 const APPLE_SPOTS = [[-38, -28], [-2, -34], [36, -26], [-30, 6], [8, 2], [40, 12], [-40, 34], [-6, 32], [30, 34]];   // where the 9 background apples stand: x in % of the width, y in % of the height, from the centre
 const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i};--px:${APPLE_SPOTS[i]?.[0] ?? 0};--py:${APPLE_SPOTS[i]?.[1] ?? 0}"><b>${APPLE}</b></i>`).join("")}</span>`;
-const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : id === "banner_sisyphus" ? SISY : "";   // the extra elements a background needs
+const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : id === "banner_sisyphus" ? sisyScene() : "";   // the extra elements a background needs
 const FX_HIQ_WIN = `<div class="fx-iq" aria-hidden="true">${apples(6, "fx-apples")}<b class="fx-iqn">IQ <span>100</span></b></div>`;
 const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true"><b class="fx-iqn low">70 IQ</b></div>`;
 function iqRun(el) {   // the winner's IQ never stops: it grows faster the longer the animation lasts, until the animation is removed
@@ -3464,7 +3533,7 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_glitch") put(lf, `<i class="fx-scan"></i><i class="fx-rgb"></i>`);
     if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
     if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
-    if (id === "mogg_samsa") put(lf, FX_SAMSA);
+    if (id === "mogg_samsa") put(lf, fxSamsa());
     if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) iqRun(n); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
@@ -3482,11 +3551,19 @@ function pvPlay(card) {
   const [a, b] = card.querySelectorAll(".o-win.pv"); if (!a || !b) return;
   requestAnimationFrame(() => { a.classList.add("won"); b.classList.add("lost"); card._stop = playMogg(card.dataset.id, a, b); card._t = setTimeout(() => pvReset(card), 3800); });
 }
-function wireMogg(root) {   // a mogg preview plays on hover or on the play button
-  root.querySelectorAll("[data-kind=mogg]").forEach(card => {
+function wireMogg(root) {   // a mogg preview plays on hover or on the play button; on touch screens it also plays by itself while it is on screen
+  const cards = [...root.querySelectorAll("[data-kind=mogg]")];
+  cards.forEach(card => {
     card.addEventListener("mouseenter", () => pvPlay(card)); card.addEventListener("mouseleave", () => pvReset(card));
     card.querySelector(".si-play")?.addEventListener("click", () => pvPlay(card));
   });
+  if (!cards.length || REDUCED || !matchMedia("(hover: none)").matches || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const c = e.target; clearInterval(c._loop);
+    if (!c.isConnected) return io.unobserve(c);
+    if (e.isIntersecting) { pvPlay(c); c._loop = setInterval(() => { if (c.isConnected) pvPlay(c); else clearInterval(c._loop); }, 6500); } else pvReset(c);
+  }), {threshold: 0.6});
+  cards.forEach(c => io.observe(c));
 }
 const shopPreview = (id, d) => {
   if (d.kind === "mogg") return `<div class="pv-bat"><div class="o-win pv a"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div><div class="o-win pv b"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div></div><button class="si-play" type="button">▶ Смотреть</button>`;
@@ -3549,9 +3626,11 @@ async function renderShop() {
     shopPaint();
   } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
 }
+let svgSeq = 0;
+const svgUnique = svg => { const n = ++svgSeq; return svg.replace(/\bid="([\w-]+)"/g, (m, id) => `id="${id}-${n}"`).replace(/url\(#([\w-]+)\)/g, (m, id) => `url(#${id}-${n})`); };   // every copy gets its own ids
 // ---------- art of the "TikTok philosophy" case: drawn by hand as SVG after the reference pictures (Sisyphus, the beetle in the bed), nothing is copied ----------
 const sg = (d, w) => `<path d="${d}" stroke="#1a0d06" stroke-width="${w}"/><path d="${d}" stroke="#c07b3a" stroke-width="${(w * .32).toFixed(1)}" opacity=".7" transform="translate(-.9 -1)"/>`;   // a limb: dark, with a bronze highlight on top
-const SISY = `<span class="sisy" aria-hidden="true">
+const sisyScene = () => svgUnique(`<span class="sisy" aria-hidden="true">
   <svg class="sisy-land" viewBox="0 0 100 100" preserveAspectRatio="none"><defs><linearGradient id="sisyHill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5a31"/><stop offset="1" stop-color="#241408"/></linearGradient></defs>
     <polygon points="0,92 100,20 100,100 0,100" fill="url(#sisyHill)"/>
     <polygon points="0,97 28,86 40,100 0,100" fill="#b27a45" opacity=".5"/><polygon points="28,86 100,38 100,62 58,82 40,100" fill="#6d4423" opacity=".65"/><polygon points="58,82 100,62 100,100 66,100" fill="#33200f" opacity=".75"/><polygon points="40,74 100,26 100,36 54,70" fill="#c48a50" opacity=".35"/>
@@ -3570,12 +3649,12 @@ const SISY = `<span class="sisy" aria-hidden="true">
       <g class="sm-ar b">${sg("M48 39L53 49", 4.6)}<g class="sm-fo b">${sg("M53 49L62 57", 4.2)}</g></g>
       <g class="sm-ar a">${sg("M50 36L57 46", 5)}<g class="sm-fo a">${sg("M57 46L65 51", 4.6)}</g></g>
     </g></g>
-  </svg></span></span>`;
+  </svg></span></span>`);
 
 // the engraving: a huge dark beetle in an iron bed under a slanted attic ceiling, a nightstand, a picture on the wall, a window with a curtain
 const SAM_BARS = (x0, x1, yTop, yBot, len, step) => { let s = ""; for (let x = x0 + step; x < x1 - 4; x += step) s += `M${x} ${(yTop + (x - x0) * (yBot - yTop) / (x1 - x0)).toFixed(1)}v${len}`; return s; };
 const SAM_LEGS = [[185, 205, "M185 205L148 132L160 68"], [255, 188, "M258 190L306 150L352 80"], [120, 272, "M120 270L62 236L36 270"], [105, 288, "M105 286L48 284L28 322"], [226, 292, "M226 290L302 300L346 336"], [206, 304, "M206 302L270 352L262 408"]];   // [pivot x, pivot y, leg]
-const SAM_ART = `<svg class="sam-art" viewBox="0 0 416 480" preserveAspectRatio="xMidYMid slice"><defs>
+const samArt = () => svgUnique(`<svg class="sam-art" viewBox="0 0 416 480" preserveAspectRatio="xMidYMid slice"><defs>
   <pattern id="samV" width="3.4" height="9" patternUnits="userSpaceOnUse"><path d="M1.2 0V7" stroke="#161616" stroke-width="1"/></pattern>
   <pattern id="samD" width="4.2" height="4.2" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><path d="M0 0V4.2" stroke="#161616" stroke-width="1.15"/></pattern>
   <pattern id="samP" width="6" height="22" patternUnits="userSpaceOnUse"><path d="M3 0V22" stroke="#f3efe5" stroke-width=".8" opacity=".5"/></pattern></defs>
@@ -3602,8 +3681,8 @@ const SAM_ART = `<svg class="sam-art" viewBox="0 0 416 480" preserveAspectRatio=
   <g fill="none" stroke="#161616" stroke-linecap="round"><path d="M183 142L322 158M183 142V214M322 158V246M44 292L252 306M44 292V402M252 306V438" stroke-width="3.2"/><path d="${SAM_BARS(183, 322, 142, 158, 56, 14)}${SAM_BARS(44, 252, 292, 306, 70, 15)}" stroke-width="1.7"/></g>
   <g fill="#fbf9f3" stroke="#161616" stroke-width="2"><circle cx="183" cy="138" r="4.6"/><circle cx="322" cy="154" r="4.6"/><circle cx="44" cy="288" r="4.6"/><circle cx="252" cy="302" r="4.6"/></g>
   <polygon points="48,300 250,314 266,352 54,344" fill="#fbf9f3" stroke="#161616" stroke-width="2.2"/><path d="M256 332L352 372L318 412L250 384z" fill="#f4f0e6" stroke="#161616" stroke-width="2.2"/><path d="M262 350L330 380M268 366L318 392M280 378L306 396" stroke="#161616" stroke-width="1.2" opacity=".7"/>
-</svg>`;
-const FX_SAMSA = `<div class="fx-sam" aria-hidden="true">${SAM_ART}</div>`;
+</svg>`);
+const fxSamsa = () => `<div class="fx-sam" aria-hidden="true">${samArt()}</div>`;
 // ---------- cases: Рета buys one roll; the server picks the item (open_case in supabase.sql), the browser only plays the roulette ----------
 const CS = {tok: 0, cases: [], items: [], owned: new Map(), val: new Map(), eq: {}, reta: 0, admin: false, busy: false, stage: null};
 const CS_LEN = 40, CS_T = 32;   // like the rating roulette: the real tile sits on CS_T, the tiles next to it are decoys
@@ -3611,14 +3690,23 @@ const CS_CONFETTI = {common: 0, rare: 24, epic: 50, legendary: 90, mythic: 170};
 const csPct = x => String(Math.round(x * 10) / 10).replace(".", ",") + "%";
 const csItems = id => CS.items.filter(i => i.case_id === id && shopId(i.item_id)).sort((a, b) => a.weight - b.weight);
 
+const MOGG_MINI = {   // a picture for every win animation in the roulette (no ids inside, so copies never clash)
+  mogg_bolt: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M28 3L11 27h11l-4 18L37 19H26z" fill="#fde047" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/></svg>`,
+  mogg_glitch: `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="30" height="8" fill="#ff2d55"/><rect x="14" y="20" width="28" height="8" fill="#22d3ee"/><rect x="4" y="31" width="26" height="8" fill="#e8e8f4"/></svg>`,
+  mogg_fire: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3C26 14 38 18 38 31c0 9-6 15-14 15S10 40 10 31c0-6 3-10 6-13 0 5 2 7 4 8 0-9 1-17 4-23z" fill="#f97316" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/><path d="M24 26c3 4 7 6 7 11 0 4-3 7-7 7s-7-3-7-7c0-3 3-5 7-11z" fill="#fde047"/></svg>`,
+  mogg_crack: `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="5" width="38" height="38" rx="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/><path d="M24 24L14 9M24 24L38 12M24 24L40 30M24 24L22 42M24 24L8 34M14 9l4 6M38 12l-6 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`,
+  mogg_crown: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 38L8 12l11 11 5-16 5 16 11-11 3 26z" fill="#fbbf24" stroke="#a16207" stroke-width="2.2" stroke-linejoin="round"/><circle cx="24" cy="30" r="3.4" fill="#fff"/></svg>`,
+  mogg_meteor: `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M44 4L26 20" stroke="#fb923c" stroke-width="6" stroke-linecap="round" opacity=".6"/><circle cx="21" cy="27" r="14" fill="#fb923c" stroke="#b91c1c" stroke-width="2.4"/><circle cx="16" cy="22" r="4" fill="#fff7c2"/></svg>`,
+};
 function csMini(id) {   // a small picture of an item for a roulette tile
   const d = SHOP[id], cls = clsOf(id);
   if (d.kind === "frame") return `<span class="av ${cls}" aria-hidden="true">A</span>`;
   if (d.kind === "title") return `<small class="ttl ${cls}">${esc(d.name)}</small>`;
   if (d.kind === "nick") return `<span class="nick ${cls}">Ник</span>`;
   if (d.kind === "banner") return `<span class="pv-scene ${cls}">${sceneFx(id)}</span>`;
-  if (id === "mogg_samsa") return `<span class="cs-sam">${SAM_ART}</span>`;
-  return `<span class="cs-hiq">${APPLE}<b>70 IQ</b></span>`;   // an animation
+  if (id === "mogg_samsa") return `<span class="cs-sam">${samArt()}</span>`;
+  if (id === "mogg_holyiq") return `<span class="cs-hiq">${APPLE}<b>70 IQ</b></span>`;
+  return `<span class="cs-mg">${MOGG_MINI[id] ?? MOGG_MINI.mogg_bolt}</span>`;   // a small icon of a win animation
 }
 const csTile = id => { const r = rarOf(id) || "common"; return `<div class="cs-tile" data-r="${r}" style="--rc:${RARITY[r].c}">${csMini(id)}<b>${esc(SHOP[id].name)}</b><i>${RARITY[r].name}</i></div>`; };
 
@@ -4467,6 +4555,7 @@ function updateAccountUI() {
   av.querySelector("img")?.addEventListener("error", e => { e.target.remove(); av.textContent = [...u.name][0].toUpperCase(); }, {once: true});
   a.classList.toggle("in", !!u);
   a.querySelector(".acc-name").textContent = u ? u.name : "Войти";
+  a.setAttribute("aria-label", u ? "Профиль: " + u.name : "Войти");   // on phones only the avatar is shown
   const g = $("guest-note");
   g.hidden = !!u;
   g.innerHTML = u ? "" : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
@@ -4521,6 +4610,7 @@ function render() {
   const group = NAV_OF[name] ?? name, tabs = SUBTABS[group];
   document.querySelectorAll(".nav a").forEach(a => a.dataset.nav === group ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
   $("subtabs").hidden = !tabs; $("subtabs").innerHTML = tabs ? tabs.map(([p, t]) => `<a href="#/${p}"${p === name ? ' aria-current="page"' : ""}>${t}</a>`).join("") : "";
+  $("subtabs").querySelector("[aria-current]")?.scrollIntoView({inline: "center", block: "nearest"});   // the current tab is never hidden on a narrow screen
   $("account-link").removeAttribute("aria-current"); if (["profile", "login", "register"].includes(name)) $("account-link").setAttribute("aria-current", "page");
   document.title = TITLES[name];
   updateAccountUI();
