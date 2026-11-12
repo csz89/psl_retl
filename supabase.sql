@@ -256,7 +256,7 @@ on conflict (case_id, item_id) do update set weight = excluded.weight, refund = 
 
 -- кейс «ТикТок философия»: Сизиф, Штирнер, уроборос и «Превращение» Кафки
 insert into public.shop_items (id, kind, name, price, sort, case_only) values
-  ('title_sisyphus', 'title', 'Сизиф счастлив', 0, 20, true), ('title_stirner', 'title', 'Единственный', 0, 21, true), ('title_samsa', 'title', 'Проснулся жуком', 0, 22, true),
+  ('title_sisyphus', 'title', 'Нескончаемый', 0, 20, true), ('title_stirner', 'title', 'Нет', 0, 21, true), ('title_samsa', 'title', 'Бездарный', 0, 22, true),
   ('frame_uroboros', 'frame', 'Уроборос', 0, 20, true),
   ('nick_stirner', 'nick', 'Штирнер', 0, 20, true),
   ('banner_sisyphus', 'banner', 'Вечный подъём', 0, 20, true),
