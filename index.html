@@ -1315,6 +1315,24 @@
   .nick[class*="nick-"]{padding:.1em 0}
   .cs-mg{display:grid;place-items:center;width:100%;height:100%}.cs-mg svg{width:46px;height:46px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
 
+  /* ---------- opening several cases at once ---------- */
+  .cs-wins{width:100%;display:grid;gap:10px}
+  .cs-stage.multi .cs-win{--tw:104px}
+  .cs-stage.multi .cs-strip{padding:10px 0}
+  .cs-stage.multi .cs-tile{height:116px;padding-block:6px 8px;gap:2px}
+  .cs-stage.multi .cs-tile i{display:none}
+  .cs-stage.multi .cs-tile b{font-size:11px}
+  .cs-stage.multi .cs-tile .av{width:36px;height:36px;font-size:15px;margin:2px}
+  .cs-stage.multi .cs-tile .pv-scene{height:44px}
+  .cs-stage.multi .cs-sam{width:50px;height:50px}.cs-stage.multi .cs-mg svg{width:34px;height:34px}.cs-stage.multi .cs-hiq .apple{width:26px;height:28px}
+  .cs-result.many{width:min(960px,100%)}
+  .cs-prizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%}
+  .cs-prize{display:grid;gap:8px;justify-items:center;align-content:start;padding:12px;border-radius:16px;border:1px solid var(--rc);background:radial-gradient(circle at 50% 0,color-mix(in srgb,var(--rc) 22%,transparent),transparent 70%),#151522}
+  .cs-prize .cs-pv{min-height:120px}
+  .cs-prize h3{font-size:18px}
+  @media(max-width:700px){.cs-prizes{grid-template-columns:1fr}}
+  .cs-buy .btn.ghost[data-n]{padding:10px 16px}
+
   /* ---------- the TikTok philosophy case ---------- */
   .av.frame-uroboros::before{inset:-26%;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-6%20-6%20112%20112%22%20fill%3D%22none%22%3E%3Cstyle%3E%0A.fl1%7Banimation%3Afl1%201.1s%20linear%20infinite%7D.fl2%7Banimation%3Afl2%201.1s%20linear%20infinite%7D.fl3%7Banimation%3Afl1%201.1s%20linear%20infinite%7D%0A%40keyframes%20fl1%7Bfrom%7Bstroke-dashoffset%3A0%7Dto%7Bstroke-dashoffset%3A8.8%7D%7D%40keyframes%20fl2%7Bfrom%7Bstroke-dashoffset%3A2.2%7Dto%7Bstroke-dashoffset%3A11%7D%7D%0A.jaw%7Btransform-origin%3A44px%2017px%3Banimation%3Ajaw%20.5s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20jaw%7Bfrom%7Btransform%3Arotate%28-2deg%29%7Dto%7Btransform%3Arotate%2816deg%29%7D%7D%0A.hd%7Btransform-origin%3A40px%2014px%3Banimation%3Ahd%201s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20hd%7Bfrom%7Btransform%3Arotate%28-1.5deg%29%7Dto%7Btransform%3Arotate%282deg%29%7D%7D%0A.tg%7Btransform-origin%3A70px%2017px%3Banimation%3Atg%20.28s%20ease-in-out%20infinite%20alternate%7D%0A%40keyframes%20tg%7Bfrom%7Btransform%3Arotate%28-7deg%29%7Dto%7Btransform%3Arotate%289deg%29%7D%7D%0A.lump%7Btransform-origin%3A50px%2050px%3Banimation%3Alump%202.2s%20ease-in%20infinite%7D%0A%40keyframes%20lump%7B0%25%7Btransform%3Arotate%2895deg%29%3Bopacity%3A0%7D12%25%7Bopacity%3A1%7D86%25%7Btransform%3Arotate%28-56deg%29%3Bopacity%3A1%7D100%25%7Btransform%3Arotate%28-64deg%29%3Bopacity%3A0%7D%7D%0A%3C%2Fstyle%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%2212.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23efe9d8%22%20stroke-width%3D%229.6%22%2F%3E%0A%3Ccircle%20class%3D%22fl1%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2244%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%3Ccircle%20class%3D%22fl2%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%20stroke-dashoffset%3D%222.2%22%2F%3E%3Ccircle%20class%3D%22fl3%22%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2238%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2236.4%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20opacity%3D%22.85%22%2F%3E%0A%3Cg%20class%3D%22lump%22%3E%3Cellipse%20cx%3D%2291%22%20cy%3D%2250%22%20rx%3D%226.8%22%20ry%3D%225.6%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.6%22%2F%3E%3Cpath%20d%3D%22M88%2046Q91%2050%2088%2054M93%2046Q96%2050%2093%2054%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%2F%3E%3C%2Fg%3E%0A%3Cg%20class%3D%22hd%22%3E%0A%3Cpath%20d%3D%22M44%2014L70%2011L84%2017L82%2021L62%2022L46%2020Z%22%20fill%3D%22%23111%22%2F%3E%0A%3Cg%20class%3D%22jaw%22%3E%3Cpath%20d%3D%22M44%2017L60%2020L78%2021L86%2027L72%2031L52%2030L42%2024Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M62%2021L65%2027L68%2021ZM72%2022L74%2027L77%2022Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%0A%3Cpath%20class%3D%22tg%22%20d%3D%22M70%2020L86%2021L94%2016M86%2021L94%2025%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M24%2020L32%207L46%20-1L64%20-3L80%203L88%2012L82%2015L74%2011L58%2012L40%2018Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M40%204L50%20-1M52%208L60%203M62%207L70%203%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%20opacity%3D%22.7%22%2F%3E%0A%3Cpath%20d%3D%22M50%200L62%206L60%209L49%205Z%22%20fill%3D%22%23111%22%2F%3E%3Cpath%20d%3D%22M45%20-2L64%205%22%20stroke%3D%22%23111%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%226%22%20r%3D%221.1%22%20fill%3D%22%23f3efe5%22%2F%3E%0A%3Cpath%20d%3D%22M66%2012L70%2012L68%2020ZM76%2012L79%2012L78%2018Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2282%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23111%22%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;-webkit-mask:none;mask:none;animation:rkSpin 7s linear infinite}   /* the whole snake runs around the ring (the head chases its tail), and inside the picture the scales flow into the mouth and the jaws chew */
   [data-motion=off] .av.frame-uroboros::before,[data-motion=off] .cs-ring{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-6%20-6%20112%20112%22%20fill%3D%22none%22%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%2212.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23efe9d8%22%20stroke-width%3D%229.6%22%2F%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2244%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%20stroke-dashoffset%3D%222.2%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2238%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.4%22%20stroke-dasharray%3D%224.4%204.4%22%2F%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2236.4%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20opacity%3D%22.85%22%2F%3E%0A%0A%3Cg%3E%0A%3Cpath%20d%3D%22M44%2014L70%2011L84%2017L82%2021L62%2022L46%2020Z%22%20fill%3D%22%23111%22%2F%3E%0A%3Cg%20transform%3D%22rotate%2810%2044%2017%29%22%3E%3Cpath%20d%3D%22M44%2017L60%2020L78%2021L86%2027L72%2031L52%2030L42%2024Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.3%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M62%2021L65%2027L68%2021ZM72%2022L74%2027L77%2022Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%0A%3Cpath%20d%3D%22M70%2020L86%2021L94%2016M86%2021L94%2025%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M24%2020L32%207L46%20-1L64%20-3L80%203L88%2012L82%2015L74%2011L58%2012L40%2018Z%22%20fill%3D%22%23efe9d8%22%20stroke%3D%22%23111%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Cpath%20d%3D%22M40%204L50%20-1M52%208L60%203M62%207L70%203%22%20stroke%3D%22%23111%22%20stroke-width%3D%221%22%20opacity%3D%22.7%22%2F%3E%0A%3Cpath%20d%3D%22M50%200L62%206L60%209L49%205Z%22%20fill%3D%22%23111%22%2F%3E%3Cpath%20d%3D%22M45%20-2L64%205%22%20stroke%3D%22%23111%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%226%22%20r%3D%221.1%22%20fill%3D%22%23f3efe5%22%2F%3E%0A%3Cpath%20d%3D%22M66%2012L70%2012L68%2020ZM76%2012L79%2012L78%2018Z%22%20fill%3D%22%23fff%22%20stroke%3D%22%23111%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2282%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23111%22%2F%3E%0A%3C%2Fg%3E%3C%2Fsvg%3E")}
@@ -3281,6 +3299,7 @@ const Online = {
   cases: () => Online.call(sb => sb.from("cases").select("id,name,price").order("sort", {ascending: true})),
   caseItems: () => Online.call(sb => sb.from("case_items").select("case_id,item_id,weight,refund")),
   openCase: id => Online.call(sb => sb.rpc("open_case", {p_case: id})),
+  openCases: (id, n) => Online.call(sb => sb.rpc("open_cases", {p_case: id, p_n: n})),
   purchases: () => Online.call(sb => sb.from("purchases").select("item_id,qty")),
   sell: (id, n) => Online.call(sb => sb.rpc("sell_item", {p_item: id, p_qty: n})),
   upgrade: (inputs, target) => Online.call(sb => sb.rpc("upgrade_item", {p_inputs: inputs, p_target: target})),
@@ -4118,37 +4137,62 @@ function csReveal(stage, r, c) {
   });
   box.querySelector(".btn").focus();
 }
-async function csOpen(caseId) {
+function csRevealMany(stage, rs, c, n) {   // the prizes of several openings side by side
+  const box = stage.querySelector(".cs-result"), afford = CS.admin || CS.reta >= c.price * n;
+  box.classList.add("many");
+  box.innerHTML = `<div class="cs-prizes">${rs.map(r => {
+    const id = r.item, d = SHOP[id], rar = rarOf(id) || "common", worn = cosId(CS.eq, d.kind) === id;
+    return `<div class="cs-prize" data-r="${rar}" style="--rc:${RARITY[rar].c}"><p class="cs-rar">${RARITY[rar].name}</p><div class="cs-pv" data-kind="${d.kind}" data-id="${id}">${shopPreview(id, d)}</div><h3>${esc(d.name)}</h3>
+      <p class="cs-note ${r.dup ? "dup" : "new"}">${r.dup ? `Повтор, теперь ×${r.qty}` : "Новый предмет"}</p>${worn ? "" : `<button class="btn primary" data-do="wear" data-id="${id}" type="button">Надеть</button>`}</div>`;
+  }).join("")}</div>
+    <div class="cs-acts"><button class="btn ghost" data-do="again" type="button" ${afford ? "" : "disabled"}>Ещё ×${n}${CS.admin ? "" : " · " + c.price * n}</button><button class="btn ghost" data-do="close" type="button">Закрыть</button><a class="btn ghost" href="#/inventory">Инвентарь</a></div>
+    <small class="err" id="cs-serr" role="alert"></small>`;
+  box.hidden = false; stage.classList.add("done");
+  wireMogg(box); box.querySelectorAll(".cs-pv[data-kind=mogg]").forEach(pvPlay);
+  const top = rs.map(r => rarOf(r.item) || "common").sort((a, b) => Object.keys(RARITY).indexOf(b) - Object.keys(RARITY).indexOf(a))[0], q = box.getBoundingClientRect(), k = CS_CONFETTI[top];
+  stage.style.setProperty("--rc", RARITY[top].c); stage.dataset.r = top;
+  if (k) fxConfetti(q.left + q.width / 2, q.top + 30, {count: k, spread: 260 + k, colors: [RARITY[top].c, "#ffffff", RARITY[top].c, "#fde68a"]});
+  box.addEventListener("click", async e => {
+    const b = e.target.closest("[data-do]"); if (!b) return;
+    if (b.dataset.do === "close") return csClose();
+    if (b.dataset.do === "again") { csClose(); return csOpen(c.id, n); }
+    const id = b.dataset.id; b.disabled = true;
+    try { CS.eq = await Online.equip(SHOP[id].kind, id); Online.eq = CS.eq; updateAccountUI(); b.remove(); }
+    catch (ex) { const m = $("cs-serr"); if (m) m.textContent = onlineMsg(ex); b.disabled = false; }
+  });
+  box.querySelector(".btn").focus();
+}
+async function csOpen(caseId, n = 1) {   // n = 1..3 openings at once: they are paid together and their roulettes spin side by side
   if (CS.busy) return;
   const c = CS.cases.find(x => x.id === caseId), its = csItems(caseId); if (!c || !its.length) return;
   CS.busy = true;
   const say = t => { const e = $("cs-err"); if (e) e.textContent = t; };
-  say(""); let r;
-  try { r = await Online.openCase(caseId); } catch (ex) { CS.busy = false; say(onlineMsg(ex)); return; }
-  if (!its.some(i => i.item_id === r?.item)) { CS.busy = false; say("Кейс открыт, но сайт не знает такой предмет. Обновите страницу."); return; }
-  if (!CS.admin) { CS.reta = r.reta; retaSet(r.reta); }
-  CS.owned.set(r.item, r.qty ?? (CS.owned.get(r.item) ?? 0) + 1);
-  const rar = rarOf(r.item) || "common", stage = document.createElement("div");
-  stage.className = "cs-stage"; stage.dataset.r = rar; stage.style.setProperty("--rc", RARITY[rar].c);
+  say(""); let rs;
+  try { rs = n > 1 ? await Online.openCases(caseId, n) : [await Online.openCase(caseId)]; } catch (ex) { CS.busy = false; say(onlineMsg(ex)); return; }
+  if (!Array.isArray(rs) || rs.length !== n || !rs.every(r => its.some(i => i.item_id === r?.item))) { CS.busy = false; say("Кейс открыт, но сайт не знает такой предмет. Обновите страницу."); return; }
+  if (!CS.admin) { CS.reta = rs[n - 1].reta; retaSet(CS.reta); }
+  for (const r of rs) CS.owned.set(r.item, r.qty ?? (CS.owned.get(r.item) ?? 0) + 1);
+  const order = Object.keys(RARITY), rar = rs.map(r => rarOf(r.item) || "common").sort((a, b) => order.indexOf(b) - order.indexOf(a))[0], stage = document.createElement("div");
+  stage.className = "cs-stage" + (n > 1 ? " multi" : ""); stage.dataset.r = rar; stage.style.setProperty("--rc", RARITY[rar].c);
   stage.setAttribute("role", "dialog"); stage.setAttribute("aria-modal", "true"); stage.setAttribute("aria-label", `Открытие кейса «${c.name}»`);
-  stage.innerHTML = `<div class="cs-box"><p class="cs-title">${esc(c.name)}</p>
-    <div class="cs-win"><div class="cs-strip">${csReel(its, r.item).map(csTile).join("")}</div><i class="cs-ptr"></i></div>
+  stage.innerHTML = `<div class="cs-box"><p class="cs-title">${esc(c.name)}${n > 1 ? ` ×${n}` : ""}</p>
+    <div class="cs-wins">${rs.map(r => `<div class="cs-win"><div class="cs-strip">${csReel(its, r.item).map(csTile).join("")}</div><i class="cs-ptr"></i></div>`).join("")}</div>
     <button class="reel-skip cs-skip" type="button">Пропустить</button><div class="cs-result" hidden></div></div>`;
   document.body.append(stage); CS.stage = stage;
-  stage._key = e => { if (e.key === "Escape") { if (stage.classList.contains("done")) csClose(); else stage.querySelector(".cs-win").click(); } };
+  stage._key = e => { if (e.key === "Escape") { if (stage.classList.contains("done")) csClose(); else stage.querySelectorAll(".cs-win").forEach(w => w.click()); } };
   document.addEventListener("keydown", stage._key);
   stage.addEventListener("click", e => { if (e.target === stage && stage.classList.contains("done")) csClose(); });
-  const win = stage.querySelector(".cs-win"), strip = stage.querySelector(".cs-strip"), skip = stage.querySelector(".cs-skip");
+  const wins = [...stage.querySelectorAll(".cs-win")], strips = [...stage.querySelectorAll(".cs-strip")], skip = stage.querySelector(".cs-skip");
   skip.focus();
-  const animated = await spinReel(win, strip, CS_T, skip);
+  const played = await Promise.all(wins.map((win, k) => spinReel(win, strips[k], CS_T, skip)));
   if (CS.stage !== stage) return;
-  if (!animated) {   // animations are off: the strip simply shows the prize
-    strip.style.transform = `translateX(${win.clientWidth / 2 - (CS_T + 0.5) * strip.children[0].offsetWidth}px)`;
-    strip.children[CS_T].classList.add("win"); win.classList.add("landed");
-  }
+  if (!played[0]) wins.forEach((win, k) => {   // animations are off: the strips simply show the prizes
+    strips[k].style.transform = `translateX(${win.clientWidth / 2 - (CS_T + 0.5) * strips[k].children[0].offsetWidth}px)`;
+    strips[k].children[CS_T].classList.add("win"); win.classList.add("landed");
+  });
   skip.hidden = true;
-  if (animated) await sleep(550);
-  if (CS.stage === stage) csReveal(stage, r, c);
+  if (played[0]) await sleep(550);
+  if (CS.stage === stage) n > 1 ? csRevealMany(stage, rs, c, n) : csReveal(stage, rs[0], c);
 }
 addEventListener("hashchange", csClose);   // leaving the page closes the window
 
@@ -4169,12 +4213,12 @@ function csCard(it, total) {
     <footer><span class="chance"><b>${csPct(it.weight / total * 100)}</b> шанс</span><small class="need">стоит ${CS.val.get(id) ?? 0} Реты</small></footer></article>`;
 }
 function csSection(c) {
-  const its = csItems(c.id), total = its.reduce((s, i) => s + i.weight, 0), can = CS.admin || CS.reta >= c.price, top = its[0];
+  const its = csItems(c.id), total = its.reduce((s, i) => s + i.weight, 0), can = CS.admin || CS.reta >= c.price, can3 = CS.admin || CS.reta >= c.price * 3, top = its[0];
   return `<section class="cs-case" data-case="${esc(c.id)}">
     <div class="card cs-hero"><div class="cs-art ${(CASE_ART[c.id] ?? CASE_ART.holy_iq)[0]}" aria-hidden="true">${(CASE_ART[c.id] ?? CASE_ART.holy_iq)[1]()}<b>${esc(c.name)}</b></div>
       <div class="cs-info"><h2>${esc(c.name)}</h2>
         <p class="why">Внутри ${its.length} ${plural(its.length, ["предмет", "предмета", "предметов"])}: от обычных до мифических${top ? ` (шанс самого редкого ${csPct(top.weight / total * 100)})` : ""}. Предмет выбирает сервер. Повторы не пропадают: они лежат в инвентаре, их можно продать или улучшить.</p>
-        <div class="cs-buy"><span class="price">${retaIcon("xs2")}<b>${CS.admin ? "∞" : c.price}</b></span><button class="btn primary" data-open="${esc(c.id)}" type="button" ${can ? "" : "disabled"}>Открыть кейс</button></div>
+        <div class="cs-buy"><span class="price">${retaIcon("xs2")}<b>${CS.admin ? "∞" : c.price}</b></span><button class="btn primary" data-open="${esc(c.id)}" type="button" ${can ? "" : "disabled"}>Открыть кейс</button><button class="btn ghost" data-open="${esc(c.id)}" data-n="3" type="button" ${can3 ? "" : "disabled"}>Открыть ×3${CS.admin ? "" : " · " + c.price * 3}</button></div>
         ${can ? "" : `<small class="need">Не хватает ${c.price - CS.reta} Реты. Её дают за победы в онлайн-боях и <a href="#/bonus">за задания</a>.</small>`}</div></div>
     <h3 class="cs-sub">Что внутри</h3><div class="sh-grid">${its.map(i => csCard(i, total)).join("")}</div></section>`;
 }
@@ -4186,7 +4230,7 @@ function csPaint() {
     <p class="err" id="cs-err" role="alert"></p>${CS.cases.map(csSection).join("") || `<p class="why">Кейсов пока нет.</p>`}`;
   fxMark(v, ".cs-hero, .si");
   wireMogg(v);
-  v.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => csOpen(b.dataset.open)));
+  v.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => csOpen(b.dataset.open, +b.dataset.n || 1)));
 }
 async function renderCases() {
   const v = $("view-cases"), tok = ++olTok; CS.tok++; olAgain = renderCases; onlineFileHook = null;

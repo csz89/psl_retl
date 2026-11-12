@@ -851,6 +851,16 @@ begin
   return jsonb_build_object('case', p_case, 'item', v_pick.item_id, 'dup', v_dup, 'refund', v_refund, 'qty', v_qty, 'reta', v_me.reta);
 end $$;
 
+-- открыть кейс сразу несколько раз (до 3): каждый раз обычный open_case, всё в одной транзакции, так что либо хватает Реты на все, либо не списывается ничего
+create or replace function public.open_cases(p_case text, p_n integer)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v_out jsonb := '[]'::jsonb; i integer;
+begin
+  if p_n is null or p_n < 1 or p_n > 3 then raise exception 'bad_amount'; end if;
+  for i in 1..p_n loop v_out := v_out || jsonb_build_array(open_case(p_case)); end loop;
+  return v_out;
+end $$;
+
 -- продать копии предмета из инвентаря за половину стоимости; последняя копия снимается с игрока
 create or replace function public.sell_item(p_item text, p_qty integer default 1)
 returns jsonb language plpgsql security definer set search_path = public as $$
@@ -1021,8 +1031,8 @@ revoke all on function public._finish_match(uuid, text, text), public._settle_ma
 revoke all on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) from public, anon, authenticated;
 grant execute on function public.create_order(uuid, text, text, text), public.credit_order(uuid, text, text, integer, text) to service_role;
 revoke all on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.open_cases(text, integer), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() from public, anon;
 grant execute on function public.join_ladder(text), public.queue_join(text), public.queue_leave(), public.match_state(),
-  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
+  public.match_photo(uuid, text), public.match_rate(uuid, numeric), public.match_leave(uuid), public.report_opponent(uuid), public.leave_ladder(), public.set_avatar(text), public.my_profile(), public.buy_item(text), public.open_case(text), public.open_cases(text, integer), public.sell_item(text, integer), public.upgrade_item(jsonb, text), public.equip_item(text, text), public.my_quests(), public.claim_quest(text), public.daily_claim(), public.spend_credit(text),
   public.admin_search(text), public.admin_player(uuid), public.admin_grant(uuid, integer, integer, integer), public.admin_item(uuid, text, boolean), public.admin_recent() to authenticated;
