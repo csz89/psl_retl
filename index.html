@@ -1414,15 +1414,39 @@
   .up-mid .btn{min-width:200px}
   .up-hint{margin:0;min-height:1.4em}
   @media(max-width:1000px){.up-grid{grid-template-columns:1fr}.up-mid{position:static;order:-1}.up-list{max-height:none;grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}}
-  /* the menu got longer: on wide screens it sits in its own row under the logo and the balance, like on phones */
-  @media(min-width:1000px){.top{flex-wrap:wrap}.nav{order:3;width:100%;margin:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a{padding:8px 14px}}
+
+  /* ---------- simpler pages: a short menu, a bar of sub-pages, folded rarely used blocks ---------- */
+  .subtabs{display:flex;gap:4px;padding:4px;margin:0 auto 20px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+  .subtabs::-webkit-scrollbar{display:none}
+  .subtabs[hidden]{display:none}
+  .subtabs a{padding:9px 18px;border-radius:10px;color:var(--dim);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:color .15s,background .15s}
+  .subtabs a:hover{color:var(--txt)}
+  .subtabs a[aria-current=page]{background:var(--grad);color:var(--on-accent);box-shadow:0 6px 20px -8px color-mix(in srgb,var(--accent) 90%,transparent)}
+  .subtabs a:focus-visible{outline:2px solid var(--strong);outline-offset:2px}
+  .guest-note[hidden]{display:none}
+  .reta::after,.wal:not(.gift)::after{font-size:11px;font-weight:600;color:var(--dim)}
+  #reta-pill::after{content:"Рета"}#rate-pill::after{content:"рейты"}#game-pill::after{content:"игры"}
+  @media(max-width:1179px){.reta::after,.wal::after{display:none}}
+  .o-steps{margin:0 0 6px;padding-left:20px;display:grid;gap:5px;color:var(--soft);font-size:14px}
+  .o-steps li::marker{color:var(--accent);font-weight:800}
+  details.fold.card{padding:0}
+  details.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px;font-size:18px;font-weight:700;color:var(--strong);border-radius:inherit}
+  details.fold>summary::-webkit-details-marker{display:none}
+  details.fold>summary::after{content:"";flex:none;width:8px;height:8px;margin-right:4px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);transform:rotate(45deg);transition:transform .2s}
+  details.fold[open]>summary::after{transform:rotate(-135deg)}
+  details.fold>summary:focus-visible{outline:2px solid var(--strong);outline-offset:-2px}
+  details.fold>:not(summary){margin:0 24px 22px}
+  .fold-note{margin-top:14px}
+  .fold-note>summary{cursor:pointer;color:var(--soft);font-size:13px;font-weight:600;padding:6px 0}
+  .fold-note>summary:hover{color:var(--txt)}
+  @media(max-width:520px){.nav a{padding:8px 9px;font-size:13.5px}.subtabs a{padding:9px 14px}}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/cases" data-nav="cases">Кейсы</a><a href="#/inventory" data-nav="inventory">Инвентарь</a><a href="#/upgrade" data-nav="upgrade">Апгрейд</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/admin" data-nav="admin" id="nav-admin" hidden>Админ</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/admin" data-nav="admin" id="nav-admin" hidden>Админ</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
     <div class="wallet" id="wallet" hidden><a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a><a class="wal" id="rate-pill" href="#/donate"></a><a class="wal" id="game-pill" href="#/donate"></a><a class="wal gift" id="gift-pill" href="#/bonus" hidden aria-label="Ежедневный бонус готов"></a></div>
@@ -1433,6 +1457,7 @@
   </div>
 </header>
 <main id="main">
+  <nav id="subtabs" class="subtabs" aria-label="Подразделы" hidden></nav>
 
   <section id="view-home" class="view home">
     <div class="hp">
@@ -1554,15 +1579,15 @@
       </div>
       <p class="privacy">Фото обрабатывается в вашем браузере и никуда не отправляется.</p>
     </div>
-    <p class="hint">Фото можно перетащить в любое место страницы или вставить через <kbd>Ctrl</kbd>+<kbd>V</kbd>. Выберите пол человека на фото: у моделей для мужчин и женщин разные эталоны.</p>
-    <p id="guest-note" class="guest-note"></p>
+    <p class="hint">Перетащите фото в любое место страницы или вставьте его через <kbd>Ctrl</kbd>+<kbd>V</kbd>.</p>
+    <p id="guest-note" class="guest-note" hidden></p>
     <section id="mode-rate"><div id="slot-rate"></div></section>
   <section id="mode-battle" hidden>
     <div class="duel"><div id="slot-a"></div><div id="slot-b"></div></div>
     <div id="verdict"></div>
   </section>
   
-    <p class="note">Оценку считает модель, обученная на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков; набор выпущен для научных целей, проверьте его условия перед публичным использованием). PSL здесь это 4 + отклонение предсказанного балла от среднего в стандартных отклонениях; шкала и проценты следуют из модели нормального распределения, а не из замеров. Это вкус группы оценщиков, а не объективная истина и не показатель вашей ценности. Крайние значения шкалы растянуты (за пределами ±0,9 σ в 1,3 раза), потому что регрессия сжимает крайности к середине. Результат по одному лицу колеблется примерно на ±0,5 PSL, а при сравнении двух фото разница меньше ±0,7 может быть случайной. Подуровни LLTN…HHTN делят LTN, MTN и HTN на трети по 0,17 PSL, это тоньше погрешности модели, поэтому соседние подуровни почти неразличимы.</p>
+    <details class="fold-note"><summary>Как считается оценка и насколько ей можно верить</summary><p class="note">Оценку считает модель, обученная на открытом наборе SCUT-FBP5500 (5 500 лиц, 60 оценщиков; набор выпущен для научных целей, проверьте его условия перед публичным использованием). PSL здесь это 4 + отклонение предсказанного балла от среднего в стандартных отклонениях; шкала и проценты следуют из модели нормального распределения, а не из замеров. Это вкус группы оценщиков, а не объективная истина и не показатель вашей ценности. Крайние значения шкалы растянуты (за пределами ±0,9 σ в 1,3 раза), потому что регрессия сжимает крайности к середине. Результат по одному лицу колеблется примерно на ±0,5 PSL, а при сравнении двух фото разница меньше ±0,7 может быть случайной. Подуровни LLTN…HHTN делят LTN, MTN и HTN на трети по 0,17 PSL, это тоньше погрешности модели, поэтому соседние подуровни почти неразличимы.</p></details>
   </section>
 
   <section id="view-auth" class="view" hidden></section>
@@ -3092,15 +3117,13 @@ function renderOnlineMain(v, me, top, hist, st) {
   v.innerHTML = `
     <div class="card o-card ${cosCls(me.equipped, "banner")}" id="o-head">${olHead(me)}</div>
     <div class="card o-arena" id="o-arena"></div>
-    <div class="o-cols">
-      <div class="card"><h2>Рейтинг лиц</h2><div id="o-ladder">${olLadder(top, me)}</div></div>
-      <div class="card"><h2>Ранги</h2><div id="o-ranks">${olRanks(rankOf(me.points))}</div></div>
-    </div>
+    <div class="card"><h2>Рейтинг лиц</h2><div id="o-ladder">${olLadder(top, me)}</div></div>
     <div class="card"><h2>Последние бои</h2><div id="o-hist">${olHist(hist)}</div></div>
-    <div class="card o-me"><h2>Ник и профиль</h2>
+    <details class="card fold"><summary>Ранги и очки</summary><div id="o-ranks">${olRanks(rankOf(me.points))}</div></details>
+    <details class="card o-me fold"><summary>Ник и профиль</summary>
       <form id="o-nick" class="o-nick"><label class="field"><span>Ник</span><input name="nick" maxlength="30" value="${esc(me.name)}" required></label><button class="btn ghost" type="submit">Сменить</button></form>
       <p class="err" id="o-nick-err" role="alert"></p>
-      <button class="btn danger" id="o-leave" type="button">Удалить мой профиль</button></div>`;
+      <button class="btn danger" id="o-leave" type="button">Удалить мой профиль</button></details>`;
   $("o-nick").addEventListener("submit", async e => {
     e.preventDefault(); const nick = e.target.elements.nick.value.trim(), err = $("o-nick-err"); err.textContent = "";
     if (nick.length < 2) { err.textContent = ONLINE_ERRORS.bad_name; return; }
@@ -3158,9 +3181,9 @@ function arenaIdle(note = "") {
   const box = $("o-arena"); Arena.phase = "idle"; Arena.tok++; Arena.mine = null; onlineFileHook = null; Cam.stop();
   const consent = Store.get("psl-online-consent", false);
   box.innerHTML = `<h2>Арена</h2>
-    <p class="why">Бой 1 на 1. Вам подбирают игрока вашего ранга и пола, у каждого своё окно: включается камера, вы делаете снимок своего лица (фото из файлов не принимаются), жмёте «Определить рейт», и побеждает тот, у кого рейт выше (даже на 0,1). Победа +${WIN_PTS} очков, поражение −${LOSS_PTS}. Рекрут никогда не встретит Титана.</p>
+    <ol class="o-steps"><li>Нажмите «Найти соперника»: подберём игрока вашего ранга и пола.</li><li>Сделайте снимок лица на камеру, затем «Определить рейт».</li><li>У кого рейт выше, тот победил: +100 очков, за поражение −50.</li></ol>
     <fieldset class="o-sex"><legend>Я</legend><label><input type="radio" name="osex" value="m" ${Arena.sex === "m" ? "checked" : ""}><span>Мужчина</span></label><label><input type="radio" name="osex" value="f" ${Arena.sex === "f" ? "checked" : ""}><span>Женщина</span></label></fieldset>
-    <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Я согласен, что в бою включится камера, а соперник увидит маленький снимок моего лица. Видео не записывается и не отправляется, снимок удаляется с сервера через 5 минут после боя.</span></label>
+    <label class="check"><input type="checkbox" id="o-consent" ${consent ? "checked" : ""}><span>Согласен: в бою включится камера, а соперник увидит маленький снимок моего лица. Видео не записывается, снимок удаляется через 5 минут.</span></label>
     <p class="why">Бой стоит 1 игру. У вас ${Online.profile?.is_admin ? "∞ игр" : `${Online.profile?.games ?? "?"} ${plural(Online.profile?.games ?? 0, ["игра", "игры", "игр"])}`}: <a href="#/bonus">бесплатные</a> и <a href="#/donate">платные</a> можно получить на сайте.</p>
     ${note ? `<p class="err" role="alert">${esc(note)}</p>` : ""}
     <button class="btn primary o-go" id="o-find" type="button" ${consent ? "" : "disabled"}>Найти соперника</button>`;
@@ -4445,12 +4468,18 @@ function updateAccountUI() {
   a.classList.toggle("in", !!u);
   a.querySelector(".acc-name").textContent = u ? u.name : "Войти";
   const g = $("guest-note");
-  g.innerHTML = u ? `Вы вошли как <b>${esc(u.name)}</b>: каждая оценка сохраняется в истории профиля.` : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
+  g.hidden = !!u;
+  g.innerHTML = u ? "" : `Вы гость: результаты не сохраняются. <a href="#/register">Создайте аккаунт</a>, чтобы вести историю оценок.`;
 }
 function renderTerms() {   // the seller details come from config.js (seller), so the owner fills them in without touching the page
   const s = window.PSL_CONFIG?.seller ?? {}, row = (label, v) => `<li><b>${label}:</b> ${v ? esc(v) : "<em>не указано (заполните seller в config.js)</em>"}</li>`;
   $("terms-seller").innerHTML = `<ul class="terms-list">${row("Продавец", s.name)}${row("Регистрационные данные (ЄДРПОУ / ІПН)", s.taxId)}${row("Адрес", s.address)}${row("Почта для вопросов и возвратов", s.email || window.PSL_CONFIG?.contactEmail)}${row("Телефон", s.phone)}${row("Сайт", location.origin)}</ul>`;
 }
+const NAV_OF = {cases: "shop", inventory: "shop", upgrade: "shop", donate: "bonus"};   // which menu item a page belongs to
+const SUBTABS = {   // pages that share a bar of tabs under the menu
+  shop: [["shop", "Магазин"], ["cases", "Кейсы"], ["inventory", "Инвентарь"], ["upgrade", "Апгрейд"]],
+  bonus: [["bonus", "Бонусы и задания"], ["donate", "Пополнить баланс"]],
+};
 const GATED = ["app", "online", "shop", "cases", "inventory", "upgrade", "profile", "bonus", "donate", "admin"];   // pages that need an account
 const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", cases: "view-cases", inventory: "view-inventory", upgrade: "view-upgrade", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", admin: "view-admin", privacy: "view-privacy"};
 const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", cases: "Кейсы", inventory: "Инвентарь", upgrade: "Апгрейдер", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", admin: "Админ-панель", privacy: "Конфиденциальность"};
@@ -4489,7 +4518,9 @@ function render() {
   if (name === "privacy") { const c = window.PSL_CONFIG?.contactEmail; $("privacy-contact").innerHTML = c ? `<p>Вопросы по данным: <a href="mailto:${esc(c)}">${esc(c)}</a>.</p>` : ""; }
   if (name === "app") setMode(params.get("mode") === "battle" ? "battle" : mode);
   else document.querySelector("main").classList.remove("wide");
-  document.querySelectorAll(".nav a").forEach(a => a.dataset.nav === name ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  const group = NAV_OF[name] ?? name, tabs = SUBTABS[group];
+  document.querySelectorAll(".nav a").forEach(a => a.dataset.nav === group ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  $("subtabs").hidden = !tabs; $("subtabs").innerHTML = tabs ? tabs.map(([p, t]) => `<a href="#/${p}"${p === name ? ' aria-current="page"' : ""}>${t}</a>`).join("") : "";
   $("account-link").removeAttribute("aria-current"); if (["profile", "login", "register"].includes(name)) $("account-link").setAttribute("aria-current", "page");
   document.title = TITLES[name];
   updateAccountUI();
