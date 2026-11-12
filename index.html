@@ -1199,13 +1199,119 @@
 
   .admin>*{animation:none}
   .admin .staff-cols,.admin .staff-card{animation:none}
+
+  /* ---------- cases: rarity ---------- */
+  [data-r=common]{--rc:#9ca3af}[data-r=rare]{--rc:#38bdf8}[data-r=epic]{--rc:#a855f7}[data-r=legendary]{--rc:#fbbf24}[data-r=mythic]{--rc:#f43f5e}
+  .si[data-r]:not([data-r=""]){border-color:color-mix(in srgb,var(--rc) 42%,var(--line));box-shadow:inset 0 -3px 0 var(--rc)}
+  .si[data-r=legendary],.si[data-r=mythic]{box-shadow:inset 0 -3px 0 var(--rc),0 0 26px -12px var(--rc)}
+  .si[data-r=mythic]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#f43f5e,#fbbf24,#f43f5e);background-size:200% 100%;animation:gradDrift 2.4s linear infinite alternate}
+  .si-tag.rar{color:var(--rc);border-color:color-mix(in srgb,var(--rc) 70%,transparent)}
+  .si .cs-only{font-size:12px;font-weight:700;color:var(--dim)}
+
+  /* ---------- items from the Holy IQ case ---------- */
+  .av.frame-bw::before{background:repeating-conic-gradient(#fff 0 22.5deg,#000 0 45deg);animation:rkSpin 5s linear infinite;box-shadow:0 0 0 1px rgba(128,128,128,.5)}
+  .ttl.title-larp{color:#38bdf8;border-color:#38bdf8}
+  .ttl.title-net{color:#38bdf8;border-color:#38bdf8;letter-spacing:.2em}
+  .ttl.title-foid{color:#fff;border-color:#a855f7;background:linear-gradient(90deg,#7e22ce,#be123c);text-shadow:0 0 8px rgba(0,0,0,.5);box-shadow:0 0 12px -2px #a855f7}
+  .nick.nick-black{color:#fff;text-shadow:0 0 2px #000,0 0 7px #000,0 0 16px #000,0 0 30px #000;filter:drop-shadow(0 0 9px rgba(255,255,255,.55));animation:nickBlack 2.2s ease-in-out infinite alternate}
+  @keyframes nickBlack{from{text-shadow:0 0 2px #000,0 0 6px #000,0 0 12px #000,0 0 20px #000}to{text-shadow:0 0 3px #000,0 0 10px #000,0 0 22px #000,0 0 40px #000}}
+  [data-tone=light] .nick.nick-black{color:#0a0a0f;filter:none;text-shadow:0 0 4px #000,0 0 12px rgba(0,0,0,.8),0 0 24px rgba(0,0,0,.55)}
+  .scene-apples{background:radial-gradient(ellipse at 50% 20%,#52101f,#1b0710 62%,#0b0409)!important}
+  .o-card[class*="scene-"]>.apples{position:absolute}
+  .pv-scene>span:not(.apples){position:relative}
+  .o-card[class*="scene-"]>:not(.apples){z-index:1}
+
+  /* the apples: each one runs along an ellipse (x and y swing with the same period, a quarter apart) */
+  .apples,.fx-apples{position:absolute;left:0;right:0;pointer-events:none;container-type:size;--T:8s;--ax:41cqw;--ay:33cqh}
+  .apples{top:0;bottom:0;z-index:0}
+  .fx-apples{top:0;height:38%;--T:1.4s;--ax:29cqw;--ay:30cqh}
+  .ap{position:absolute;left:50%;top:50%;width:0;height:0;animation:apX var(--T) cubic-bezier(.37,0,.63,1) infinite alternate;animation-delay:calc(var(--i) * var(--T) * -2 / var(--n))}
+  .ap b{position:absolute;display:block;--sz:clamp(22px,17cqh,46px);width:var(--sz);height:var(--sz);margin:calc(var(--sz) / -2) 0 0 calc(var(--sz) / -2);animation:apY var(--T) cubic-bezier(.37,0,.63,1) infinite alternate;animation-delay:calc(var(--i) * var(--T) * -2 / var(--n) - var(--T) / 2)}
+  .fx-apples .ap b{--sz:clamp(13px,24cqh,40px)}
+  .apple{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));animation:rkSpin 4.5s linear infinite}
+  .ap:nth-child(even) .apple{animation-direction:reverse}
+  @keyframes apX{from{transform:translateX(calc(var(--ax) * -1))}to{transform:translateX(var(--ax))}}
+  @keyframes apY{from{transform:translateY(calc(var(--ay) * -1))}to{transform:translateY(var(--ay))}}
+  [data-motion=off] .ap{animation:none;transform:rotate(calc(var(--i) * 360deg / var(--n))) translateX(calc(var(--ax) * .8))}
+  [data-motion=off] .ap b,[data-motion=off] .apple{animation:none}
+  @media(prefers-reduced-motion:reduce){.ap{animation:none;transform:rotate(calc(var(--i) * 360deg / var(--n))) translateX(calc(var(--ax) * .8))}.ap b,.apple{animation:none}}
+
+  /* the Holy IQ win animation: apples and a growing IQ over the winner, a flash drive on the loser */
+  .fx-iq{position:absolute;inset:0;container-type:size;pointer-events:none;z-index:3}
+  .fx-iqn{position:absolute;left:50%;top:36%;font-size:15cqw;line-height:1;font-weight:900;white-space:nowrap;color:#fde68a;text-shadow:0 0 12px #f59e0b,0 2px 0 #92400e,0 3px 9px rgba(0,0,0,.7);transform:translateX(-50%);animation:iqPulse .45s ease-in-out infinite alternate,fade .35s backwards}
+  .fx-iqn span{font-variant-numeric:tabular-nums}
+  @keyframes iqPulse{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.09)}}
+  .fx-usb{position:absolute;left:50%;bottom:7%;width:62%;transform:translateX(-50%) rotate(-10deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.6));animation:usbDrop .9s .3s cubic-bezier(.3,1.5,.5,1) backwards}
+  @keyframes usbDrop{from{transform:translate(-50%,-330%) rotate(55deg) scale(.5);opacity:0}30%{opacity:1}to{transform:translateX(-50%) rotate(-10deg)}}
+  [data-fx=mogg_holyiq] .o-stamp{color:#fde68a;border-color:#fde68a;text-shadow:0 0 14px #f59e0b}
+
+  /* ---------- the cases page ---------- */
+  .cs-case{display:grid;gap:14px;margin-bottom:26px}
+  .cs-hero{display:grid;grid-template-columns:210px 1fr;gap:24px;align-items:center}
+  .cs-art{position:relative;aspect-ratio:1;border-radius:22px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 36%,#6b1226,#1b0710 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #f43f5e}
+  .cs-art .apples{--ax:38cqw;--ay:34cqh}
+  .cs-big{position:relative;width:42%;filter:drop-shadow(0 0 18px rgba(244,63,94,.8));animation:csFloat 3s ease-in-out infinite alternate}
+  .cs-big .apple{animation:none}
+  .cs-art>b{position:absolute;left:0;right:0;bottom:10%;text-align:center;font-size:20px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#fde68a;text-shadow:0 0 12px #f59e0b}
+  @keyframes csFloat{from{transform:translateY(-4%)}to{transform:translateY(5%)}}
+  .cs-info{display:grid;gap:10px;align-content:center}
+  .cs-info h2{margin:0;font-size:clamp(26px,4vw,36px);color:var(--strong);letter-spacing:-.02em}
+  .cs-info .why{margin:0;max-width:60ch}
+  .cs-buy{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .cs-buy .price{display:inline-flex;align-items:center;gap:6px;font-size:24px;font-weight:800;color:var(--strong);font-variant-numeric:tabular-nums}
+  .cs-sub{margin:6px 0 0;font-size:20px;color:var(--strong)}
+  .si .chance{color:var(--soft);font-size:13px}.si .chance b{color:var(--rc,var(--strong));font-size:16px}
+  .shop-head .sh-ico .apple{width:54px;height:58px;animation:none}
+  @media(max-width:700px){.cs-hero{grid-template-columns:1fr;justify-items:center;text-align:center}.cs-art{width:min(230px,70%)}.cs-buy{justify-content:center}}
+
+  /* ---------- the opening window ---------- */
+  .cs-stage{position:fixed;inset:0;z-index:90;display:grid;align-items:center;justify-items:center;padding:16px;overflow:auto;background:rgba(5,4,10,.88);backdrop-filter:blur(7px);animation:fade .25s ease}
+  .cs-stage.done{background:radial-gradient(circle at 50% 55%,color-mix(in srgb,var(--rc) 26%,#05040a),rgba(5,4,10,.94) 70%)}
+  .cs-stage[data-r=mythic].done{animation:csBoom .9s ease-out}
+  @keyframes csBoom{0%{filter:brightness(2.4)}100%{filter:none}}
+  .cs-box{width:min(940px,100%);display:grid;gap:14px;justify-items:center;color:#e8e8f4}
+  .cs-title{margin:0;text-align:center;font-size:13px;font-weight:800;letter-spacing:.42em;text-transform:uppercase;color:#a1a1b5}
+  .cs-win{--tw:136px;position:relative;width:100%;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,#0c0c16,#14141f);border:1px solid #2b2b40;box-shadow:0 30px 70px -30px #000;cursor:pointer}
+  .cs-win::before,.cs-win::after{content:"";position:absolute;top:0;bottom:0;width:22%;z-index:2;pointer-events:none}
+  .cs-win::before{left:0;background:linear-gradient(90deg,#0b0b14,transparent)}
+  .cs-win::after{right:0;background:linear-gradient(270deg,#0b0b14,transparent)}
+  .cs-strip{display:flex;padding:22px 0;will-change:transform}
+  .cs-tile{flex:none;box-sizing:border-box;width:var(--tw);height:158px;padding:0 5px;border-inline:5px solid transparent;background:linear-gradient(180deg,#191927,color-mix(in srgb,var(--rc) 26%,#191927)) padding-box;display:grid;grid-template-rows:1fr auto auto;justify-items:center;align-items:center;gap:3px;padding-block:10px 12px;border-radius:12px;box-shadow:inset 0 -4px 0 var(--rc);transition:transform .15s,filter .15s;text-align:center}
+  .cs-tile b{font-size:13px;line-height:1.15;color:#f4f4f8;max-width:100%;overflow-wrap:anywhere}
+  .cs-tile i{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rc)}
+  .cs-tile .av{display:grid;width:46px;height:46px;font-size:18px;margin:6px}
+  .cs-tile .pv-scene{width:100%;height:62px;border-radius:9px;position:relative}
+  .cs-tile .nick{font-size:20px;font-weight:800}
+  .cs-tile .ttl{margin:0}
+  .cs-hiq{display:grid;justify-items:center;gap:2px}.cs-hiq .apple{width:34px;height:36px;animation:none}.cs-hiq b{font-size:12px;color:#fde68a}
+  .cs-tile.hot{filter:brightness(1.3);transform:translateY(-3px)}
+  .cs-tile.win{filter:brightness(1.35);animation:csTileWin .9s ease-out}
+  @keyframes csTileWin{0%{box-shadow:inset 0 -4px 0 var(--rc),0 0 0 0 var(--rc)}60%{box-shadow:inset 0 -4px 0 var(--rc),0 0 38px 8px var(--rc)}100%{box-shadow:inset 0 -4px 0 var(--rc),0 0 18px 2px var(--rc)}}
+  .cs-ptr{position:absolute;left:50%;top:0;bottom:0;width:0;margin-left:-1px;z-index:3;border-left:2px solid #fde68a;box-shadow:0 0 14px #f59e0b}
+  .cs-ptr::before,.cs-ptr::after{content:"";position:absolute;left:-9px;border:9px solid transparent}
+  .cs-ptr::before{top:0;border-top-color:#fde68a}
+  .cs-ptr::after{bottom:0;border-bottom-color:#fde68a}
+  .cs-win.landed .cs-ptr{border-color:var(--rc);animation:ptr .7s ease-out}
+  .cs-skip{color:#a1a1b5}.cs-skip:hover{color:#fff}
+  .cs-result{width:min(420px,100%);display:grid;justify-items:center;gap:10px;text-align:center;padding:20px 18px;border-radius:22px;border:1px solid var(--rc);background:radial-gradient(circle at 50% 0,color-mix(in srgb,var(--rc) 28%,transparent),transparent 70%),#10101b;box-shadow:0 0 50px -14px var(--rc);animation:csPop .55s cubic-bezier(.2,1.4,.4,1)}
+  .cs-result[hidden]{display:none}
+  .cs-result h3{margin:0;font-size:24px;color:#fff}
+  .cs-result .why{margin:0;color:#b4b4c6}
+  .cs-rar{margin:0;font-size:12px;font-weight:900;letter-spacing:.3em;text-transform:uppercase;color:var(--rc);text-shadow:0 0 12px var(--rc)}
+  .cs-pv{position:relative;width:100%;min-height:150px;border-radius:14px;background:#1a1a29;display:grid;place-items:center;padding:10px;overflow:hidden}
+  .cs-pv .pv-nick,.cs-pv .pv-scene span{color:#fff}
+  .cs-note{margin:0;font-weight:700;font-size:14px}.cs-note.new{color:#4ade80}.cs-note.dup{color:#fde68a}
+  .cs-acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .cs-result .btn{padding:10px 18px;border-radius:12px}
+  @keyframes csPop{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:none}}
+  @media(max-width:560px){.cs-win{--tw:112px}.cs-tile{height:140px}}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="brand" href="#/" aria-label="PSL Rater, на главную"><span class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M15.5 10.5h.01M9 15c1 .9 2 1.3 3 1.3s2-.4 3-1.3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/></svg></span><span class="brand-text"><b>PSL Rater</b><small>Sub3 → True Adam</small></span></a>
   <nav class="nav" aria-label="Разделы сайта">
-    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/admin" data-nav="admin" id="nav-admin" hidden>Админ</a><a href="#/tiers" data-nav="tiers">Рейты</a>
+    <a href="#/" data-nav="home">Главная</a><a href="#/app" data-nav="app">Оценить</a><a href="#/online" data-nav="online">Онлайн</a><a href="#/shop" data-nav="shop">Магазин</a><a href="#/cases" data-nav="cases">Кейсы</a><a href="#/bonus" data-nav="bonus">Бонусы</a><a href="#/donate" data-nav="donate">Донат</a><a href="#/admin" data-nav="admin" id="nav-admin" hidden>Админ</a><a href="#/tiers" data-nav="tiers">Рейты</a>
   </nav>
   <div class="top-actions">
     <div class="wallet" id="wallet" hidden><a class="reta" id="reta-pill" href="#/shop" hidden aria-label="Баланс Реты, открыть магазин" title="Рета: открыть магазин"></a><a class="wal" id="rate-pill" href="#/donate"></a><a class="wal" id="game-pill" href="#/donate"></a><a class="wal gift" id="gift-pill" href="#/bonus" hidden aria-label="Ежедневный бонус готов"></a></div>
@@ -1352,6 +1458,7 @@
   <section id="view-profile" class="view" hidden></section>
   <section id="view-online" class="view online" hidden></section>
   <section id="view-shop" class="view shop" hidden></section>
+  <section id="view-cases" class="view shop cases" hidden></section>
   <section id="view-bonus" class="view bonus" hidden></section>
   <section id="view-donate" class="view bonus" hidden></section>
   <section id="view-gate" class="view online" hidden></section>
@@ -1384,7 +1491,7 @@
 </main>
 <footer class="site-foot">
   <span>PSL Rater: развлекательный инструмент. Оценка отражает вкус группы оценщиков и не является мерилом ценности человека.</span>
-  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/bonus">Бонусы</a><a href="#/donate">Донат</a><a href="#/terms">Условия покупки</a><a href="#/privacy">Конфиденциальность</a></nav>
+  <nav aria-label="Нижняя навигация"><a href="#/">Главная</a><a href="#/tiers">Рейты</a><a href="#/app">Оценить</a><a href="#/online">Онлайн</a><a href="#/shop">Магазин</a><a href="#/cases">Кейсы</a><a href="#/bonus">Бонусы</a><a href="#/donate">Донат</a><a href="#/terms">Условия покупки</a><a href="#/privacy">Конфиденциальность</a></nav>
 </footer>
 <dialog id="settings" aria-labelledby="settings-title">
   <form method="dialog" class="set">
@@ -1783,18 +1890,13 @@ function reelPos(plan, t) {   // tile index under the pointer at time t (ms); ti
   return from;
 }
 
-function runReel(card) {
+// the spin itself, shared by the rating roulette and the case roulette: resolves once the pointer sits on tile T (false = animations are off, nothing was played)
+function spinReel(win, strip, T, skip, onPlan) {
   return new Promise(done => {
-    const win = card.querySelector(".reel-win"), strip = card.querySelector(".reel-strip"), tiles = [...strip.children];
-    const T = REEL_T;
-    const land = () => {
-      card.style.setProperty("--c", card.dataset.c);   // the card takes the real tier's colour only now
-      tiles[T].classList.add("win"); win.classList.add("landed");
-      setTimeout(() => { card.classList.remove("spinning"); done(); }, 650);
-    };
-    if (REDUCED) { card.style.setProperty("--c", card.dataset.c); card.classList.remove("spinning"); return done(); }
+    const tiles = [...strip.children];
+    if (REDUCED) return done(false);
     const plan = reelPlan(T, 0.2 + Math.random() * 0.6, window.__reelScenario);   // __reelScenario: test switch
-    card.dataset.scenario = plan.name;
+    onPlan?.(plan.name);
     const place = (u, v = 0) => {   // fast motion leans and blurs the strip a little
       strip.style.transform = `translateX(${win.clientWidth / 2 - (u + 0.5) * tiles[0].offsetWidth}px) skewX(${Math.max(-7, Math.min(7, -v * 0.28)).toFixed(2)}deg)`;
       strip.style.filter = v > 7 ? `blur(${Math.min(2.4, (v - 7) * 0.09).toFixed(2)}px)` : "";
@@ -1804,7 +1906,7 @@ function runReel(card) {
       const k = Math.abs(u - Math.round(u)) < 0.34 ? Math.round(u) : -1;
       if (k !== hot) { tiles[hot]?.classList.remove("hot"); tiles[k]?.classList.add("hot"); hot = k; }
     };
-    const end = () => { if (ended) return; ended = true; cancelAnimationFrame(raf); place(T); strip.style.filter = ""; setHot(T); land(); };
+    const end = () => { if (ended) return; ended = true; cancelAnimationFrame(raf); place(T); strip.style.filter = ""; setHot(T); tiles[T].classList.add("win"); win.classList.add("landed"); done(true); };
     const t0 = performance.now();
     const frame = now => {
       const t = now - t0;
@@ -1814,10 +1916,16 @@ function runReel(card) {
       lastU = u; lastT = t;
       raf = requestAnimationFrame(frame);
     };
-    card.querySelector(".reel-skip").addEventListener("click", end);
+    skip?.addEventListener("click", end);
     win.addEventListener("click", end);
     place(plan.u0); raf = requestAnimationFrame(frame);
   });
+}
+async function runReel(card) {
+  const animated = await spinReel(card.querySelector(".reel-win"), card.querySelector(".reel-strip"), REEL_T, card.querySelector(".reel-skip"), name => card.dataset.scenario = name);
+  card.style.setProperty("--c", card.dataset.c);   // the card takes the real tier's colour only now
+  if (animated) await sleep(650);
+  card.classList.remove("spinning");
 }
 
 // ---------- the ideal face: what the model compares you with ----------
@@ -2668,7 +2776,7 @@ class OnlineError extends Error {}
 const ONLINE_ERRORS = {   // codes raised by supabase.sql
   not_signed_in: "Войдите в аккаунт, чтобы играть онлайн.", not_joined: "Сначала поставьте ник.", too_fast: "Слишком часто. Подождите немного.",
   bad_name: "Ник: от 2 до 30 символов.", bad_psl: "Некорректный рейт.", bad_sex: "Выберите пол.", bad_photo: "Не удалось отправить фото. Попробуйте другое.",
-  not_owned: "Сначала купите этот предмет.", owned: "Это уже куплено.", poor: "Не хватает Реты.", no_item: "Такого предмета нет.", bad_slot: "Неизвестная ячейка.",
+  not_owned: "Сначала купите этот предмет.", owned: "Это уже куплено.", poor: "Не хватает Реты.", no_item: "Такого предмета нет.", bad_slot: "Неизвестная ячейка.", case_only: "Этот предмет выпадает только из кейса.", no_case: "Такого кейса нет.",
   no_photo: "Сначала поставьте своё лицо.", already_rated: "Рейт уже определён.", no_match: "Бой не найден: возможно, он уже закончился.",
 };
 const Online = {
@@ -2722,7 +2830,10 @@ const Online = {
   ladder: () => Online.call(sb => sb.from("players").select("id,name,picture,points,wins,losses,draws,equipped").or("wins.gt.0,losses.gt.0,draws.gt.0").order("points", {ascending: false}).order("wins", {ascending: false}).limit(20)),
   history: () => Online.call(sb => sb.from("battles").select("*").order("at", {ascending: false}).limit(10)),
   leave: () => Online.call(sb => sb.rpc("leave_ladder")),
-  shopItems: () => Online.call(sb => sb.from("shop_items").select("id,kind,name,price").order("sort", {ascending: true})),
+  shopItems: () => Online.call(sb => sb.from("shop_items").select("id,kind,name,price,case_only").order("sort", {ascending: true})),
+  cases: () => Online.call(sb => sb.from("cases").select("id,name,price").order("sort", {ascending: true})),
+  caseItems: () => Online.call(sb => sb.from("case_items").select("case_id,item_id,weight,refund")),
+  openCase: id => Online.call(sb => sb.rpc("open_case", {p_case: id})),
   purchases: () => Online.call(sb => sb.from("purchases").select("item_id")),
   buy: id => Online.call(sb => sb.rpc("buy_item", {p_item: id})),
   equip: (slot, id) => Online.call(sb => sb.rpc("equip_item", {p_slot: slot, p_item: id})),
@@ -2832,7 +2943,7 @@ function renderOnlineJoin(v) {
 function olHead(me, fromPts = me.points) {   // fromPts: where the number and the bar start, so they can run up to the new value
   const rk = rankOf(me.points), last = rk === RANKS.length - 1, into = last ? 1 : (me.points % RANK_PTS) / RANK_PTS,
     r0 = rankOf(fromPts), from = r0 === rk ? (last ? 1 : (fromPts % RANK_PTS) / RANK_PTS) : r0 < rk ? 0 : 1, need = (rk + 1) * RANK_PTS - me.points, wins = Math.ceil(need / WIN_PTS);
-  return `<div class="o-hero">${emblem(rk, "emb live")}
+  return `${sceneFx(cosId(me.equipped, "banner"))}<div class="o-hero">${emblem(rk, "emb live")}
       <div class="o-who"><div class="o-name"><span class="av ${avCls(me.equipped)}" aria-hidden="true">${avatarHTML({name: me.name, picture: me.picture})}</span><h1>${nickHTML(me.name, me.equipped)}</h1></div><p class="o-rank" style="--c:${RANKS[rk][1]}">${RANKS[rk][0]}</p></div>
       <div class="o-pts"><b data-from="${fromPts}" data-to="${me.points}">${fromPts}</b><span>очков</span><a class="o-reta" href="#/shop" title="Магазин">${retaIcon("xs2")}<b>${me.is_admin ? "∞" : me.reta ?? 0}</b> Реты</a></div></div>
     <div class="o-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${RANK_PTS}" aria-valuenow="${last ? RANK_PTS : me.points % RANK_PTS}" aria-label="Прогресс до следующего ранга"><i data-to="${Math.round(into * 100)}" style="width:${Math.round(from * 100)}%;--c:${RANKS[rk][1]}"></i></div>
@@ -3115,6 +3226,9 @@ const SHOP_KINDS = [
   ["nick", "Стили ника", "Цвет и эффект ника."],
   ["banner", "Фоны профиля", "Фон твоей карточки на странице «Онлайн»."],
 ];
+// rarity of the items that drop from cases (shop items have none); the chances live on the server, in case_items
+const RARITY = {common: {name: "Обычная", c: "#9ca3af"}, rare: {name: "Редкая", c: "#38bdf8"}, epic: {name: "Эпическая", c: "#a855f7"}, legendary: {name: "Легендарная", c: "#fbbf24"}, mythic: {name: "Мифическая", c: "#f43f5e"}};
+const rarOf = id => { const r = SHOP[id]?.r; return Object.hasOwn(RARITY, r) ? r : ""; };
 const SHOP = {
   mogg_bolt: {kind: "mogg", name: "Молния", desc: "Разряды бьют по лицу соперника."},
   mogg_glitch: {kind: "mogg", name: "Глитч", desc: "Лицо соперника рассыпается помехами."},
@@ -3136,6 +3250,14 @@ const SHOP = {
   banner_aurora: {kind: "banner", name: "Аврора", desc: "Живое северное сияние на фоне."},
   banner_matrix: {kind: "banner", name: "Матрица", desc: "Падающие зелёные символы."},
   banner_sunset: {kind: "banner", name: "Закат", desc: "Тёплый переливающийся закат."},
+  // only from the Holy IQ case
+  frame_bw: {kind: "frame", r: "common", name: "Чёрно-белая рамка", desc: "Чёрно-белое кольцо, которое медленно вращается."},
+  title_larp: {kind: "title", r: "rare", name: "Ларп", desc: "Звание для тех, кто играет роль."},
+  title_net: {kind: "title", r: "rare", name: "Нет", desc: "Одно слово, которое говорит всё."},
+  title_foid: {kind: "title", r: "epic", name: "Foid Slayer", desc: "Самое редкое звание из кейса Holy IQ."},
+  nick_black: {kind: "nick", r: "epic", name: "Чёрное свечение", desc: "Вокруг ника пульсирует чёрное свечение."},
+  banner_apples: {kind: "banner", r: "legendary", name: "Девять яблок", desc: "Девять яблок кружат на фоне профиля."},
+  mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, его IQ взлетает, а у соперника появляется флешка с 70 IQ."},
 };
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
 const eqOf = e => e && typeof e === "object" && !Array.isArray(e) ? e : {};
@@ -3143,7 +3265,7 @@ const cosId = (e, kind) => { const id = shopId(eqOf(e)[kind]); return id && SHOP
 const clsOf = id => id.replace(/^banner_/, "scene_").replace("_", "-");   // class names stay away from words that ad blockers hide (ad, banner)
 const cosCls = (e, kind) => clsOf(cosId(e, kind));
 const avCls = e => cosCls(e, "frame");
-const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(name)}</span>${cosId(e, "title") ? `<small class="ttl">${esc(SHOP[cosId(e, "title")].name)}</small>` : ""}`;
+const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(name)}</span>${cosId(e, "title") ? `<small class="ttl ${clsOf(cosId(e, "title"))}">${esc(SHOP[cosId(e, "title")].name)}</small>` : ""}`;
 
 // ---------- the balance in the header ----------
 function retaSet(n) {
@@ -3167,6 +3289,12 @@ const FX_CRACK = `<svg class="fx-crack" viewBox="0 0 100 100" preserveAspectRati
 const FX_FIRE = `<div class="fx-fire" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><b></b><b></b><b></b><b></b><b></b><b></b></div>`;
 const FX_CROWN = `<svg class="fx-crown" viewBox="0 0 64 44" aria-hidden="true"><path d="M5 38L8 9L22 22L32 4L42 22L56 9L59 38Z" fill="url(#rkM4)" stroke="#a16207" stroke-width="1.6" stroke-linejoin="round"/><circle cx="32" cy="14" r="3.4" fill="url(#rkG5)" stroke="#fff" stroke-width=".8"/><circle cx="9" cy="10" r="2.2" fill="#fde68a"/><circle cx="55" cy="10" r="2.2" fill="#fde68a"/><path d="M8 38H56" stroke="#a16207" stroke-width="2.4"/></svg><i class="fx-spark s1"></i><i class="fx-spark s2"></i><i class="fx-spark s3"></i><i class="fx-spark s4"></i>`;
 const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx-flash late"></i>`;
+const APPLE = `<svg class="apple" viewBox="0 0 48 52" aria-hidden="true"><path d="M24 15C17 8 4 12 4 28c0 12 8 23 15 23 3 0 3.4-1.6 5-1.6s2 1.6 5 1.6c7 0 15-11 15-23C44 12 31 8 24 15Z" fill="#dc2626"/><path d="M24 15C31 8 44 12 44 28c0 12-8 23-15 23-3 0-2-1.6-5-1.6Z" fill="#b91c1c"/><path d="M24 15c-.2-5 1-9 4.5-12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><path d="M26 10c3-5.5 10-6 13-3.4-2.2 5.4-9 6.6-13 3.4Z" fill="#22c55e"/><ellipse cx="13" cy="26" rx="3" ry="7" fill="#fff" opacity=".42" transform="rotate(14 13 26)"/></svg>`;
+const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i}"><b>${APPLE}</b></i>`).join("")}</span>`;
+const sceneFx = id => id === "banner_apples" ? apples(9, "apples") : "";   // the extra elements a background needs
+const FX_USB = `<svg class="fx-usb" viewBox="0 0 120 64" aria-hidden="true"><rect x="1" y="17" width="36" height="30" rx="3" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/><rect x="9" y="25" width="7" height="6" fill="#334155"/><rect x="9" y="35" width="7" height="6" fill="#334155"/><rect x="34" y="6" width="84" height="52" rx="13" fill="#1e3a8a" stroke="#0f172a" stroke-width="2"/><rect x="40" y="11" width="72" height="9" rx="4.5" fill="#fff" opacity=".18"/><circle cx="105" cy="32" r="4.4" fill="#0f172a"/><text x="70" y="41" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="21" font-weight="800" fill="#fff">70 IQ</text></svg>`;
+const FX_HIQ_WIN = `<div class="fx-iq" aria-hidden="true">${apples(6, "fx-apples")}<b class="fx-iqn">IQ <span>100</span></b></div>`;
+const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true">${FX_USB}</div>`;
 function playMogg(id, won, lost) {   // returns a function that undoes it (the shop previews loop)
   id = shopId(id);
   const lf = lost.querySelector(".o-face"), wf = won.querySelector(".o-face");
@@ -3181,6 +3309,7 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_glitch") put(lf, `<i class="fx-scan"></i><i class="fx-rgb"></i>`);
     if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
     if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
+    if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) fxCount(n, 100, 999, 2400); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
 }
@@ -3197,23 +3326,29 @@ function pvPlay(card) {
   const [a, b] = card.querySelectorAll(".o-win.pv"); if (!a || !b) return;
   requestAnimationFrame(() => { a.classList.add("won"); b.classList.add("lost"); card._stop = playMogg(card.dataset.id, a, b); card._t = setTimeout(() => pvReset(card), 3800); });
 }
+function wireMogg(root) {   // a mogg preview plays on hover or on the play button
+  root.querySelectorAll("[data-kind=mogg]").forEach(card => {
+    card.addEventListener("mouseenter", () => pvPlay(card)); card.addEventListener("mouseleave", () => pvReset(card));
+    card.querySelector(".si-play")?.addEventListener("click", () => pvPlay(card));
+  });
+}
 const shopPreview = (id, d) => {
   if (d.kind === "mogg") return `<div class="pv-bat"><div class="o-win pv a"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div><div class="o-win pv b"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div></div><button class="si-play" type="button">▶ Смотреть</button>`;
   const cls = clsOf(id), me = Accounts.current()?.name ?? "Игрок";
   if (d.kind === "frame") return `<span class="av pvav ${cls}" aria-hidden="true">${esc([...me][0].toUpperCase())}</span>`;
   if (d.kind === "title") return `<div class="pv-nick">${nickHTML(me, {title: id})}</div>`;
   if (d.kind === "nick") return `<div class="pv-nick">${nickHTML(me, {nick: id})}</div>`;
-  return `<div class="pv-scene ${cls}"><span>${esc(me)}</span></div>`;
+  return `<div class="pv-scene ${cls}">${sceneFx(id)}<span>${esc(me)}</span></div>`;
 };
 function shopCard(it) {
-  const d = SHOP[it.id], owned = SH.owned.has(it.id), worn = cosId(SH.eq, it.kind) === it.id, can = SH.reta >= it.price;
-  const act = worn ? `<button class="btn ghost" data-act="off" type="button">Снять</button>` : owned ? `<button class="btn primary" data-act="on" type="button">Надеть</button>` : `<button class="btn primary" data-act="buy" type="button" ${can ? "" : "disabled"}>Купить</button>`;
-  return `<article class="si ${owned ? "owned" : ""} ${worn ? "worn" : ""}" data-id="${it.id}" data-kind="${it.kind}">
+  const d = SHOP[it.id], owned = SH.owned.has(it.id), worn = cosId(SH.eq, it.kind) === it.id, can = SH.reta >= it.price, lock = it.case_only && !owned, r = rarOf(it.id);
+  const act = worn ? `<button class="btn ghost" data-act="off" type="button">Снять</button>` : owned ? `<button class="btn primary" data-act="on" type="button">Надеть</button>` : lock ? `<a class="btn ghost" href="#/cases">К кейсу</a>` : `<button class="btn primary" data-act="buy" type="button" ${can ? "" : "disabled"}>Купить</button>`;
+  return `<article class="si ${owned ? "owned" : ""} ${worn ? "worn" : ""}" data-id="${it.id}" data-kind="${it.kind}" data-r="${r}">
     <div class="si-pv">${shopPreview(it.id, d)}</div>
-    <h3>${esc(d.name)}${worn ? `<em class="si-tag on">надето</em>` : owned ? `<em class="si-tag">куплено</em>` : ""}</h3>
+    <h3>${esc(d.name)}${r ? `<em class="si-tag rar">${RARITY[r].name}</em>` : ""}${worn ? `<em class="si-tag on">надето</em>` : owned ? `<em class="si-tag">${it.case_only ? "есть" : "куплено"}</em>` : ""}</h3>
     <p>${esc(d.desc)}</p>
-    <footer><span class="price">${retaIcon("xs2")}<b>${it.price}</b></span>${act}</footer>
-    ${!owned && !can ? `<small class="need">Не хватает ${it.price - SH.reta} Реты</small>` : ""}</article>`;
+    <footer>${it.case_only ? `<span class="price cs-only">Только из кейса</span>` : `<span class="price">${retaIcon("xs2")}<b>${it.price}</b></span>`}${act}</footer>
+    ${!owned && !can && !lock ? `<small class="need">Не хватает ${it.price - SH.reta} Реты</small>` : ""}</article>`;
 }
 function shopPaint() {
   const v = $("view-shop");
@@ -3226,10 +3361,7 @@ function shopPaint() {
       <div class="sh-bal"><b>${SH.reta >= 1e9 ? "∞" : SH.reta}</b><span>Реты</span><a class="btn ghost" href="#/online">В бой</a></div></div>
     <p class="err" id="sh-err" role="alert"></p>${groups || `<p class="why">Каталог пока пуст.</p>`}`;
   fxMark(v, ".sh-sec, .si");
-  v.querySelectorAll(".si[data-kind=mogg]").forEach(card => {
-    card.addEventListener("mouseenter", () => pvPlay(card)); card.addEventListener("mouseleave", () => pvReset(card));
-    card.querySelector(".si-play")?.addEventListener("click", () => pvPlay(card));
-  });
+  wireMogg(v);
   v.querySelectorAll(".si button[data-act]").forEach(b => b.addEventListener("click", () => shopAct(b)));
 }
 async function shopAct(btn) {
@@ -3260,6 +3392,143 @@ async function renderShop() {
     SH.items = items.filter(i => shopId(i.id) && SHOP[i.id].kind === i.kind); SH.owned = new Set(mine.map(p => p.item_id)); SH.eq = eqOf(me.equipped); SH.reta = me.is_admin ? 1e9 : me.reta ?? 0;
     shopPaint();
   } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Магазин</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderShop); } }
+}
+// ---------- cases: Рета buys one roll; the server picks the item (open_case in supabase.sql), the browser only plays the roulette ----------
+const CS = {tok: 0, cases: [], items: [], owned: new Set(), eq: {}, reta: 0, admin: false, busy: false, stage: null};
+const CS_LEN = 40, CS_T = 32;   // like the rating roulette: the real tile sits on CS_T, the tiles next to it are decoys
+const CS_CONFETTI = {common: 0, rare: 24, epic: 50, legendary: 90, mythic: 170};
+const csPct = x => String(Math.round(x * 10) / 10).replace(".", ",") + "%";
+const csItems = id => CS.items.filter(i => i.case_id === id && shopId(i.item_id)).sort((a, b) => a.weight - b.weight);
+
+function csMini(id) {   // a small picture of an item for a roulette tile
+  const d = SHOP[id], cls = clsOf(id);
+  if (d.kind === "frame") return `<span class="av ${cls}" aria-hidden="true">A</span>`;
+  if (d.kind === "title") return `<small class="ttl ${cls}">${esc(d.name)}</small>`;
+  if (d.kind === "nick") return `<span class="nick ${cls}">Ник</span>`;
+  if (d.kind === "banner") return `<span class="pv-scene ${cls}">${sceneFx(id)}</span>`;
+  return `<span class="cs-hiq">${APPLE}<b>70 IQ</b></span>`;   // an animation
+}
+const csTile = id => { const r = rarOf(id) || "common"; return `<div class="cs-tile" data-r="${r}" style="--rc:${RARITY[r].c}">${csMini(id)}<b>${esc(SHOP[id].name)}</b><i>${RARITY[r].name}</i></div>`; };
+
+function csReel(its, real) {   // item ids of all tiles; the real one is on CS_T, the tiles beside it are rare ones, so the pointer seems to hesitate between prizes
+  const others = its.filter(i => i.item_id !== real);
+  if (!others.length) return Array(CS_LEN).fill(real);
+  const total = its.reduce((s, i) => s + i.weight, 0), rare = others.reduce((s, i) => s + 1 / i.weight, 0);
+  const rnd = () => { let x = Math.random() * total; return (its.find(i => (x -= i.weight) < 0) ?? its[0]).item_id; };
+  const rnd1 = () => { let x = Math.random() * rare; return (others.find(i => (x -= 1 / i.weight) < 0) ?? others[0]).item_id; };
+  const tiles = [];
+  for (let k = 0; k < CS_LEN; k++) { let id = rnd(); for (let n = 0; k && id === tiles[k - 1] && n < 9; n++) id = rnd(); tiles.push(id); }
+  tiles[CS_T] = real; tiles[CS_T - 1] = rnd1(); tiles[CS_T + 1] = rnd1();
+  for (const k of [CS_T - 3, CS_T - 2, CS_T + 3, CS_T + 2]) {   // the real item stays unique around the target, and no two neighbours are alike
+    const toward = k < CS_T ? k + 1 : k - 1;
+    for (let n = 0; n < 9 && (tiles[k] === real || tiles[k] === tiles[toward]); n++) tiles[k] = rnd();
+  }
+  return tiles;
+}
+
+// ---------- the opening window: roulette, then the prize ----------
+function csClose() {
+  const s = CS.stage; if (!s) return;
+  CS.stage = null; CS.busy = false; document.removeEventListener("keydown", s._key); s.remove();
+  const v = $("view-cases");
+  if (v && !v.hidden && CS.cases.length) { csPaint(); v.querySelector("[data-open]")?.focus(); }
+}
+function csReveal(stage, r, c) {
+  const id = r.item, d = SHOP[id], rar = rarOf(id) || "common", box = stage.querySelector(".cs-result"), worn = cosId(CS.eq, d.kind) === id, afford = CS.admin || CS.reta >= c.price;
+  box.innerHTML = `<p class="cs-rar">${RARITY[rar].name}</p>
+    <div class="cs-pv" data-kind="${d.kind}" data-id="${id}">${shopPreview(id, d)}</div>
+    <h3>${esc(d.name)}</h3><p class="why">${esc(d.desc)}</p>
+    <p class="cs-note ${r.dup ? "dup" : "new"}">${r.dup ? (r.refund ? `Такой предмет у вас уже есть: возвращаем ${r.refund} Реты.` : "Такой предмет у вас уже есть.") : "Новый предмет. Он уже в вашем инвентаре."}</p>
+    <div class="cs-acts">${worn ? "" : `<button class="btn primary" data-do="wear" type="button">Надеть</button>`}<button class="btn ghost" data-do="again" type="button" ${afford ? "" : "disabled"}>Открыть ещё${CS.admin ? "" : " · " + c.price}</button><button class="btn ghost" data-do="close" type="button">Закрыть</button></div>
+    <small class="err" id="cs-serr" role="alert"></small>`;
+  box.hidden = false; stage.classList.add("done");
+  wireMogg(box); if (d.kind === "mogg") pvPlay(box.querySelector(".cs-pv"));
+  const q = box.getBoundingClientRect(), n = CS_CONFETTI[rar];
+  if (n) fxConfetti(q.left + q.width / 2, q.top + 30, {count: n, spread: 260 + n, colors: [RARITY[rar].c, "#ffffff", RARITY[rar].c, "#fde68a"]});
+  box.addEventListener("click", async e => {
+    const b = e.target.closest("[data-do]"); if (!b) return;
+    if (b.dataset.do === "close") return csClose();
+    if (b.dataset.do === "again") { csClose(); return csOpen(c.id); }
+    b.disabled = true;
+    try { CS.eq = await Online.equip(d.kind, id); Online.eq = CS.eq; updateAccountUI(); b.remove(); }
+    catch (ex) { const m = $("cs-serr"); if (m) m.textContent = onlineMsg(ex); b.disabled = false; }
+  });
+  box.querySelector(".btn").focus();
+}
+async function csOpen(caseId) {
+  if (CS.busy) return;
+  const c = CS.cases.find(x => x.id === caseId), its = csItems(caseId); if (!c || !its.length) return;
+  CS.busy = true;
+  const say = t => { const e = $("cs-err"); if (e) e.textContent = t; };
+  say(""); let r;
+  try { r = await Online.openCase(caseId); } catch (ex) { CS.busy = false; say(onlineMsg(ex)); return; }
+  if (!its.some(i => i.item_id === r?.item)) { CS.busy = false; say("Кейс открыт, но сайт не знает такой предмет. Обновите страницу."); return; }
+  if (!CS.admin) { CS.reta = r.reta; retaSet(r.reta); }
+  if (!r.dup) CS.owned.add(r.item);
+  const rar = rarOf(r.item) || "common", stage = document.createElement("div");
+  stage.className = "cs-stage"; stage.dataset.r = rar; stage.style.setProperty("--rc", RARITY[rar].c);
+  stage.setAttribute("role", "dialog"); stage.setAttribute("aria-modal", "true"); stage.setAttribute("aria-label", `Открытие кейса «${c.name}»`);
+  stage.innerHTML = `<div class="cs-box"><p class="cs-title">${esc(c.name)}</p>
+    <div class="cs-win"><div class="cs-strip">${csReel(its, r.item).map(csTile).join("")}</div><i class="cs-ptr"></i></div>
+    <button class="reel-skip cs-skip" type="button">Пропустить</button><div class="cs-result" hidden></div></div>`;
+  document.body.append(stage); CS.stage = stage;
+  stage._key = e => { if (e.key === "Escape") { if (stage.classList.contains("done")) csClose(); else stage.querySelector(".cs-win").click(); } };
+  document.addEventListener("keydown", stage._key);
+  stage.addEventListener("click", e => { if (e.target === stage && stage.classList.contains("done")) csClose(); });
+  const win = stage.querySelector(".cs-win"), strip = stage.querySelector(".cs-strip"), skip = stage.querySelector(".cs-skip");
+  skip.focus();
+  const animated = await spinReel(win, strip, CS_T, skip);
+  if (CS.stage !== stage) return;
+  if (!animated) {   // animations are off: the strip simply shows the prize
+    strip.style.transform = `translateX(${win.clientWidth / 2 - (CS_T + 0.5) * strip.children[0].offsetWidth}px)`;
+    strip.children[CS_T].classList.add("win"); win.classList.add("landed");
+  }
+  skip.hidden = true;
+  if (animated) await sleep(550);
+  if (CS.stage === stage) csReveal(stage, r, c);
+}
+addEventListener("hashchange", csClose);   // leaving the page closes the window
+
+// ---------- the page ----------
+function csCard(it, total) {
+  const id = it.item_id, d = SHOP[id], r = rarOf(id) || "common", owned = CS.owned.has(id), worn = cosId(CS.eq, d.kind) === id;
+  return `<article class="si ${owned ? "owned" : ""} ${worn ? "worn" : ""}" data-id="${id}" data-kind="${d.kind}" data-r="${r}">
+    <div class="si-pv">${shopPreview(id, d)}</div>
+    <h3>${esc(d.name)}<em class="si-tag rar">${RARITY[r].name}</em>${worn ? `<em class="si-tag on">надето</em>` : owned ? `<em class="si-tag">есть</em>` : ""}</h3>
+    <p>${esc(d.desc)}</p>
+    <footer><span class="chance"><b>${csPct(it.weight / total * 100)}</b> шанс</span>${it.refund && !CS.admin ? `<small class="need">повтор: +${it.refund} Реты</small>` : ""}</footer></article>`;
+}
+function csSection(c) {
+  const its = csItems(c.id), total = its.reduce((s, i) => s + i.weight, 0), can = CS.admin || CS.reta >= c.price, top = its[0];
+  return `<section class="cs-case" data-case="${esc(c.id)}">
+    <div class="card cs-hero"><div class="cs-art" aria-hidden="true">${apples(5, "apples")}<span class="cs-big">${APPLE}</span><b>${esc(c.name)}</b></div>
+      <div class="cs-info"><h2>${esc(c.name)}</h2>
+        <p class="why">Внутри ${its.length} ${plural(its.length, ["предмет", "предмета", "предметов"])}: от обычной рамки до мифической анимации${top ? ` (шанс ${csPct(top.weight / total * 100)})` : ""}. Предмет выбирает сервер. Если он у вас уже есть, часть Реты вернётся.</p>
+        <div class="cs-buy"><span class="price">${retaIcon("xs2")}<b>${CS.admin ? "∞" : c.price}</b></span><button class="btn primary" data-open="${esc(c.id)}" type="button" ${can ? "" : "disabled"}>Открыть кейс</button></div>
+        ${can ? "" : `<small class="need">Не хватает ${c.price - CS.reta} Реты. Её дают за победы в онлайн-боях и <a href="#/bonus">за задания</a>.</small>`}</div></div>
+    <h3 class="cs-sub">Что внутри</h3><div class="sh-grid">${its.map(i => csCard(i, total)).join("")}</div></section>`;
+}
+function csPaint() {
+  const v = $("view-cases");
+  v.innerHTML = `<div class="card shop-head"><div class="sh-ico">${APPLE.replace("apple", "apple big")}</div>
+      <div class="sh-txt"><h1>Кейсы</h1><p class="why">За Рету можно открыть кейс и получить особый предмет. Предметы из кейсов нельзя купить в магазине, они бывают обычными, редкими, эпическими, легендарными и мифическими.</p></div>
+      <div class="sh-bal"><b>${CS.admin ? "∞" : CS.reta}</b><span>Реты</span><a class="btn ghost" href="#/shop">Магазин</a></div></div>
+    <p class="err" id="cs-err" role="alert"></p>${CS.cases.map(csSection).join("") || `<p class="why">Кейсов пока нет.</p>`}`;
+  fxMark(v, ".cs-hero, .si");
+  wireMogg(v);
+  v.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => csOpen(b.dataset.open)));
+}
+async function renderCases() {
+  const v = $("view-cases"), tok = ++olTok; CS.tok++; olAgain = renderCases; onlineFileHook = null;
+  const me = await onlineEnter(v, tok);
+  if (!me) return;
+  try {
+    const [cases, items, mine] = await Promise.all([Online.cases(), Online.caseItems(), Online.purchases()]);
+    if (tok !== olTok) return;
+    CS.items = items; CS.cases = cases.filter(c => csItems(c.id).length);
+    CS.owned = new Set(mine.map(p => p.item_id)); CS.eq = eqOf(me.equipped); CS.admin = !!me.is_admin; CS.reta = me.reta ?? 0; CS.busy = false;
+    csPaint();
+  } catch (ex) { if (tok === olTok) { v.innerHTML = `<div class="auth card"><h1 class="auth-title">Кейсы</h1><p class="err" role="alert">${esc(onlineMsg(ex))}</p><button class="btn ghost" id="o-retry" type="button">Повторить</button></div>`; $("o-retry").addEventListener("click", renderCases); } }
 }
 // ---------- wallet: rates (попытки оценки), games (попытки боя), daily bonus, weekly quests, buying packs ----------
 // Balances live on the server (supabase.sql). Rates are spent after a successful analysis, games when an online battle is found.
@@ -3797,10 +4066,10 @@ function renderTerms() {   // the seller details come from config.js (seller), s
   const s = window.PSL_CONFIG?.seller ?? {}, row = (label, v) => `<li><b>${label}:</b> ${v ? esc(v) : "<em>не указано (заполните seller в config.js)</em>"}</li>`;
   $("terms-seller").innerHTML = `<ul class="terms-list">${row("Продавец", s.name)}${row("Регистрационные данные (ЄДРПОУ / ІПН)", s.taxId)}${row("Адрес", s.address)}${row("Почта для вопросов и возвратов", s.email || window.PSL_CONFIG?.contactEmail)}${row("Телефон", s.phone)}${row("Сайт", location.origin)}</ul>`;
 }
-const GATED = ["app", "online", "shop", "profile", "bonus", "donate", "admin"];   // pages that need an account
-const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", admin: "view-admin", privacy: "view-privacy"};
-const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", admin: "Админ-панель", privacy: "Конфиденциальность"};
-const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-bonus", "view-donate", "view-gate", "view-terms", "view-admin", "view-privacy"];
+const GATED = ["app", "online", "shop", "cases", "profile", "bonus", "donate", "admin"];   // pages that need an account
+const ROUTES = {home: "view-home", tiers: "view-home", app: "view-app", login: "view-auth", register: "view-auth", profile: "view-profile", online: "view-online", shop: "view-shop", cases: "view-cases", bonus: "view-bonus", donate: "view-donate", gate: "view-gate", terms: "view-terms", admin: "view-admin", privacy: "view-privacy"};
+const TITLES = {home: "PSL Rater: узнай свой PSL-рейт по фото", tiers: "Рейты PSL: что они значат", app: "Оценка лица", login: "Вход", register: "Регистрация", profile: "Профиль", online: "Онлайн-батлы", shop: "Магазин", cases: "Кейсы", bonus: "Бонусы и задания", donate: "Пополнить баланс", gate: "Оценка лица", terms: "Условия покупки", admin: "Админ-панель", privacy: "Конфиденциальность"};
+const VIEWS = ["view-home", "view-app", "view-auth", "view-profile", "view-online", "view-shop", "view-cases", "view-bonus", "view-donate", "view-gate", "view-terms", "view-admin", "view-privacy"];
 async function appGate() {   // connect Google and set a nick first (shown in its own page), then open the app
   const tok = ++olTok; olAgain = render; onlineFileHook = null;
   for (const v of VIEWS) $(v).hidden = v !== "view-gate";
@@ -3824,6 +4093,7 @@ function render() {
   if (name === "profile") renderProfile();
   if (name === "online") renderOnline();
   else if (name === "shop") renderShop();
+  else if (name === "cases") renderCases();
   else if (name === "bonus") renderBonus();
   else if (name === "donate") renderDonate();
   else if (name === "admin") renderAdmin();
