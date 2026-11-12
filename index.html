@@ -977,7 +977,7 @@
   .pv-bat .o-stamp{font-size:12px;padding:2px 6px;border-width:3px}
   .pvav{display:grid;width:76px;height:76px;font-size:30px;flex:none}
   .pv-nick{font-size:22px;font-weight:800;color:var(--strong);text-align:center}
-  .pv-banner{width:100%;height:110px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:var(--surface)}
+  .pv-scene{width:100%;height:110px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:var(--surface)}
   .shop-head .sh-ico{filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
   @media(max-width:700px){.shop-head{grid-template-columns:1fr;justify-items:center;text-align:center}.sh-bal{justify-items:center}}
 
@@ -998,16 +998,16 @@
   .o-name .av{display:grid;width:38px;height:38px;font-size:16px;flex:none}
   .o-name .av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
   .o-who h1{min-width:0}
-  .o-card[class*="banner-"],.pv-banner[class*="banner-"]{position:relative;overflow:hidden;border-color:transparent}
-  .banner-aurora{background:linear-gradient(120deg,#062f2c,#0a3b66,#34175f,#0a4a4a,#062f2c)!important;background-size:320% 320%!important;animation:bannerMove 11s ease-in-out infinite}
-  .banner-sunset{background:linear-gradient(120deg,#3a0a2c,#a02c2c,#ea7a2a,#f8bd5a,#a02c2c)!important;background-size:320% 320%!important;animation:bannerMove 13s ease-in-out infinite}
-  .banner-matrix{background:#021a0d!important}
-  .banner-matrix::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 0,rgba(74,222,128,.55) 45%,rgba(187,247,208,.9) 50%,transparent 56%);background-size:100% 220px;-webkit-mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);animation:matrixRain 2.4s linear infinite}
+  .o-card[class*="scene-"],.pv-scene[class*="scene-"]{position:relative;overflow:hidden;border-color:transparent}
+  .scene-aurora{background:linear-gradient(120deg,#062f2c,#0a3b66,#34175f,#0a4a4a,#062f2c)!important;background-size:320% 320%!important;animation:bannerMove 11s ease-in-out infinite}
+  .scene-sunset{background:linear-gradient(120deg,#3a0a2c,#a02c2c,#ea7a2a,#f8bd5a,#a02c2c)!important;background-size:320% 320%!important;animation:bannerMove 13s ease-in-out infinite}
+  .scene-matrix{background:#021a0d!important}
+  .scene-matrix::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 0,rgba(74,222,128,.55) 45%,rgba(187,247,208,.9) 50%,transparent 56%);background-size:100% 220px;-webkit-mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);mask:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 13px);animation:matrixRain 2.4s linear infinite}
   @keyframes bannerMove{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
   @keyframes matrixRain{to{background-position:0 220px}}
-  .o-card[class*="banner-"] .o-pts b,.o-card[class*="banner-"] .o-who h1,.o-card[class*="banner-"] .o-rec b,.o-card[class*="banner-"] .o-reta b,.pv-banner span{color:#fff}
-  .o-card[class*="banner-"] .why,.o-card[class*="banner-"] .o-rec,.o-card[class*="banner-"] .o-pts span,.o-card[class*="banner-"] .o-reta{color:#e8e8f4}
-  .o-card[class*="banner-"]>*{position:relative}
+  .o-card[class*="scene-"] .o-pts b,.o-card[class*="scene-"] .o-who h1,.o-card[class*="scene-"] .o-rec b,.o-card[class*="scene-"] .o-reta b,.pv-scene span{color:#fff}
+  .o-card[class*="scene-"] .why,.o-card[class*="scene-"] .o-rec,.o-card[class*="scene-"] .o-pts span,.o-card[class*="scene-"] .o-reta{color:#e8e8f4}
+  .o-card[class*="scene-"]>*{position:relative}
 
   /* ---------- win animations (mogg), played on the loser's face ---------- */
   .fx-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;animation:fxFlash .55s .05s ease-out}
@@ -1140,9 +1140,9 @@
   .dn-orders em{font-style:normal;font-weight:700}
   .dn-orders .paid em{color:#22c55e}.dn-orders .failed em{color:#ef4444}.dn-orders .pending em{color:var(--dim)}
   .dn-legal{max-width:80ch}
-  dialog.paywall{width:min(440px,calc(100vw - 24px));padding:0;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--txt)}
-  dialog.paywall::backdrop{background:var(--veil);backdrop-filter:blur(6px)}
-  dialog.paywall[open]{animation:popIn .3s cubic-bezier(.2,1.3,.4,1)}
+  dialog.notice-box{width:min(440px,calc(100vw - 24px));padding:0;border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--txt)}
+  dialog.notice-box::backdrop{background:var(--veil);backdrop-filter:blur(6px)}
+  dialog.notice-box[open]{animation:popIn .3s cubic-bezier(.2,1.3,.4,1)}
   .pw-box{display:grid;gap:12px;padding:24px}
   .pw-box h2{margin:0;font-size:22px;color:var(--strong)}
   .pw-box p{margin:0;color:var(--soft);line-height:1.55}
@@ -1160,45 +1160,45 @@
   .legal ul{margin:8px 0;padding-left:20px;color:var(--soft);font-size:15px;line-height:1.65}
 
   /* ---------- admin ---------- */
-  .ad-head h1{margin:0 0 6px;font-size:clamp(26px,4vw,34px);color:var(--strong)}
-  .ad-head .why{margin:0;max-width:70ch}
-  .ad-search{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
-  .ad-search .field{flex:1;min-width:220px}
-  .ad-ok{margin:0;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,#22c55e 16%,transparent);border:1px solid #22c55e;color:var(--strong)}
-  .ad-ok[hidden]{display:none}
-  .ad-cols{display:grid;gap:14px;align-items:start}
-  @media(min-width:900px){.ad-cols{grid-template-columns:minmax(260px,1fr) 1.6fr}}
-  .ad-cols h2{margin:0 0 10px;font-size:20px;color:var(--strong)}
-  .ad-list,.ad-log{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-  .ad-list button{display:grid;gap:2px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--txt);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
-  .ad-list button:hover,.ad-list button.on{border-color:var(--accent);background:var(--surface2)}
-  .ad-list b{color:var(--strong)}
-  .ad-list span{color:var(--dim);font-size:13px;overflow:hidden;text-overflow:ellipsis}
-  .ad-list em{font-style:normal;color:var(--soft);font-size:12px}
-  .ad-card header{display:flex;gap:14px;align-items:center;margin-bottom:10px}
-  .ad-card header .av{display:grid;width:52px;height:52px;font-size:22px;flex:none}
-  .ad-card h2{margin:0}
-  .ad-card .why{margin:2px 0 0;word-break:break-all}
-  .ad-card h3{margin:16px 0 6px;font-size:16px;color:var(--strong)}
-  .ad-stats{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--soft)}
-  .ad-stats span{display:inline-flex;align-items:center;gap:5px}
-  .ad-stats b{color:var(--strong)}
-  .ad-stats .wic{width:18px;height:18px;color:var(--accent)}
-  .ad-grant,.ad-give{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
-  .ad-grant .field{width:110px}.ad-give .field{flex:1;min-width:200px}
-  .ad-give select{font:inherit;font-size:15px;color:var(--txt);padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
-  .ad-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .ad-quick .btn{padding:8px 14px;font-size:14px;border-radius:12px}
-  .ad-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-  .ad-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--strong);font-size:14px}
-  .ad-chip button{width:22px;height:22px;border-radius:50%;border:0;background:var(--surface2);color:var(--soft);cursor:pointer;font:inherit;line-height:1}
-  .ad-chip button:hover{background:#ef4444;color:#fff}
-  .ad-log li{display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;padding:7px 10px;border-radius:10px;background:var(--surface);font-size:14px}
-  .ad-log time{color:var(--dim);font-size:12px}
-  .ad-log span{color:var(--soft)}
+  .staff-head h1{margin:0 0 6px;font-size:clamp(26px,4vw,34px);color:var(--strong)}
+  .staff-head .why{margin:0;max-width:70ch}
+  .staff-search{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+  .staff-search .field{flex:1;min-width:220px}
+  .staff-ok{margin:0;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,#22c55e 16%,transparent);border:1px solid #22c55e;color:var(--strong)}
+  .staff-ok[hidden]{display:none}
+  .staff-cols{display:grid;gap:14px;align-items:start}
+  @media(min-width:900px){.staff-cols{grid-template-columns:minmax(260px,1fr) 1.6fr}}
+  .staff-cols h2{margin:0 0 10px;font-size:20px;color:var(--strong)}
+  .staff-list,.staff-log{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .staff-list button{display:grid;gap:2px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--txt);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+  .staff-list button:hover,.staff-list button.on{border-color:var(--accent);background:var(--surface2)}
+  .staff-list b{color:var(--strong)}
+  .staff-list span{color:var(--dim);font-size:13px;overflow:hidden;text-overflow:ellipsis}
+  .staff-list em{font-style:normal;color:var(--soft);font-size:12px}
+  .staff-card header{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+  .staff-card header .av{display:grid;width:52px;height:52px;font-size:22px;flex:none}
+  .staff-card h2{margin:0}
+  .staff-card .why{margin:2px 0 0;word-break:break-all}
+  .staff-card h3{margin:16px 0 6px;font-size:16px;color:var(--strong)}
+  .staff-stats{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--soft)}
+  .staff-stats span{display:inline-flex;align-items:center;gap:5px}
+  .staff-stats b{color:var(--strong)}
+  .staff-stats .wic{width:18px;height:18px;color:var(--accent)}
+  .staff-grant,.staff-give{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+  .staff-grant .field{width:110px}.staff-give .field{flex:1;min-width:200px}
+  .staff-give select{font:inherit;font-size:15px;color:var(--txt);padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+  .staff-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .staff-quick .btn{padding:8px 14px;font-size:14px;border-radius:12px}
+  .staff-items{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .staff-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--strong);font-size:14px}
+  .staff-chip button{width:22px;height:22px;border-radius:50%;border:0;background:var(--surface2);color:var(--soft);cursor:pointer;font:inherit;line-height:1}
+  .staff-chip button:hover{background:#ef4444;color:#fff}
+  .staff-log li{display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;padding:7px 10px;border-radius:10px;background:var(--surface);font-size:14px}
+  .staff-log time{color:var(--dim);font-size:12px}
+  .staff-log span{color:var(--soft)}
 
   .admin>*{animation:none}
-  .admin .ad-cols,.admin .ad-card{animation:none}
+  .admin .staff-cols,.admin .staff-card{animation:none}
 </style>
 </head>
 <body>
@@ -1399,7 +1399,7 @@
   </form>
 </dialog>
 
-<dialog id="paywall" class="paywall" aria-label="Сообщение"></dialog>
+<dialog id="notice-box" class="notice-box" aria-label="Сообщение"></dialog>
 <dialog id="confirm" aria-labelledby="confirm-text">
   <form method="dialog" class="ask">
     <p id="confirm-text"></p>
@@ -3140,7 +3140,8 @@ const SHOP = {
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
 const eqOf = e => e && typeof e === "object" && !Array.isArray(e) ? e : {};
 const cosId = (e, kind) => { const id = shopId(eqOf(e)[kind]); return id && SHOP[id].kind === kind ? id : ""; };
-const cosCls = (e, kind) => cosId(e, kind).replace("_", "-");
+const clsOf = id => id.replace(/^banner_/, "scene_").replace("_", "-");   // class names stay away from words that ad blockers hide (ad, banner)
+const cosCls = (e, kind) => clsOf(cosId(e, kind));
 const avCls = e => cosCls(e, "frame");
 const nickHTML = (name, e) => `<span class="nick ${cosCls(e, "nick")}">${esc(name)}</span>${cosId(e, "title") ? `<small class="ttl">${esc(SHOP[cosId(e, "title")].name)}</small>` : ""}`;
 
@@ -3198,11 +3199,11 @@ function pvPlay(card) {
 }
 const shopPreview = (id, d) => {
   if (d.kind === "mogg") return `<div class="pv-bat"><div class="o-win pv a"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div><div class="o-win pv b"><div class="o-face"><div class="o-photo pv-img"></div><i class="o-stamp">MOGGED</i></div></div></div><button class="si-play" type="button">▶ Смотреть</button>`;
-  const cls = id.replace("_", "-"), me = Accounts.current()?.name ?? "Игрок";
+  const cls = clsOf(id), me = Accounts.current()?.name ?? "Игрок";
   if (d.kind === "frame") return `<span class="av pvav ${cls}" aria-hidden="true">${esc([...me][0].toUpperCase())}</span>`;
   if (d.kind === "title") return `<div class="pv-nick">${nickHTML(me, {title: id})}</div>`;
   if (d.kind === "nick") return `<div class="pv-nick">${nickHTML(me, {nick: id})}</div>`;
-  return `<div class="pv-banner ${cls}"><span>${esc(me)}</span></div>`;
+  return `<div class="pv-scene ${cls}"><span>${esc(me)}</span></div>`;
 };
 function shopCard(it) {
   const d = SHOP[it.id], owned = SH.owned.has(it.id), worn = cosId(SH.eq, it.kind) === it.id, can = SH.reta >= it.price;
@@ -3322,7 +3323,7 @@ async function startCheckout(pack, currency, provider) {
 
 // ---------- spending a rate; the paywall ----------
 function openNotice(title, text, actions = []) {   // a small window: title, text and buttons or links
-  const d = $("paywall");
+  const d = $("notice-box");
   d.innerHTML = `<div class="pw-box"><h2>${esc(title)}</h2><p>${text}</p><div class="pw-acts">${actions.map(a => a.href ? `<a class="btn ${a.primary ? "primary" : "ghost"}" href="${a.href}" data-close>${esc(a.label)}</a>` : `<button type="button" class="btn ${a.primary ? "primary" : "ghost"}" data-act="${a.act}">${esc(a.label)}</button>`).join("")}<button type="button" class="linkbtn" data-close>Закрыть</button></div></div>`;
   d.querySelectorAll("[data-close]").forEach(e => e.addEventListener("click", () => d.close()));
   d.querySelector("[data-act=daily]")?.addEventListener("click", async e => {
@@ -3470,7 +3471,7 @@ const adItemName = id => SHOP[shopId(id)]?.name ?? id;
 const adAction = {grant: "выдача", give_item: "выдан предмет", take_item: "забран предмет"};
 const adErr = ex => { console.error("admin:", ex); return ex instanceof OnlineError || ex instanceof AuthError ? ex.message : `Ошибка: ${ex?.message ?? ex}`; };
 function adSay(text, good = false) {
-  const e = $("ad-err"), o = $("ad-ok"); if (!e || !o) return;
+  const e = $("staff-err"), o = $("staff-ok"); if (!e || !o) return;
   e.textContent = good ? "" : text; o.textContent = good ? text : ""; o.hidden = !(good && text);
 }
 async function renderAdmin() {
@@ -3479,11 +3480,11 @@ async function renderAdmin() {
   if (!me) return;
   if (!me.is_admin) { navigate("", true); return; }   // not an admin: nothing to see here
   AD.q = ""; AD.sel = null;
-  v.innerHTML = `<div class="card ad-head"><h1>Админ-панель</h1><p class="why">У вас безлимит: рейты, игры и Рета не списываются, в магазине можно брать и надевать всё бесплатно. Здесь можно найти игрока и выдать ему валюту или украшения. Все действия записываются в журнал.</p></div>
-    <form id="ad-search" class="card ad-search" onsubmit="return false" novalidate><label class="field"><span>Найти игрока</span><input name="q" placeholder="ник, почта или id" autocomplete="off"></label><button class="btn primary" type="submit">Найти</button></form>
-    <p class="err" id="ad-err" role="alert"></p><p class="ad-ok" id="ad-ok" hidden></p>
-    <div class="ad-cols"><div class="card"><h2>Игроки</h2><div id="ad-list-box"></div></div><div id="ad-detail"></div></div>
-    <div class="card"><h2>Журнал</h2><div id="ad-log-box"></div></div>`;
+  v.innerHTML = `<div class="card staff-head"><h1>Админ-панель</h1><p class="why">У вас безлимит: рейты, игры и Рета не списываются, в магазине можно брать и надевать всё бесплатно. Здесь можно найти игрока и выдать ему валюту или украшения. Все действия записываются в журнал.</p></div>
+    <form id="staff-search" class="card staff-search" onsubmit="return false" novalidate><label class="field"><span>Найти игрока</span><input name="q" placeholder="ник, почта или id" autocomplete="off"></label><button class="btn primary" type="submit">Найти</button></form>
+    <p class="err" id="staff-err" role="alert"></p><p class="staff-ok" id="staff-ok" hidden></p>
+    <div class="staff-cols"><div class="card"><h2>Игроки</h2><div id="staff-list-box"></div></div><div id="staff-detail"></div></div>
+    <div class="card"><h2>Журнал</h2><div id="staff-log-box"></div></div>`;
   adWire(v);
   adList(); adDetail(); adLog();
   try {
@@ -3502,9 +3503,9 @@ function adWire(v) {   // one listener for everything on the page, set once
   v.addEventListener("submit", e => {
     e.preventDefault();   // none of the forms may ever reload the page
     const f = e.target;
-    if (f.id === "ad-search") adFind(new FormData(f).get("q").trim());
-    else if (f.id === "ad-grant" && AD.sel) { const n = k => Math.trunc(+f.elements[k].value) || 0, [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return adSay("Впишите число."); adDo(() => Online.adminGrant(AD.sel.id, a, b, c), "Готово: валюта выдана."); }
-    else if (f.id === "ad-item" && AD.sel) { const item = f.querySelector("select")?.value; if (item) adDo(() => Online.adminItem(AD.sel.id, item, true), `Готово: выдано «${adItemName(item)}».`); }
+    if (f.id === "staff-search") adFind(new FormData(f).get("q").trim());
+    else if (f.id === "staff-grant" && AD.sel) { const n = k => Math.trunc(+f.elements[k].value) || 0, [a, b, c] = [n("reta"), n("rates"), n("games")]; if (!a && !b && !c) return adSay("Впишите число."); adDo(() => Online.adminGrant(AD.sel.id, a, b, c), "Готово: валюта выдана."); }
+    else if (f.id === "staff-item" && AD.sel) { const item = f.querySelector("select")?.value; if (item) adDo(() => Online.adminItem(AD.sel.id, item, true), `Готово: выдано «${adItemName(item)}».`); }
   });
 }
 async function adFind(q) {
@@ -3541,20 +3542,20 @@ async function adDo(fn, note) {   // grant, give or take: the card, the list row
   } catch (ex) { adSay(adErr(ex)); }
 }
 function adList() {
-  const box = $("ad-list-box"); if (!box) return;
-  box.innerHTML = AD.list.length ? `<ul class="ad-list">${AD.list.map(x => `<li><button type="button" class="${AD.sel?.id === x.id ? "on" : ""}" data-id="${esc(x.id)}"><b>${esc(x.name)}</b><span>${esc(x.email ?? "")}</span><em>${x.points} оч. · ${x.reta} Р · ${x.rates} рейт. · ${x.games} игр</em></button></li>`).join("")}</ul>` : `<p class="why">Никого не найдено.</p>`;
+  const box = $("staff-list-box"); if (!box) return;
+  box.innerHTML = AD.list.length ? `<ul class="staff-list">${AD.list.map(x => `<li><button type="button" class="${AD.sel?.id === x.id ? "on" : ""}" data-id="${esc(x.id)}"><b>${esc(x.name)}</b><span>${esc(x.email ?? "")}</span><em>${x.points} оч. · ${x.reta} Р · ${x.rates} рейт. · ${x.games} игр</em></button></li>`).join("")}</ul>` : `<p class="why">Никого не найдено.</p>`;
 }
 function adLog() {
-  const box = $("ad-log-box"); if (!box) return;
+  const box = $("staff-log-box"); if (!box) return;
   const what = l => l.action === "grant" ? `: ${["reta", "rates", "games"].map((k, i) => l.detail?.[k] ? `${l.detail[k] > 0 ? "+" : ""}${l.detail[k]} ${["Реты", "рейтов", "игр"][i]}` : "").filter(Boolean).join(", ")}` : l.detail?.item ? `: ${esc(adItemName(l.detail.item))}` : "";
-  box.innerHTML = AD.log.length ? `<ul class="ad-log">${AD.log.map(l => `<li><time>${dateText(l.at)}</time><b>${adAction[l.action] ?? esc(l.action)}</b><span>${esc(l.target)}${what(l)}</span></li>`).join("")}</ul>` : `<p class="why">Пока пусто.</p>`;
+  box.innerHTML = AD.log.length ? `<ul class="staff-log">${AD.log.map(l => `<li><time>${dateText(l.at)}</time><b>${adAction[l.action] ?? esc(l.action)}</b><span>${esc(l.target)}${what(l)}</span></li>`).join("")}</ul>` : `<p class="why">Пока пусто.</p>`;
 }
 function adDetail() {
-  const box = $("ad-detail"); if (!box) return;
+  const box = $("staff-detail"); if (!box) return;
   const d = AD.sel;
   if (!d) { box.innerHTML = `<div class="card"><p class="why">Выберите игрока слева, чтобы открыть его карточку.</p></div>`; return; }
   try { box.innerHTML = adCardHTML(d); }
-  catch (ex) { console.error("admin card:", ex); box.innerHTML = `<div class="card ad-card"><p class="err">Не удалось показать карточку: ${esc(ex?.message ?? ex)}</p></div>`; }
+  catch (ex) { console.error("admin card:", ex); box.innerHTML = `<div class="card staff-card"><p class="err">Не удалось показать карточку: ${esc(ex?.message ?? ex)}</p></div>`; }
 }
 function adCardHTML(d) {   // every block is built on its own: if one fails, the rest (above all the grant forms) is still shown, with a note
   const notes = [], part = (name, fn, alt = "") => { try { return fn(); } catch (ex) { console.error("admin card:", name, ex); notes.push(`${name}: ${ex?.message ?? ex}`); return alt; } };
@@ -3562,15 +3563,15 @@ function adCardHTML(d) {   // every block is built on its own: if one fails, the
   const num = k => Number.isFinite(+d[k]) ? +d[k] : 0;
   const head = part("шапка", () => `<header><span class="av" aria-hidden="true">${avatarHTML(d)}</span><div><h2>${nickHTML(d.name, d.equipped)}</h2><p class="why">${esc(d.email ?? "")} · id ${esc(d.id)}${d.created_at ? ` · создан ${new Date(d.created_at).toLocaleDateString("ru-RU")}` : ""}</p></div></header>`,
     `<header><div><h2>${esc(d.name ?? "Игрок")}</h2><p class="why">id ${esc(d.id)}</p></div></header>`);
-  const stats = part("цифры", () => `<div class="ad-stats"><span><b>${num("points")}</b> очков</span>${loading ? "" : `<span><b>${num("wins")}</b> побед</span><span><b>${num("losses")}</b> поражений</span>`}<span>${retaIcon("xs2")}<b id="ad-reta">${num("reta")}</b> Реты</span><span>${ICON_RATE}<b>${num("rates")}</b> рейтов</span><span>${ICON_GAME}<b>${num("games")}</b> игр</span></div>`);
+  const stats = part("цифры", () => `<div class="staff-stats"><span><b>${num("points")}</b> очков</span>${loading ? "" : `<span><b>${num("wins")}</b> побед</span><span><b>${num("losses")}</b> поражений</span>`}<span>${retaIcon("xs2")}<b id="staff-reta">${num("reta")}</b> Реты</span><span>${ICON_RATE}<b>${num("rates")}</b> рейтов</span><span>${ICON_GAME}<b>${num("games")}</b> игр</span></div>`);
   const grant = `<h3>Валюта</h3><p class="why">Число можно ставить отрицательное, чтобы забрать (ниже нуля не уходит).</p>
-    <form id="ad-grant" class="ad-grant" onsubmit="return false" novalidate><label class="field"><span>Реты</span><input name="reta" type="number" step="1" value="0"></label><label class="field"><span>Рейты</span><input name="rates" type="number" step="1" value="0"></label><label class="field"><span>Игры</span><input name="games" type="number" step="1" value="0"></label><button class="btn primary" type="submit">Применить</button></form>
-    <div class="ad-quick">${[["+100 Реты", 100, 0, 0], ["+1000 Реты", 1000, 0, 0], ["+20 рейтов", 0, 20, 0], ["+20 игр", 0, 0, 20]].map(([t, a, b, c]) => `<button type="button" class="btn ghost" data-q="${a},${b},${c}">${t}</button>`).join("")}</div>`;
-  const items = part("предметы", () => loading ? `<span class="why">Загружаю…</span>` : owned.length ? owned.map(id => `<span class="ad-chip">${esc(adItemName(id))}<button type="button" data-take="${esc(id)}" aria-label="Забрать ${esc(adItemName(id))}">×</button></span>`).join("") : `<span class="why">У игрока пока ничего нет.</span>`);
-  const give = part("выдача предметов", () => `<form id="ad-item" class="ad-give" onsubmit="return false" novalidate><label class="field"><span>Выдать</span><select name="item">${SHOP_KINDS.map(([k, t]) => `<optgroup label="${esc(t)}">${catalog.filter(([, x]) => x.kind === k).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</optgroup>`).join("")}</select></label><button class="btn primary" type="submit" ${catalog.length ? "" : "disabled"}>Выдать</button></form>`,
-    `<form id="ad-item" class="ad-give" onsubmit="return false" novalidate><label class="field"><span>Выдать</span><select name="item">${Object.entries(SHOP).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</select></label><button class="btn primary" type="submit">Выдать</button></form>`);
+    <form id="staff-grant" class="staff-grant" onsubmit="return false" novalidate><label class="field"><span>Реты</span><input name="reta" type="number" step="1" value="0"></label><label class="field"><span>Рейты</span><input name="rates" type="number" step="1" value="0"></label><label class="field"><span>Игры</span><input name="games" type="number" step="1" value="0"></label><button class="btn primary" type="submit">Применить</button></form>
+    <div class="staff-quick">${[["+100 Реты", 100, 0, 0], ["+1000 Реты", 1000, 0, 0], ["+20 рейтов", 0, 20, 0], ["+20 игр", 0, 0, 20]].map(([t, a, b, c]) => `<button type="button" class="btn ghost" data-q="${a},${b},${c}">${t}</button>`).join("")}</div>`;
+  const items = part("предметы", () => loading ? `<span class="why">Загружаю…</span>` : owned.length ? owned.map(id => `<span class="staff-chip">${esc(adItemName(id))}<button type="button" data-take="${esc(id)}" aria-label="Забрать ${esc(adItemName(id))}">×</button></span>`).join("") : `<span class="why">У игрока пока ничего нет.</span>`);
+  const give = part("выдача предметов", () => `<form id="staff-item" class="staff-give" onsubmit="return false" novalidate><label class="field"><span>Выдать</span><select name="item">${SHOP_KINDS.map(([k, t]) => `<optgroup label="${esc(t)}">${catalog.filter(([, x]) => x.kind === k).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</optgroup>`).join("")}</select></label><button class="btn primary" type="submit" ${catalog.length ? "" : "disabled"}>Выдать</button></form>`,
+    `<form id="staff-item" class="staff-give" onsubmit="return false" novalidate><label class="field"><span>Выдать</span><select name="item">${Object.entries(SHOP).map(([id, x]) => `<option value="${esc(id)}">${esc(x.name)}</option>`).join("")}</select></label><button class="btn primary" type="submit">Выдать</button></form>`);
   const orders = part("заказы", () => Array.isArray(d.orders) && d.orders.length ? `<h3>Заказы</h3><ul class="dn-orders">${d.orders.map(o => `<li class="${esc(o.status)}"><time>${dateText(o.created_at)}</time><b>${esc(String(o.pack_id).replace("_", " "))}</b><span>${money(o.amount_minor, o.currency)}</span><em>${{paid: "оплачен", pending: "ждёт оплаты", failed: "не прошёл"}[o.status] ?? ""}</em></li>`).join("")}</ul>` : "");
-  return `<div class="card ad-card">${head}${stats}${grant}<h3>Украшения и анимации</h3><div class="ad-items">${items}</div>${give}${orders}${notes.length ? `<p class="why ad-note">Часть данных не показана: ${esc(notes.join("; "))}</p>` : ""}</div>`;
+  return `<div class="card staff-card">${head}${stats}${grant}<h3>Украшения и анимации</h3><div class="staff-items">${items}</div>${give}${orders}${notes.length ? `<p class="why staff-note">Часть данных не показана: ${esc(notes.join("; "))}</p>` : ""}</div>`;
 }
 // ---------- site: home page, account screens, router ----------
 const TIER_SHARES = {"m": [9.5, 47.6, 17.1, 10.1, 7.1, 7.2, 1.3, 0.0], "m_median": 3.85, "f": [12.6, 38.9, 17.0, 16.3, 9.1, 6.0, 0.1, 0.0], "f_median": 3.96};   // % of the held-out training faces per tier, by sex (same order as TIERS)
