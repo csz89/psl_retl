@@ -1218,8 +1218,9 @@
   [data-tone=light] .nick.nick-black{filter:none}
   .scene-apples{background:radial-gradient(ellipse at 50% 20%,#52101f,#1b0710 62%,#0b0409)!important}
   .o-card[class*="scene-"]>.apples{position:absolute}
-  .pv-scene>span:not(.apples){position:relative}
-  .o-card[class*="scene-"]>:not(.apples){z-index:1}
+  .pv-scene>span:not(.apples):not(.sisy){position:relative}
+  .o-card[class*="scene-"]>:not(.apples):not(.sisy){z-index:1}
+  .o-card[class*="scene-"]>.sisy{position:absolute}
 
   /* the apples: each one runs along an ellipse (x and y swing with the same period, a quarter apart) */
   .apples,.fx-apples{position:absolute;left:0;right:0;pointer-events:none;container-type:size;--T:8s;--ax:41cqw;--ay:33cqh}
@@ -1308,6 +1309,47 @@
   .cs-result .btn{padding:10px 18px;border-radius:12px}
   @keyframes csPop{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:none}}
   @media(max-width:560px){.cs-win{--tw:112px}.cs-tile{height:140px}}
+
+  /* ---------- the TikTok philosophy case ---------- */
+  .av.frame-uroboros::before{inset:-5px;background:repeating-conic-gradient(rgba(0,0,0,.38) 0 3deg,transparent 3deg 6deg),conic-gradient(transparent 0,#14532d 12%,#15803d 45%,#4ade80 88%,#fde047 96%,#dc2626 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 5px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 5px));animation:rkSpin 7s linear infinite}   /* a snake that thins out to its tail and bites it */
+  .ttl.title-sisyphus{color:#cbd5e1;border-color:#94a3b8}
+  .ttl.title-stirner{font-family:Georgia,"Times New Roman",serif;font-style:italic;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:#efe6d0;border-color:#b9a77a}
+  .ttl.title-samsa{color:#fff;background:#1c1410;border-color:#7c4a21;text-transform:none}
+  .nick.nick-stirner{font-family:Georgia,"Times New Roman",serif;font-style:italic;letter-spacing:.03em;color:#efe6d0;animation:spooks 3.2s ease-in-out infinite}
+  @keyframes spooks{0%,100%{text-shadow:-2px 0 0 rgba(239,230,208,.16),2px 0 0 rgba(239,230,208,.16)}50%{text-shadow:-7px 0 3px rgba(239,230,208,.3),7px 0 3px rgba(239,230,208,.3)}}   /* the "spooks" drift apart and come back */
+  [data-tone=light] .nick.nick-stirner{color:#3b2f1b;animation-name:spooksL}
+  @keyframes spooksL{0%,100%{text-shadow:-2px 0 0 rgba(59,47,27,.16),2px 0 0 rgba(59,47,27,.16)}50%{text-shadow:-7px 0 3px rgba(59,47,27,.3),7px 0 3px rgba(59,47,27,.3)}}
+
+  /* Sisyphus pushes his boulder up the hill, it rolls back, and again */
+  .scene-sisyphus{background:linear-gradient(180deg,#1e1038 0%,#6d2f58 60%,#d97757 100%)!important}
+  .sisy{position:absolute;inset:0;pointer-events:none;container-type:size;z-index:0;overflow:hidden}
+  .sisy-hill{position:absolute;inset:0;background:linear-gradient(180deg,#120b22,#05040c);clip-path:polygon(0 78%,100% 38%,100% 100%,0 100%)}
+  .sisy-run{position:absolute;left:0;top:calc(78cqh - var(--h));--h:clamp(28px,32cqh,64px);width:calc(var(--h) * 2);height:var(--h);animation:sisyRun 11s infinite}
+  .sisy-run svg{display:block;width:100%;height:100%}
+  .sisy-rock{transform-origin:66px 28px;animation:rkSpin 2.6s linear infinite}
+  .sisy-man{animation:sisyBob .55s ease-in-out infinite alternate}
+  @keyframes sisyBob{to{transform:translateY(-1.4px)}}
+  @keyframes sisyRun{0%{transform:translate(6cqw,-2.4cqh);animation-timing-function:ease-in-out}78%{transform:translate(78cqw,-31.2cqh)}84%{transform:translate(78cqw,-31.2cqh);animation-timing-function:cubic-bezier(.5,0,.9,.6)}100%{transform:translate(6cqw,-2.4cqh)}}
+
+  /* "Превращение": the loser is a black beetle on its back among the sheets */
+  .fx-sam{position:absolute;inset:0;pointer-events:none;z-index:3}
+  .sam-sheets{position:absolute;left:0;right:0;bottom:0;width:100%;height:66%;animation:samSheets .8s ease-out backwards}
+  .sam-bug{position:absolute;left:25%;top:18%;width:50%;filter:drop-shadow(0 4px 5px rgba(0,0,0,.55));animation:samDrop .9s .55s cubic-bezier(.3,1.4,.5,1) backwards}
+  .sam-body{transform-origin:62px 60px;animation:samRock 1.3s ease-in-out infinite alternate}
+  .sam-bug .lg{animation:samLeg .36s ease-in-out infinite alternate}
+  .sam-bug .lg:nth-child(even){animation-direction:alternate-reverse}
+  @keyframes samSheets{from{transform:translateY(60%);opacity:0}}
+  @keyframes samDrop{from{transform:translateY(-170%) rotate(140deg) scale(.6);opacity:0}35%{opacity:1}}
+  @keyframes samRock{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+  @keyframes samLeg{from{transform:rotate(-15deg)}to{transform:rotate(15deg)}}
+  .o-win[data-fx=mogg_samsa] .o-photo{filter:grayscale(1) sepia(.45) contrast(1.15) brightness(.72)}
+  [data-fx=mogg_samsa] .o-stamp{color:#ece6d6;border-color:#ece6d6;text-shadow:none}
+
+  /* the picture on the case */
+  .cs-art.phil{background:radial-gradient(circle at 50% 40%,#2d4630,#0b130c 72%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -22px #4ade80}
+  .cs-ring{position:absolute;width:66%;aspect-ratio:1;border-radius:50%;background:repeating-conic-gradient(rgba(0,0,0,.38) 0 3deg,transparent 3deg 6deg),conic-gradient(transparent 0,#14532d 12%,#15803d 45%,#4ade80 88%,#fde047 96%,#dc2626 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));animation:rkSpin 8s linear infinite}
+  .cs-rock{position:relative;width:28%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6));animation:csFloat 3s ease-in-out infinite alternate}
+  .cs-art.phil>b{font-size:13px;letter-spacing:.1em;color:#bbf7d0;text-shadow:0 0 10px #16a34a;bottom:8%}
 </style>
 </head>
 <body>
@@ -3260,6 +3302,13 @@ const SHOP = {
   title_foid: {kind: "title", r: "epic", name: "Foid Slayer", desc: "Самое редкое звание из кейса Holy IQ."},
   nick_black: {kind: "nick", r: "epic", name: "Чёрное свечение", desc: "Вокруг ника пульсирует чёрное свечение."},
   banner_apples: {kind: "banner", r: "legendary", name: "Девять яблок", desc: "Девять яблок на фоне профиля вращаются вокруг своей оси."},
+  title_sisyphus: {kind: "title", r: "common", name: "Сизиф счастлив", desc: "Камень снова внизу, и это нормально."},
+  title_stirner: {kind: "title", r: "common", name: "Единственный", desc: "Для тех, кто ставит на своё Я. Привет, Макс Штирнер."},
+  title_samsa: {kind: "title", r: "rare", name: "Проснулся жуком", desc: "Однажды утром, после беспокойного сна…"},
+  frame_uroboros: {kind: "frame", r: "rare", name: "Уроборос", desc: "Змея, которая вечно кусает собственный хвост."},
+  nick_stirner: {kind: "nick", r: "epic", name: "Штирнер", desc: "Вокруг ника колеблются призраки, а сам ник стоит на своём."},
+  banner_sisyphus: {kind: "banner", r: "legendary", name: "Вечный подъём", desc: "Сизиф тянет валун вверх по склону, и тот снова скатывается."},
+  mogg_samsa: {kind: "mogg", r: "mythic", name: "Превращение", desc: "Соперник оказывается чёрным жуком: он лежит на спине среди простыней и сучит лапками, как на гравюре."},
   mogg_holyiq: {kind: "mogg", r: "mythic", name: "Holy IQ", desc: "Над победителем кружат яблоки, а его IQ растёт без остановки. У соперника остаётся только 70 IQ."},
 };
 const shopId = id => typeof id === "string" && Object.hasOwn(SHOP, id) ? id : "";   // anything the server sends is checked against this list before it becomes a class name
@@ -3295,9 +3344,12 @@ const FX_METEOR = `<i class="fx-meteor"></i><i class="fx-shock"></i><i class="fx
 const APPLE = `<svg class="apple" viewBox="0 0 48 52" aria-hidden="true"><path d="M24 15C17 8 4 12 4 28c0 12 8 23 15 23 3 0 3.4-1.6 5-1.6s2 1.6 5 1.6c7 0 15-11 15-23C44 12 31 8 24 15Z" fill="#dc2626"/><path d="M24 15C31 8 44 12 44 28c0 12-8 23-15 23-3 0-2-1.6-5-1.6Z" fill="#b91c1c"/><path d="M24 15c-.2-5 1-9 4.5-12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><path d="M26 10c3-5.5 10-6 13-3.4-2.2 5.4-9 6.6-13 3.4Z" fill="#22c55e"/><ellipse cx="13" cy="26" rx="3" ry="7" fill="#fff" opacity=".42" transform="rotate(14 13 26)"/></svg>`;
 const APPLE_SPOTS = [[-38, -28], [-2, -34], [36, -26], [-30, 6], [8, 2], [40, 12], [-40, 34], [-6, 32], [30, 34]];   // where the 9 background apples stand: x in % of the width, y in % of the height, from the centre
 const apples = (n, cls) => `<span class="${cls}" style="--n:${n}" aria-hidden="true">${Array.from({length: n}, (_, i) => `<i class="ap" style="--i:${i};--px:${APPLE_SPOTS[i]?.[0] ?? 0};--py:${APPLE_SPOTS[i]?.[1] ?? 0}"><b>${APPLE}</b></i>`).join("")}</span>`;
-const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : "";   // the extra elements a background needs
+const SISY = `<span class="sisy" aria-hidden="true"><i class="sisy-hill"></i><span class="sisy-run"><svg viewBox="0 0 100 50" overflow="visible"><g class="sisy-man" fill="none" stroke="#e5e7eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="35" cy="12" r="4.6" fill="#e5e7eb"/><path d="M33 18L22 35M22 35L12 49M22 35L27 49M32 21L47 27"/></g><g class="sisy-rock"><circle cx="66" cy="28" r="21" fill="#6b7280" stroke="#9ca3af" stroke-width="2"/><path d="M52 22l8 4-3 8M70 14l-4 9 9 4M60 42l6-6 8 3" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round"/></g></svg></span></span>`;
+const sceneFx = id => id === "banner_apples" ? apples(9, "apples still") : id === "banner_sisyphus" ? SISY : "";   // the extra elements a background needs
 const FX_HIQ_WIN = `<div class="fx-iq" aria-hidden="true">${apples(6, "fx-apples")}<b class="fx-iqn">IQ <span>100</span></b></div>`;
 const FX_HIQ_LOSE = `<div class="fx-iq" aria-hidden="true"><b class="fx-iqn low">70 IQ</b></div>`;
+const SAM_LEGS = [[44, 38, "M44 38L32 24L24 14"], [60, 34, "M60 34L58 18L60 6"], [76, 38, "M76 38L88 24L98 12"], [44, 62, "M44 62L32 76L24 88"], [60, 66, "M60 66L60 82L58 94"], [76, 62, "M76 62L88 76L98 88"]];
+const FX_SAMSA = `<div class="fx-sam" aria-hidden="true"><svg class="sam-sheets" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><pattern id="samHatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V4" stroke="#2a2418" stroke-width=".7" opacity=".5"/></pattern></defs><path d="M0 22C30 8 55 30 90 18S150 4 200 20V100H0Z" fill="#ece6d6" stroke="#2a2418" stroke-width="1" vector-effect="non-scaling-stroke"/><path d="M0 48C25 36 60 58 100 44S160 34 200 50V100H0Z" fill="#d9d1bb" stroke="#2a2418" stroke-width="1" vector-effect="non-scaling-stroke"/><path d="M0 48C25 36 60 58 100 44S160 34 200 50V62C160 50 110 66 70 60S20 52 0 60Z" fill="url(#samHatch)"/><path d="M0 74C35 62 70 84 110 70S165 62 200 76V100H0Z" fill="#c4baa0" stroke="#2a2418" stroke-width="1" vector-effect="non-scaling-stroke"/><path d="M0 74C35 62 70 84 110 70S165 62 200 76V88C160 76 110 92 70 86S20 78 0 86Z" fill="url(#samHatch)"/></svg><svg class="sam-bug" viewBox="0 0 120 100"><g class="sam-body"><g fill="none" stroke="#0b0b0f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">${SAM_LEGS.map(([x, y, d], i) => `<path class="lg" style="transform-origin:${x}px ${y}px;animation-delay:${(i % 3) * -0.12}s" d="${d}"/>`).join("")}</g><ellipse cx="62" cy="50" rx="31" ry="23" fill="#0b0b0f" stroke="#3a3a46" stroke-width="1.6"/><circle cx="27" cy="50" r="9.5" fill="#0b0b0f" stroke="#3a3a46" stroke-width="1.6"/><path d="M20 44L12 40M20 56L12 60" fill="none" stroke="#0b0b0f" stroke-width="2.6" stroke-linecap="round"/><path d="M42 40Q64 32 86 40M40 50Q64 42 90 50M42 60Q64 52 86 60" fill="none" stroke="#4b4b5a" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="54" cy="38" rx="9" ry="3.2" fill="#fff" opacity=".18" transform="rotate(-8 54 38)"/></g></svg></div>`;
 function iqRun(el) {   // the winner's IQ never stops: it grows faster the longer the animation lasts, until the animation is removed
   const t0 = performance.now(), box = el.parentNode;
   (function tick(now) {
@@ -3322,6 +3374,7 @@ function playMogg(id, won, lost) {   // returns a function that undoes it (the s
     if (id === "mogg_glitch") put(lf, `<i class="fx-scan"></i><i class="fx-rgb"></i>`);
     if (id === "mogg_crown") { put(wf, FX_CROWN); setTimeout(() => { if (!wf.isConnected) return; const r = wf.getBoundingClientRect(); fxConfetti(r.left + r.width / 2, r.top + r.height * .3, {count: 46, spread: 300, colors: ["#fde68a", "#fbbf24", "#f59e0b", "#ffffff"]}); }, 900); }
     if (id === "mogg_meteor") { put(lf, FX_METEOR); root?.classList.add("fx-quake"); }
+    if (id === "mogg_samsa") put(lf, FX_SAMSA);
     if (id === "mogg_holyiq") { put(wf, FX_HIQ_WIN); put(lf, FX_HIQ_LOSE); const n = wf.querySelector(".fx-iqn span"); setTimeout(() => { if (n?.isConnected) iqRun(n); }, 350); }
   }
   return () => { added.forEach(e => e.remove()); delete lost.dataset.fx; root?.classList.remove("fx-quake"); };
@@ -3503,6 +3556,11 @@ async function csOpen(caseId) {
 addEventListener("hashchange", csClose);   // leaving the page closes the window
 
 // ---------- the page ----------
+const ROCK = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="#6b7280" stroke="#9ca3af" stroke-width="3"/><path d="M26 38l16 8-6 18M64 22l-8 20 20 8M40 78l12-12 16 6" fill="none" stroke="#374151" stroke-width="3.4" stroke-linecap="round"/></svg>`;
+const CASE_ART = {   // the picture on the case: [css class, html]
+  holy_iq: ["", () => `${apples(5, "apples")}<span class="cs-big">${APPLE}</span>`],
+  tt_philosophy: ["phil", () => `<span class="cs-ring"></span><span class="cs-rock">${ROCK}</span>`],
+};
 function csCard(it, total) {
   const id = it.item_id, d = SHOP[id], r = rarOf(id) || "common", owned = CS.owned.has(id), worn = cosId(CS.eq, d.kind) === id;
   return `<article class="si ${owned ? "owned" : ""} ${worn ? "worn" : ""}" data-id="${id}" data-kind="${d.kind}" data-r="${r}">
@@ -3514,9 +3572,9 @@ function csCard(it, total) {
 function csSection(c) {
   const its = csItems(c.id), total = its.reduce((s, i) => s + i.weight, 0), can = CS.admin || CS.reta >= c.price, top = its[0];
   return `<section class="cs-case" data-case="${esc(c.id)}">
-    <div class="card cs-hero"><div class="cs-art" aria-hidden="true">${apples(5, "apples")}<span class="cs-big">${APPLE}</span><b>${esc(c.name)}</b></div>
+    <div class="card cs-hero"><div class="cs-art ${(CASE_ART[c.id] ?? CASE_ART.holy_iq)[0]}" aria-hidden="true">${(CASE_ART[c.id] ?? CASE_ART.holy_iq)[1]()}<b>${esc(c.name)}</b></div>
       <div class="cs-info"><h2>${esc(c.name)}</h2>
-        <p class="why">Внутри ${its.length} ${plural(its.length, ["предмет", "предмета", "предметов"])}: от обычной рамки до мифической анимации${top ? ` (шанс ${csPct(top.weight / total * 100)})` : ""}. Предмет выбирает сервер. Если он у вас уже есть, часть Реты вернётся.</p>
+        <p class="why">Внутри ${its.length} ${plural(its.length, ["предмет", "предмета", "предметов"])}: от обычных до мифических${top ? ` (шанс самого редкого ${csPct(top.weight / total * 100)})` : ""}. Предмет выбирает сервер. Если он у вас уже есть, часть Реты вернётся.</p>
         <div class="cs-buy"><span class="price">${retaIcon("xs2")}<b>${CS.admin ? "∞" : c.price}</b></span><button class="btn primary" data-open="${esc(c.id)}" type="button" ${can ? "" : "disabled"}>Открыть кейс</button></div>
         ${can ? "" : `<small class="need">Не хватает ${c.price - CS.reta} Реты. Её дают за победы в онлайн-боях и <a href="#/bonus">за задания</a>.</small>`}</div></div>
     <h3 class="cs-sub">Что внутри</h3><div class="sh-grid">${its.map(i => csCard(i, total)).join("")}</div></section>`;

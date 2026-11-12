@@ -254,6 +254,24 @@ insert into public.case_items (case_id, item_id, weight, refund) values
   ('holy_iq', 'mogg_holyiq', 1, 1500)
 on conflict (case_id, item_id) do update set weight = excluded.weight, refund = excluded.refund;
 
+-- кейс «ТикТок философия»: Сизиф, Штирнер, уроборос и «Превращение» Кафки
+insert into public.shop_items (id, kind, name, price, sort, case_only) values
+  ('title_sisyphus', 'title', 'Сизиф счастлив', 0, 20, true), ('title_stirner', 'title', 'Единственный', 0, 21, true), ('title_samsa', 'title', 'Проснулся жуком', 0, 22, true),
+  ('frame_uroboros', 'frame', 'Уроборос', 0, 20, true),
+  ('nick_stirner', 'nick', 'Штирнер', 0, 20, true),
+  ('banner_sisyphus', 'banner', 'Вечный подъём', 0, 20, true),
+  ('mogg_samsa', 'mogg', 'Превращение', 0, 20, true)
+on conflict (id) do update set kind = excluded.kind, name = excluded.name, price = excluded.price, sort = excluded.sort, case_only = excluded.case_only;
+insert into public.cases (id, name, price, sort) values ('tt_philosophy', 'ТикТок философия', 500, 2)
+on conflict (id) do update set name = excluded.name, price = excluded.price, sort = excluded.sort;
+insert into public.case_items (case_id, item_id, weight, refund) values
+  ('tt_philosophy', 'title_sisyphus', 30, 50), ('tt_philosophy', 'title_stirner', 28, 50),
+  ('tt_philosophy', 'title_samsa', 14, 120), ('tt_philosophy', 'frame_uroboros', 14, 120),
+  ('tt_philosophy', 'nick_stirner', 8, 300),
+  ('tt_philosophy', 'banner_sisyphus', 5, 700),
+  ('tt_philosophy', 'mogg_samsa', 1, 1800)
+on conflict (case_id, item_id) do update set weight = excluded.weight, refund = excluded.refund;
+
 create index if not exists battles_player_at on public.battles (player_id, at desc);
 create index if not exists players_points on public.players (points desc);
 
